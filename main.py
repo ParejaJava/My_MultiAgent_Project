@@ -11,6 +11,7 @@ def greet(name: str) -> str:
 def main() -> int:
     name = sys.argv[1] if len(sys.argv) > 1 else "GitHub User"
     print(greet(name))
+    print("This change is only for GitHub sync verification.")
     return 0
 
 
