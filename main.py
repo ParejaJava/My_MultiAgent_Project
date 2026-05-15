@@ -1,20 +1,12 @@
-"""Simple starter Python script for project initialization."""
+"""Compatibility entry point for running the FastAPI app."""
 
-import sys
-
-
-def greet(name: str) -> str:
-    """Return a greeting message for the given name."""
-    return f"Hello, {name}! Welcome to your new Python project."
+import uvicorn
 
 
-def main() -> int:
-    name = sys.argv[1] if len(sys.argv) > 1 else "GitHub User"
-    print(greet(name))
-    print("This change is only for GitHub sync verification.")
-    print("Testing graphical interface sync.")
-    return 0
+def main() -> None:
+    """Start the development server."""
+    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    main()
