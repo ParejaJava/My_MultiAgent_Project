@@ -14,6 +14,9 @@ class WorkflowState(TypedDict):
     root_causes: list[str]
     solution: str
     final_report: str
+    next_agent: str
+    last_agent: str
+    workflow_status: str
 
 
 def create_initial_state(user_question: str = "", log_text: str = "") -> WorkflowState:
@@ -27,4 +30,7 @@ def create_initial_state(user_question: str = "", log_text: str = "") -> Workflo
         "root_causes": [],
         "solution": "",
         "final_report": "",
+        "next_agent": "intent_agent",
+        "last_agent": "",
+        "workflow_status": "running",
     }

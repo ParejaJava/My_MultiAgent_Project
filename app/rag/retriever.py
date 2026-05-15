@@ -1,22 +1,15 @@
-"""Minimal local document retriever."""
+"""Document retrieval interface."""
 
 from pathlib import Path
 
+from app.config import settings
+from app.rag.vector_store import RetrievedDocument, query_documents
 
-DOCS_DIR = Path("data/docs")
 
-
-def retrieve_documents(query: str, limit: int = 3) -> list[str]:
-    """Retrieve simple text snippets from local documents."""
-    if not query.strip() or not DOCS_DIR.exists():
-        return []
-
-    query_terms = {term.lower() for term in query.split() if term.strip()}
-    matches: list[str] = []
-    for path in sorted(DOCS_DIR.glob("*.md")):
-        text = path.read_text(encoding="utf-8")
-        if any(term in text.lower() for term in query_terms):
-            matches.append(f"{path.as_posix()}: {text.strip()[:200]}")
-        if len(matches) >= limit:
-            break
-    return matches
+def retrieve_documents(
+    query: str,
+    top_k: int = 3,
+    persist_directory: Path | str = settings.vector_store_path,
+) -> list[RetrievedDocument]:
+    """Retrieve top document chunks with source metadata."""
+    return query_documents(query=query, top_k=top_k, persist_directory=persist_directory)
