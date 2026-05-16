@@ -1,0 +1,18 @@
+name: openai_embedding
+description: OpenAI embedding provider with Chroma dense retrieval.
+retriever: chroma_dense
+vector_store: chroma
+collection_name: ops_knowledge_base_openai
+embedding:
+  provider: openai
+  model: text-embedding-3-small
+chunking:
+  strategy: character
+  chunk_size: 500
+  overlap: 50
+ranking:
+  top_k_default: 3
+  score_threshold: null
+notes:
+  - Requires OPENAI_API_KEY in the environment.
+  - Re-ingest documents with this config before querying.

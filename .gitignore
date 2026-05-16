@@ -50,6 +50,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 tests/.tmp_rag/
+tests/.tmp_hybrid/
 data/vector_store/
 cover/
 

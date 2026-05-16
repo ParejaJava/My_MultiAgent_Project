@@ -7,6 +7,7 @@ from typing import Any
 
 import chromadb
 from chromadb.api import ClientAPI
+from chromadb.api.types import Documents, EmbeddingFunction
 
 from app.config import settings
 from app.rag.embeddings import HashEmbeddingFunction
@@ -14,7 +15,7 @@ from app.rag.loader import load_markdown_documents
 from app.rag.splitter import split_text
 
 
-DEFAULT_COLLECTION_NAME = "ops_knowledge_base"
+DEFAULT_COLLECTION_NAME = "ops_knowledge_base_hash"
 _MEMORY_CLIENTS: dict[str, ClientAPI] = {}
 
 
@@ -34,6 +35,7 @@ def ingest_documents(
     chunk_size: int = 500,
     overlap: int = 50,
     reset_collection: bool = True,
+    embedding_function: EmbeddingFunction[Documents] | None = None,
 ) -> int:
     """Load markdown documents, split them, and store chunks in Chroma."""
     docs_path = Path(docs_dir)
@@ -42,7 +44,7 @@ def ingest_documents(
         _delete_collection_if_exists(client, collection_name)
     collection = client.get_or_create_collection(
         name=collection_name,
-        embedding_function=HashEmbeddingFunction(),
+        embedding_function=embedding_function or HashEmbeddingFunction(),
     )
 
     ids: list[str] = []
@@ -67,6 +69,7 @@ def query_documents(
     top_k: int = 3,
     persist_directory: Path | str = settings.vector_store_path,
     collection_name: str = DEFAULT_COLLECTION_NAME,
+    embedding_function: EmbeddingFunction[Documents] | None = None,
 ) -> list[RetrievedDocument]:
     """Return the top matching Chroma document chunks for a query."""
     if not query.strip() or top_k <= 0:
@@ -76,7 +79,7 @@ def query_documents(
         client = _get_chroma_client(persist_directory)
         collection = client.get_collection(
             name=collection_name,
-            embedding_function=HashEmbeddingFunction(),
+            embedding_function=embedding_function or HashEmbeddingFunction(),
         )
         if collection.count() == 0:
             return []

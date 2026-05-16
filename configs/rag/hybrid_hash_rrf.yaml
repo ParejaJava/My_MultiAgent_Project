@@ -1,0 +1,22 @@
+name: hybrid_hash_rrf
+description: Hybrid retrieval using HashEmbeddingFunction dense retrieval plus local BM25 with RRF fusion.
+retriever: hybrid_rrf
+vector_store: chroma
+collection_name: ops_knowledge_base_hash
+docs_dir: data/docs
+embedding:
+  provider: hash
+  name: HashEmbeddingFunction
+  dimensions: 64
+chunking:
+  strategy: character
+  chunk_size: 500
+  overlap: 50
+ranking:
+  top_k_default: 3
+  top_n: 10
+  rrf_k: 60
+  score_threshold: null
+notes:
+  - Re-ingest with baseline_hash or this config before evaluating dense results.
+  - BM25 is built from local markdown chunks at query time in this stage.

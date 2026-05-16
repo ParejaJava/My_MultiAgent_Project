@@ -1,0 +1,19 @@
+name: bge_local
+description: Local BGE embedding provider with Chroma dense retrieval.
+retriever: chroma_dense
+vector_store: chroma
+collection_name: ops_knowledge_base_bge_local
+embedding:
+  provider: bge_local
+  model: BAAI/bge-small-zh-v1.5
+  normalize_embeddings: true
+chunking:
+  strategy: character
+  chunk_size: 500
+  overlap: 50
+ranking:
+  top_k_default: 3
+  score_threshold: null
+notes:
+  - Requires sentence-transformers to be installed.
+  - Re-ingest documents with this config before querying.

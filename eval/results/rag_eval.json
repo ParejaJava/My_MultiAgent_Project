@@ -1,0 +1,728 @@
+{
+  "config_name": "baseline_hash",
+  "git_commit": "6c3a65736879457ce9d03bd2391b1caf1294bc79",
+  "top_k": 5,
+  "eval_file": "eval/questions.jsonl",
+  "timestamp": "2026-05-16T15:21:12.286066+00:00",
+  "config_path": "configs/rag/baseline_hash.yaml",
+  "config": {
+    "name": "baseline_hash",
+    "description": "Current baseline using HashEmbeddingFunction with Chroma dense retrieval.",
+    "retriever": "chroma_dense",
+    "vector_store": "chroma",
+    "collection_name": "ops_knowledge_base_hash",
+    "embedding": {
+      "provider": "hash",
+      "name": "HashEmbeddingFunction",
+      "dimensions": 64
+    },
+    "chunking": {
+      "strategy": "character",
+      "chunk_size": 500,
+      "overlap": 50
+    },
+    "ranking": {
+      "top_k_default": 3,
+      "score_threshold": null
+    },
+    "notes": [
+      "This configuration is recorded for offline evaluation tracking only.",
+      "The current evaluator reads this file but does not switch runtime RAG behavior yet."
+    ]
+  },
+  "metrics": {
+    "total_questions": 21,
+    "top_k": 5,
+    "recall_at_k": 0.0,
+    "precision_at_k": 0.0,
+    "hit_rate_at_k": 0.0,
+    "mrr": 0.0,
+    "ndcg_at_k": 0.0,
+    "failed_count": 21,
+    "by_category": {
+      "cache": {
+        "count": 3,
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "hit_rate_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "database": {
+        "count": 3,
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "hit_rate_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "message-queue": {
+        "count": 3,
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "hit_rate_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "object-storage": {
+        "count": 3,
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "hit_rate_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "realtime": {
+        "count": 3,
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "hit_rate_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "retrieval": {
+        "count": 3,
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "hit_rate_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "traffic": {
+        "count": 3,
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "hit_rate_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0
+      }
+    },
+    "by_difficulty": {
+      "easy": {
+        "count": 7,
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "hit_rate_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "hard": {
+        "count": 7,
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "hit_rate_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0
+      },
+      "medium": {
+        "count": 7,
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "hit_rate_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0
+      }
+    }
+  },
+  "samples": [
+    {
+      "id": "minio-001",
+      "question": "MinIO 分片上传最后合并时报 400 InvalidPartOrder，应该检查什么？",
+      "category": "object-storage",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "expected_keywords": [
+        "InvalidPartOrder",
+        "CompleteMultipartUpload",
+        "partNumber",
+        "ETag",
+        "升序"
+      ],
+      "reference_answer": "应检查 CompleteMultipartUpload 请求中的分片列表是否按 partNumber 升序排列，partNumber 是否连续，ETag 是否来自每个 UploadPart 的真实返回值，以及非最后一个分片是否满足最小大小要求。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "minio-002",
+      "question": "大文件传着传着就没了，刷新以后又从头开始，感觉断点续传没生效，这是哪块的问题？",
+      "category": "object-storage",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "expected_keywords": [
+        "断点续传",
+        "uploadId",
+        "fileHash",
+        "ListParts",
+        "NoSuchUpload"
+      ],
+      "reference_answer": "这类问题通常要检查断点续传状态是否稳定保存，包括 fileHash、bucket、objectName 与 uploadId 是否绑定一致，Redis 或数据库中的 uploadId 是否过期，以及恢复上传时是否调用 ListParts 重建已上传分片状态。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "minio-003",
+      "question": "日志里有 413 Payload Too Large 和 504 Gateway Timeout，MinIO 大文件上传应该如何处理和预防？",
+      "category": "object-storage",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "expected_keywords": [
+        "413",
+        "504",
+        "client_max_body_size",
+        "proxy_read_timeout",
+        "分片上传",
+        "预签名 URL"
+      ],
+      "reference_answer": "应检查网关的 body size 和 timeout 配置，例如 client_max_body_size、proxy_read_timeout、proxy_send_timeout。大文件建议使用 MinIO 分片上传或预签名 URL 直传，降低单片大小，并对 408、499、504 等临时失败加入重试。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "redis-001",
+      "question": "Redis 报 READONLY You can't write against a read only replica，是什么原因？",
+      "category": "cache",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "READONLY",
+        "replica",
+        "主从切换",
+        "拓扑刷新",
+        "连接池"
+      ],
+      "reference_answer": "READONLY 通常说明写请求打到了 Redis 从节点，常见于主从切换后客户端仍连接旧主节点或拓扑未刷新。应检查 INFO replication、Sentinel 或 Cluster 切换记录，并让客户端重建连接池或启用拓扑自动刷新。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "redis-002",
+      "question": "接口突然慢了，Redis 好像也没挂，就是偶尔超时，这种咋查？",
+      "category": "cache",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "Redis command timed out",
+        "SLOWLOG",
+        "大 key",
+        "BUSY",
+        "latency"
+      ],
+      "reference_answer": "可以先查看应用日志是否有 Redis command timed out，再检查 SLOWLOG、latency doctor、blocked_clients、used_cpu 和是否存在大 key 或阻塞命令。常见原因包括大集合操作、Lua 脚本阻塞、KEYS/HGETALL 等慢命令。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "redis-003",
+      "question": "Redis 日志出现 OOM command not allowed when used memory > maxmemory，如何解决并预防？",
+      "category": "cache",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "OOM command not allowed",
+        "used_memory",
+        "maxmemory",
+        "evicted_keys",
+        "TTL",
+        "大 key"
+      ],
+      "reference_answer": "应检查 INFO memory、used_memory、maxmemory、evicted_keys 和大 key 分布。解决方式包括清理无用 key、给 key 设置 TTL、拆分大 key、调整 maxmemory-policy，必要时扩容 Redis。预防上要监控 used_memory、evicted_keys 和 key TTL 分布。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "rabbitmq-001",
+      "question": "RabbitMQ 队列 messages_ready 一直涨，消费者看起来处理不过来，怎么排查？",
+      "category": "message-queue",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "messages_ready",
+        "consumer count",
+        "ack rate",
+        "publish rate",
+        "prefetch"
+      ],
+      "reference_answer": "应查看队列 messages_ready、messages_unacknowledged、consumer count、publish rate 和 ack rate。若 publish rate 大于 ack rate，通常是消费者不足、消费逻辑变慢、下游依赖慢或 prefetch 配置不合理。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "rabbitmq-002",
+      "question": "MQ 堆住了，业务消息半天不动，也不知道是消费者死了还是 RabbitMQ 出问题了。",
+      "category": "message-queue",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "消息堆积",
+        "messages_unacknowledged",
+        "consumer count 0",
+        "consumer_timeout",
+        "ack"
+      ],
+      "reference_answer": "应先看 RabbitMQ management 中 ready、unacked 和 consumer count。如果 consumer count 为 0，多半是消费者掉线；如果 unacked 高，可能是消费者卡住或未 ack；如果 broker 有 memory alarm 或 disk_free_limit，则可能是 RabbitMQ 资源水位问题。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "rabbitmq-003",
+      "question": "启动消费者时报 406 PRECONDITION_FAILED inequivalent arg，怎么解决？",
+      "category": "message-queue",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "406 PRECONDITION_FAILED",
+        "inequivalent arg",
+        "durable",
+        "x-dead-letter-exchange",
+        "队列声明"
+      ],
+      "reference_answer": "406 PRECONDITION_FAILED 通常是代码声明的 queue/exchange 参数与 RabbitMQ 中已存在对象不一致，例如 durable、autoDelete、x-dead-letter-exchange 或 TTL 参数不同。应对比实际队列参数和代码声明，必要时新建队列迁移，避免直接修改不可变参数。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "mysql-001",
+      "question": "MySQL 报 1205 Lock wait timeout exceeded，应该怎么定位？",
+      "category": "database",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/mysql_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "1205",
+        "ER_LOCK_WAIT_TIMEOUT",
+        "Lock wait timeout exceeded",
+        "innodb_trx",
+        "长事务"
+      ],
+      "reference_answer": "应查询 information_schema.innodb_trx 和锁等待关系，定位阻塞事务和被阻塞 SQL。常见原因是长事务未提交、热点行更新、事务范围过大或 update/delete 条件未命中索引。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/mysql_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "mysql-002",
+      "question": "数据库最近有点卡，接口偶尔超时，但没明显报错，先看哪里？",
+      "category": "database",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/mysql_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "慢 SQL",
+        "EXPLAIN",
+        "SHOW PROCESSLIST",
+        "Using filesort",
+        "Using temporary"
+      ],
+      "reference_answer": "应先查看慢查询日志和 SHOW PROCESSLIST，再对可疑 SQL 执行 EXPLAIN，重点看是否全表扫描、是否 Using filesort 或 Using temporary，以及索引是否命中。也要检查连接池 pending、CPU、IO 和锁等待。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/mysql_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "mysql-003",
+      "question": "日志中同时出现 1213 Deadlock found 和 1062 Duplicate entry，消费端写 MySQL 应如何处理？",
+      "category": "database",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/mysql_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "1213",
+        "ER_LOCK_DEADLOCK",
+        "1062",
+        "ER_DUP_ENTRY",
+        "幂等",
+        "重复消费"
+      ],
+      "reference_answer": "1213 表示死锁，应查看 SHOW ENGINE INNODB STATUS 并对幂等操作做安全重试；1062 表示唯一键冲突，常见于重复请求或 MQ 重复消费。消费端应基于业务唯一键或幂等表处理重复消息，并统一资源更新顺序以减少死锁。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/mysql_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "websocket-001",
+      "question": "WebSocket 建连失败，网关返回 426 Upgrade Required，应该检查哪些配置？",
+      "category": "realtime",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "426 Upgrade Required",
+        "Upgrade",
+        "Connection",
+        "Sec-WebSocket-Key",
+        "握手失败"
+      ],
+      "reference_answer": "应检查网关是否正确转发 Upgrade 和 Connection header，客户端是否带 Sec-WebSocket-Key，URL 路径和协议是否正确，以及鉴权 token 是否有效。Nginx 需要配置 proxy_set_header Upgrade 和 Connection。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "websocket-002",
+      "question": "前端说连接一会儿就断，刷新又好了，这种 WebSocket 问题怎么查？",
+      "category": "realtime",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "1006",
+        "ECONNRESET",
+        "idle timeout",
+        "heartbeat",
+        "断线重连"
+      ],
+      "reference_answer": "应先收集 close code，若是 1006 或 ECONNRESET，要检查网关 idle timeout 是否小于心跳间隔，服务端是否重启，客户端网络是否切换，以及是否有大消息阻塞。心跳间隔应小于网关 idle timeout，并支持断线重连。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "websocket-003",
+      "question": "多实例部署后 WebSocket 只给部分用户推送成功，如何解决和预防？",
+      "category": "realtime",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "session not found",
+        "broadcast miss",
+        "Redis pubsub",
+        "RabbitMQ consumer cancelled",
+        "粘性会话"
+      ],
+      "reference_answer": "多实例下消息丢失通常是会话只存在本机内存或跨实例广播通道异常。应检查用户连接在哪个实例、负载均衡是否需要粘性会话、Redis Pub/Sub 或 MQ 广播是否正常。预防上应使用共享会话映射和跨实例广播机制。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "rag-001",
+      "question": "RAG 查询返回 retrieved_docs=[]，应该先排查什么？",
+      "category": "retrieval",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "retrieved_docs=[]",
+        "CollectionNotFound",
+        "collection count",
+        "VECTOR_STORE_PATH",
+        "ingest"
+      ],
+      "reference_answer": "应先确认是否执行过入库脚本，Chroma collection 是否存在且 count 大于 0，VECTOR_STORE_PATH 和 collection name 是否一致。然后打印 query、top_k 和过滤条件，排除 query 过短或 metadata filter 过严。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "rag-002",
+      "question": "问的问题明明在文档里，但搜出来的内容很奇怪，不太相关，这是 RAG 哪块不行？",
+      "category": "retrieval",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "irrelevant retrieval",
+        "low score",
+        "chunk too large",
+        "BM25",
+        "rerank"
+      ],
+      "reference_answer": "这通常与 embedding 质量、chunk 设计和排序策略有关。应打印 query、score、source 和 chunk 内容，检查 chunk 是否混入多个主题。可通过 Markdown-aware chunking、score threshold、BM25 + vector 混合检索和 rerank 改善。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "rag-003",
+      "question": "Chroma 报 sqlite disk I/O error 或 InvalidDimension，分别应该如何处理？",
+      "category": "retrieval",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "sqlite disk I/O error",
+        "InvalidDimension",
+        "chroma.sqlite3",
+        "embedding dimension",
+        "重建索引"
+      ],
+      "reference_answer": "sqlite disk I/O error 应检查持久化目录权限、磁盘空间、文件锁和路径兼容性；InvalidDimension 通常是入库和查询使用了不同 embedding 维度，应确认模型和维度一致，模型变更后重建 collection。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "gateway-001",
+      "question": "网关返回 504 Gateway Timeout，如何判断是网关问题还是后端慢？",
+      "category": "traffic",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "expected_keywords": [
+        "504 Gateway Timeout",
+        "upstream timed out",
+        "P95",
+        "P99",
+        "trace id",
+        "慢 SQL"
+      ],
+      "reference_answer": "应通过 trace id 串联网关和应用日志，查看 upstream response time、后端接口耗时、慢 SQL 和下游 RPC 超时。若后端处理时间超过网关 timeout，则本质是后端慢或超时层级配置不合理。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "gateway-002",
+      "question": "高峰期用户说系统卡死，有时候 502 有时候 503，还有些请求直接没响应，先怎么查？",
+      "category": "traffic",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "expected_keywords": [
+        "502",
+        "503",
+        "499",
+        "线程池",
+        "连接池",
+        "no healthy upstream"
+      ],
+      "reference_answer": "应先按错误码分流排查：502 看后端实例崩溃或连接重置，503 看无健康 upstream、熔断或连接池耗尽，499 看客户端超时或取消。然后检查线程池、连接池、实例健康、服务发现和下游依赖。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "gateway-003",
+      "question": "如何预防高并发下 429、503、线程池耗尽和连接池 pending？",
+      "category": "traffic",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "expected_keywords": [
+        "429",
+        "503",
+        "RejectedExecutionException",
+        "pending acquire timeout",
+        "限流",
+        "熔断",
+        "有界队列"
+      ],
+      "reference_answer": "预防上应配置按接口容量设计的限流和熔断，所有线程池和连接池设置监控、有界队列、超时和拒绝策略。高峰前要压测容量，慢依赖要降级隔离，客户端重试需要指数退避，避免放大流量。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    }
+  ]
+}

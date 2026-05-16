@@ -1,0 +1,1483 @@
+{
+  "config_name": "hybrid_hash_rrf",
+  "git_commit": "6c3a65736879457ce9d03bd2391b1caf1294bc79",
+  "top_k": 5,
+  "eval_file": "eval/questions.jsonl",
+  "timestamp": "2026-05-16T15:31:42.673649+00:00",
+  "config_path": "configs/rag/hybrid_hash_rrf.yaml",
+  "config": {
+    "name": "hybrid_hash_rrf",
+    "description": "Hybrid retrieval using HashEmbeddingFunction dense retrieval plus local BM25 with RRF fusion.",
+    "retriever": "hybrid_rrf",
+    "vector_store": "chroma",
+    "collection_name": "ops_knowledge_base_hash",
+    "docs_dir": "data/docs",
+    "embedding": {
+      "provider": "hash",
+      "name": "HashEmbeddingFunction",
+      "dimensions": 64
+    },
+    "chunking": {
+      "strategy": "character",
+      "chunk_size": 500,
+      "overlap": 50
+    },
+    "ranking": {
+      "top_k_default": 3,
+      "top_n": 10,
+      "rrf_k": 60,
+      "score_threshold": null
+    },
+    "notes": [
+      "Re-ingest with baseline_hash or this config before evaluating dense results.",
+      "BM25 is built from local markdown chunks at query time in this stage."
+    ]
+  },
+  "metrics": {
+    "total_questions": 21,
+    "top_k": 5,
+    "recall_at_k": 0.8809523809523809,
+    "precision_at_k": 0.19047619047619047,
+    "hit_rate_at_k": 0.9047619047619048,
+    "mrr": 0.9047619047619048,
+    "ndcg_at_k": 0.8863403425126409,
+    "failed_count": 2,
+    "by_category": {
+      "cache": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.20000000000000004,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      },
+      "database": {
+        "count": 3,
+        "recall_at_k": 0.5,
+        "precision_at_k": 0.13333333333333333,
+        "hit_rate_at_k": 0.6666666666666666,
+        "mrr": 0.6666666666666666,
+        "ndcg_at_k": 0.5377157309218195
+      },
+      "message-queue": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.20000000000000004,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      },
+      "object-storage": {
+        "count": 3,
+        "recall_at_k": 0.6666666666666666,
+        "precision_at_k": 0.20000000000000004,
+        "hit_rate_at_k": 0.6666666666666666,
+        "mrr": 0.6666666666666666,
+        "ndcg_at_k": 0.6666666666666666
+      },
+      "realtime": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.20000000000000004,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      },
+      "retrieval": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.20000000000000004,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      },
+      "traffic": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.20000000000000004,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      }
+    },
+    "by_difficulty": {
+      "easy": {
+        "count": 7,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      },
+      "hard": {
+        "count": 7,
+        "recall_at_k": 0.9285714285714286,
+        "precision_at_k": 0.2285714285714286,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.9447353132522084
+      },
+      "medium": {
+        "count": 7,
+        "recall_at_k": 0.7142857142857143,
+        "precision_at_k": 0.14285714285714285,
+        "hit_rate_at_k": 0.7142857142857143,
+        "mrr": 0.7142857142857143,
+        "ndcg_at_k": 0.7142857142857143
+      }
+    }
+  },
+  "samples": [
+    {
+      "id": "minio-001",
+      "question": "MinIO 分片上传最后合并时报 400 InvalidPartOrder，应该检查什么？",
+      "category": "object-storage",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "expected_keywords": [
+        "InvalidPartOrder",
+        "CompleteMultipartUpload",
+        "partNumber",
+        "ETag",
+        "升序"
+      ],
+      "reference_answer": "应检查 CompleteMultipartUpload 请求中的分片列表是否按 partNumber 升序排列，partNumber 是否连续，ETag 是否来自每个 UploadPart 的真实返回值，以及非最后一个分片是否满足最小大小要求。",
+      "retrieved_sources": [
+        "data/docs/minio_multipart_resume.md",
+        "data/docs/minio_multipart_resume.md",
+        "data/docs/minio_multipart_resume.md",
+        "data/docs/minio_multipart_resume.md",
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 4,
+          "content_preview": "相关指标: MinIO `s3_requests_4xx_errors_total`, 后端分片状态表, 前端重试次数。\n- 可能原因: uploadId 已被清理，断点续传记录过期，partNumber 与 uploadId 不匹配，用户重新初始化上传但继续使用旧分片状态。\n- 排查步骤: 检查后端保存的 uploadId 是否与当前文件 hash 一致；查询 MinIO incomplete multipart upload；确认断点续传状态没有被清理任务删除；检查 pa"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 5,
+          "content_preview": "日志关键词: `400 InvalidPartOrder`, `400 EntityTooSmall`, `InvalidPart`, `InvalidPartOrder`, `EntityTooSmall`, `CompleteMultipartUpload`\n- 相关指标: 分片数量, 每片大小, ETag 列表, MinIO 合并失败日志。\n- 可能原因: 分片列表未按 partNumber 升序提交，非最后一个分片小于 5MB，ETag 丢失或错误，重复提交了错误的 "
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: MinIO 分片上传与断点续传诊断知识库\ncategory: object-storage\nservice: MinIO\nseverity: medium\ntags:\n  - minio\n  - multipart-upload\n  - resume-upload\n  - large-file\n  - object-storage\n  - uploadId\n  - ETag\nerror_codes:\n  - NoSuchUpload\n  - Invali"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": 0.015625,
+          "chunk_index": 1,
+          "content_preview": "ponent: MinIO\n- category: object-storage\n- tags: minio, multipart upload, resume upload, large file, object storage, uploadId, ETag\n- common_errors: NoSuchUpload, InvalidPart, InvalidPartOrder, EntityTooSmall, SignatureDoesNotMatch, XMinioI"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 9,
+          "content_preview": "磁盘延迟和网络吞吐；统计客户端并发分片数；检查是否有大量未完成 multipart upload。\n- 修复建议: 限制单用户并发分片数；加入指数退避重试；扩容 MinIO 节点或磁盘；定期清理未完成上传。\n\n## Runbook\n\n### MinIO 分片上传失败排查流程\n1. 判断失败阶段: 初始化、上传分片、列出分片、合并、清理。\n2. 收集错误码: `NoSuchUpload`, `InvalidPart`, `InvalidPartOrder`, `EntityTo"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "minio-002",
+      "question": "大文件传着传着就没了，刷新以后又从头开始，感觉断点续传没生效，这是哪块的问题？",
+      "category": "object-storage",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "expected_keywords": [
+        "断点续传",
+        "uploadId",
+        "fileHash",
+        "ListParts",
+        "NoSuchUpload"
+      ],
+      "reference_answer": "这类问题通常要检查断点续传状态是否稳定保存，包括 fileHash、bucket、objectName 与 uploadId 是否绑定一致，Redis 或数据库中的 uploadId 是否过期，以及恢复上传时是否调用 ListParts 重建已上传分片状态。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "minio-003",
+      "question": "日志里有 413 Payload Too Large 和 504 Gateway Timeout，MinIO 大文件上传应该如何处理和预防？",
+      "category": "object-storage",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "expected_keywords": [
+        "413",
+        "504",
+        "client_max_body_size",
+        "proxy_read_timeout",
+        "分片上传",
+        "预签名 URL"
+      ],
+      "reference_answer": "应检查网关的 body size 和 timeout 配置，例如 client_max_body_size、proxy_read_timeout、proxy_send_timeout。大文件建议使用 MinIO 分片上传或预签名 URL 直传，降低单片大小，并对 408、499、504 等临时失败加入重试。",
+      "retrieved_sources": [
+        "data/docs/minio_multipart_resume.md",
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/minio_multipart_resume.md",
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 7,
+          "content_preview": "istParts 为准重建分片状态。\n\n### 大文件上传经过网关返回 413 或 504\n- 表现: 小文件正常，大文件或慢网络上传失败。\n- 错误码/日志关键词: `413 Payload Too Large`, `504 Gateway Timeout`, `408 Request Timeout`, `499 Client Closed Request`, `client_max_body_size`, `upstream timed out`\n- 相关指标: 网关 "
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 6,
+          "content_preview": "原因: 后端响应太慢，客户端超时小于服务端处理时间，连接池排队，移动端网络断开。\n- 排查步骤: 比较客户端超时、网关超时、后端耗时；查看连接池 pending；检查接口 P99。\n- 修复建议: 降低接口耗时；统一超时配置；连接池限流保护；长任务改异步。\n\n### 请求体过大返回 413\n- 表现: 上传文件或大请求失败。\n- 错误码/日志关键词: `413 Payload Too Large`, `Request Entity Too Large`, `client_ma"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 1,
+          "content_preview": "ponent: MinIO\n- category: object-storage\n- tags: minio, multipart upload, resume upload, large file, object storage, uploadId, ETag\n- common_errors: NoSuchUpload, InvalidPart, InvalidPartOrder, EntityTooSmall, SignatureDoesNotMatch, XMinioI"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.015625,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: 网关与高并发诊断知识库\ncategory: traffic\nservice: Gateway\nseverity: critical\ntags:\n  - gateway\n  - high-concurrency\n  - nginx\n  - timeout\n  - rate-limit\n  - circuit-breaker\n  - thread-pool\n  - connection-pool\nerror_codes:\n  - 400\n  - 401\n  "
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: MinIO 分片上传与断点续传诊断知识库\ncategory: object-storage\nservice: MinIO\nseverity: medium\ntags:\n  - minio\n  - multipart-upload\n  - resume-upload\n  - large-file\n  - object-storage\n  - uploadId\n  - ETag\nerror_codes:\n  - NoSuchUpload\n  - Invali"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "redis-001",
+      "question": "Redis 报 READONLY You can't write against a read only replica，是什么原因？",
+      "category": "cache",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "READONLY",
+        "replica",
+        "主从切换",
+        "拓扑刷新",
+        "连接池"
+      ],
+      "reference_answer": "READONLY 通常说明写请求打到了 Redis 从节点，常见于主从切换后客户端仍连接旧主节点或拓扑未刷新。应检查 INFO replication、Sentinel 或 Cluster 切换记录，并让客户端重建连接池或启用拓扑自动刷新。",
+      "retrieved_sources": [
+        "data/docs/redis_ops_diagnosis.md",
+        "data/docs/redis_ops_diagnosis.md",
+        "data/docs/redis_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 6,
+          "content_preview": "不足。\n- 排查步骤: 查看 Redis 日志；检查磁盘空间和 Redis data 目录权限；执行 `INFO persistence`；确认是否触发 bgsave 失败。\n- 修复建议: 释放磁盘空间；修复目录权限；临时关闭 `stop-writes-on-bgsave-error` 需谨慎；优化持久化配置。\n\n### Redis 主从切换后写入 READONLY\n- 表现: 应用写 Redis 失败，读请求可能正常。\n- 错误码/日志关键词: `READONLY You"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 5,
+          "content_preview": "key；检查 key TTL 分布；确认 `maxmemory-policy`；观察 `evicted_keys` 是否增长。\n- 修复建议: 设置合理 TTL；清理无用 key；拆分大 key；调整淘汰策略为 `allkeys-lru` 或业务适配策略；扩容 Redis。\n\n### Redis 持久化失败 MISCONF\n- 表现: Redis 读正常但写入失败。\n- 错误码/日志关键词: `MISCONF Redis is configured to save RDB s"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 3,
+          "content_preview": "级和重试。\n\n### Redis 慢查询或命令延迟升高\n- 表现: 缓存访问偶发慢，接口 P95/P99 延迟升高。\n- 错误码/日志关键词: `Redis command timed out`, `Command timed out`, `Read timed out`, `BUSY Redis is busy running a script`, `SLOWLOG`, `Lua script timed out`\n- 相关指标: `slowlog get`, `insta"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 4,
+          "content_preview": "t`, `ping timeout`, `pong timeout`, `1001 Going Away`, `session expired`, `read idle`\n- 相关指标: heartbeat miss count, event loop delay, GC pause, 消息发送队列长度。\n- 可能原因: 心跳线程被阻塞，客户端页面后台限频，服务端事件循环阻塞，网络抖动。\n- 排查步骤: 查看服务端 event loop/线程池；检查 GC 日志；对比客户端 "
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: Redis 运维诊断知识库\ncategory: cache\nservice: Redis\nseverity: high\ntags:\n  - redis\n  - cache\n  - timeout\n  - latency\n  - memory\n  - lock\n  - hot-key\n  - big-key\nerror_codes:\n  - LOADING\n  - MISCONF\n  - READONLY\n  - NOAUTH\n  - WRONGPASS\n"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "redis-002",
+      "question": "接口突然慢了，Redis 好像也没挂，就是偶尔超时，这种咋查？",
+      "category": "cache",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "Redis command timed out",
+        "SLOWLOG",
+        "大 key",
+        "BUSY",
+        "latency"
+      ],
+      "reference_answer": "可以先查看应用日志是否有 Redis command timed out，再检查 SLOWLOG、latency doctor、blocked_clients、used_cpu 和是否存在大 key 或阻塞命令。常见原因包括大集合操作、Lua 脚本阻塞、KEYS/HGETALL 等慢命令。",
+      "retrieved_sources": [
+        "data/docs/redis_ops_diagnosis.md",
+        "data/docs/redis_ops_diagnosis.md",
+        "data/docs/redis_ops_diagnosis.md",
+        "data/docs/redis_ops_diagnosis.md",
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: Redis 运维诊断知识库\ncategory: cache\nservice: Redis\nseverity: high\ntags:\n  - redis\n  - cache\n  - timeout\n  - latency\n  - memory\n  - lock\n  - hot-key\n  - big-key\nerror_codes:\n  - LOADING\n  - MISCONF\n  - READONLY\n  - NOAUTH\n  - WRONGPASS\n"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 2,
+          "content_preview": "onException`, `LettuceConnectionException`, `Connection refused`, `Connection timed out`, `ECONNRESET`, `10054`, `111`, `max number of clients reached`\n- 相关指标: `connected_clients`, `blocked_clients`, `tcp_backlog`, 应用连接池 active/idle/waiting"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 5,
+          "content_preview": "key；检查 key TTL 分布；确认 `maxmemory-policy`；观察 `evicted_keys` 是否增长。\n- 修复建议: 设置合理 TTL；清理无用 key；拆分大 key；调整淘汰策略为 `allkeys-lru` 或业务适配策略；扩容 Redis。\n\n### Redis 持久化失败 MISCONF\n- 表现: Redis 读正常但写入失败。\n- 错误码/日志关键词: `MISCONF Redis is configured to save RDB s"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 1,
+          "content_preview": "imeout, latency, memory, lock, hot key, big key\n- common_errors: LOADING, MISCONF, READONLY, NOAUTH, WRONGPASS, BUSY, OOM command not allowed, max number of clients reached, MOVED, ASK, 10054, 111, 6379\n\n## Overview\nRedis 常用于缓存、分布式锁、会话和限流。R"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 6,
+          "content_preview": "不足。\n- 排查步骤: 查看 Redis 日志；检查磁盘空间和 Redis data 目录权限；执行 `INFO persistence`；确认是否触发 bgsave 失败。\n- 修复建议: 释放磁盘空间；修复目录权限；临时关闭 `stop-writes-on-bgsave-error` 需谨慎；优化持久化配置。\n\n### Redis 主从切换后写入 READONLY\n- 表现: 应用写 Redis 失败，读请求可能正常。\n- 错误码/日志关键词: `READONLY You"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "redis-003",
+      "question": "Redis 日志出现 OOM command not allowed when used memory > maxmemory，如何解决并预防？",
+      "category": "cache",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "OOM command not allowed",
+        "used_memory",
+        "maxmemory",
+        "evicted_keys",
+        "TTL",
+        "大 key"
+      ],
+      "reference_answer": "应检查 INFO memory、used_memory、maxmemory、evicted_keys 和大 key 分布。解决方式包括清理无用 key、给 key 设置 TTL、拆分大 key、调整 maxmemory-policy，必要时扩容 Redis。预防上要监控 used_memory、evicted_keys 和 key TTL 分布。",
+      "retrieved_sources": [
+        "data/docs/redis_ops_diagnosis.md",
+        "data/docs/redis_ops_diagnosis.md",
+        "data/docs/redis_ops_diagnosis.md",
+        "data/docs/redis_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 4,
+          "content_preview": "cy doctor；检查 RDB/AOF rewrite 时间。\n- 修复建议: 禁止线上使用阻塞命令；大 key 拆分；Lua 脚本限时和拆分；使用 scan 代替 keys；优化持久化策略。\n\n### Redis 内存不足或 OOM\n- 表现: 写入失败，缓存大量淘汰，命中率下降。\n- 错误码/日志关键词: `OOM command not allowed when used memory > maxmemory`, `evicted_keys`, `used_memor"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: Redis 运维诊断知识库\ncategory: cache\nservice: Redis\nseverity: high\ntags:\n  - redis\n  - cache\n  - timeout\n  - latency\n  - memory\n  - lock\n  - hot-key\n  - big-key\nerror_codes:\n  - LOADING\n  - MISCONF\n  - READONLY\n  - NOAUTH\n  - WRONGPASS\n"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 1,
+          "content_preview": "imeout, latency, memory, lock, hot key, big key\n- common_errors: LOADING, MISCONF, READONLY, NOAUTH, WRONGPASS, BUSY, OOM command not allowed, max number of clients reached, MOVED, ASK, 10054, 111, 6379\n\n## Overview\nRedis 常用于缓存、分布式锁、会话和限流。R"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 8,
+          "content_preview": "key 失效，无效参数绕过缓存，分布式锁未保护回源。\n- 排查步骤: 查看命中率趋势；检查 key TTL 是否集中；识别热点 key；统计空结果请求参数。\n- 修复建议: TTL 加随机抖动；热点 key 永不过期或异步刷新；空值缓存；布隆过滤器；回源加互斥锁。\n\n## Runbook\n\n### Redis 延迟升高排查流程\n1. 查看应用错误码: `Redis command timed out`, `Connection timed out`, `BUSY`, `OOM"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 7,
+          "content_preview": "原因。\n- 修复建议: 增加失败分类；可恢复错误延迟重试；不可恢复错误入 DLQ 并告警；消费者兼容多版本消息格式。\n\n### RabbitMQ 磁盘或内存水位报警\n- 表现: 生产者发送变慢或被阻塞，队列停止接收消息。\n- 错误码/日志关键词: `disk_free_limit`, `memory alarm`, `resource alarm`, `connection.blocked`, `blocked connection`, `vm_memory_high_wat"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "rabbitmq-001",
+      "question": "RabbitMQ 队列 messages_ready 一直涨，消费者看起来处理不过来，怎么排查？",
+      "category": "message-queue",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "messages_ready",
+        "consumer count",
+        "ack rate",
+        "publish rate",
+        "prefetch"
+      ],
+      "reference_answer": "应查看队列 messages_ready、messages_unacknowledged、consumer count、publish rate 和 ack rate。若 publish rate 大于 ack rate，通常是消费者不足、消费逻辑变慢、下游依赖慢或 prefetch 配置不合理。",
+      "retrieved_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 2,
+          "content_preview": "alarms。\n\n## Symptoms\n\n### 消息堆积 messages_ready 持续升高\n- 表现: 队列积压越来越多，业务处理延迟增加。\n- 错误码/日志关键词: `messages_ready`, `messages_unacknowledged`, `consumer_timeout`, `basic.deliver`, `consumer count 0`, `queue depth high`\n- 相关指标: publish rate, deliver "
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 1,
+          "content_preview": "category: message-queue\n- tags: rabbitmq, mq, queue, exchange, ack, dead letter, consumer, prefetch\n- common_errors: AMQP_CONNECTION_FORCED, PRECONDITION_FAILED, NOT_FOUND, ACCESS_REFUSED, RESOURCE_LOCKED, CHANNEL_ERROR, CONNECTION_FORCED, "
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 8,
+          "content_preview": "gth；开启惰性队列或升级集群容量。\n\n## Runbook\n\n### RabbitMQ 消息堆积排查流程\n1. 收集错误码: `404 NOT_FOUND`, `406 PRECONDITION_FAILED`, `connection.blocked`, `x-death`。\n2. 查看 queue 的 ready、unacked、consumer count。\n3. 对比 publish rate 与 ack rate。\n4. 检查消费者日志、线程池和下游依赖。\n5. "
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: RabbitMQ 运维诊断知识库\ncategory: message-queue\nservice: RabbitMQ\nseverity: high\ntags:\n  - rabbitmq\n  - mq\n  - queue\n  - exchange\n  - ack\n  - dead-letter\n  - consumer\n  - prefetch\nerror_codes:\n  - AMQP_CONNECTION_FORCED\n  - PRECONDITION"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 3,
+          "content_preview": "消费者；优化消费逻辑；降低单条消息处理耗时；对下游增加超时和降级；调整 prefetch。\n\n### 消息未确认 messages_unacknowledged 过高\n- 表现: 队列 ready 不高但 unacked 很高，消费者像是卡住。\n- 错误码/日志关键词: `messages_unacknowledged`, `basic.ack`, `basic.nack`, `PRECONDITION_FAILED unknown delivery tag`, `consu"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "rabbitmq-002",
+      "question": "MQ 堆住了，业务消息半天不动，也不知道是消费者死了还是 RabbitMQ 出问题了。",
+      "category": "message-queue",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "消息堆积",
+        "messages_unacknowledged",
+        "consumer count 0",
+        "consumer_timeout",
+        "ack"
+      ],
+      "reference_answer": "应先看 RabbitMQ management 中 ready、unacked 和 consumer count。如果 consumer count 为 0，多半是消费者掉线；如果 unacked 高，可能是消费者卡住或未 ack；如果 broker 有 memory alarm 或 disk_free_limit，则可能是 RabbitMQ 资源水位问题。",
+      "retrieved_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: RabbitMQ 运维诊断知识库\ncategory: message-queue\nservice: RabbitMQ\nseverity: high\ntags:\n  - rabbitmq\n  - mq\n  - queue\n  - exchange\n  - ack\n  - dead-letter\n  - consumer\n  - prefetch\nerror_codes:\n  - AMQP_CONNECTION_FORCED\n  - PRECONDITION"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 1,
+          "content_preview": "category: message-queue\n- tags: rabbitmq, mq, queue, exchange, ack, dead letter, consumer, prefetch\n- common_errors: AMQP_CONNECTION_FORCED, PRECONDITION_FAILED, NOT_FOUND, ACCESS_REFUSED, RESOURCE_LOCKED, CHANNEL_ERROR, CONNECTION_FORCED, "
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 5,
+          "content_preview": "ubsub disconnected`, `RabbitMQ consumer cancelled`\n- 相关指标: 每实例连接数, pub/sub 延迟, 广播成功率。\n- 可能原因: 会话只存在本机内存，负载均衡无粘性会话，跨实例广播通道异常，用户连接映射未共享。\n- 排查步骤: 查询用户连接在哪个实例；检查负载均衡 sticky session；检查 Redis Pub/Sub 或 MQ 广播通道；查看实例间消息日志。\n- 修复建议: 使用 Redis/MQ 做跨实例广"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 7,
+          "content_preview": "原因。\n- 修复建议: 增加失败分类；可恢复错误延迟重试；不可恢复错误入 DLQ 并告警；消费者兼容多版本消息格式。\n\n### RabbitMQ 磁盘或内存水位报警\n- 表现: 生产者发送变慢或被阻塞，队列停止接收消息。\n- 错误码/日志关键词: `disk_free_limit`, `memory alarm`, `resource alarm`, `connection.blocked`, `blocked connection`, `vm_memory_high_wat"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 5,
+          "content_preview": "bindings；确认生产者 mandatory return callback；对比配置中心。\n- 修复建议: 启动时自动声明拓扑；固定命名规范；发送端开启 mandatory；未路由消息进入告警或备用 exchange。\n\n### 声明参数不一致 PRECONDITION_FAILED\n- 表现: 应用启动失败，RabbitMQ channel 被关闭。\n- 错误码/日志关键词: `406 PRECONDITION_FAILED`, `inequivalent arg`,"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "rabbitmq-003",
+      "question": "启动消费者时报 406 PRECONDITION_FAILED inequivalent arg，怎么解决？",
+      "category": "message-queue",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "406 PRECONDITION_FAILED",
+        "inequivalent arg",
+        "durable",
+        "x-dead-letter-exchange",
+        "队列声明"
+      ],
+      "reference_answer": "406 PRECONDITION_FAILED 通常是代码声明的 queue/exchange 参数与 RabbitMQ 中已存在对象不一致，例如 durable、autoDelete、x-dead-letter-exchange 或 TTL 参数不同。应对比实际队列参数和代码声明，必要时新建队列迁移，避免直接修改不可变参数。",
+      "retrieved_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 5,
+          "content_preview": "bindings；确认生产者 mandatory return callback；对比配置中心。\n- 修复建议: 启动时自动声明拓扑；固定命名规范；发送端开启 mandatory；未路由消息进入告警或备用 exchange。\n\n### 声明参数不一致 PRECONDITION_FAILED\n- 表现: 应用启动失败，RabbitMQ channel 被关闭。\n- 错误码/日志关键词: `406 PRECONDITION_FAILED`, `inequivalent arg`,"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: RabbitMQ 运维诊断知识库\ncategory: message-queue\nservice: RabbitMQ\nseverity: high\ntags:\n  - rabbitmq\n  - mq\n  - queue\n  - exchange\n  - ack\n  - dead-letter\n  - consumer\n  - prefetch\nerror_codes:\n  - AMQP_CONNECTION_FORCED\n  - PRECONDITION"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 1,
+          "content_preview": "category: message-queue\n- tags: rabbitmq, mq, queue, exchange, ack, dead letter, consumer, prefetch\n- common_errors: AMQP_CONNECTION_FORCED, PRECONDITION_FAILED, NOT_FOUND, ACCESS_REFUSED, RESOURCE_LOCKED, CHANNEL_ERROR, CONNECTION_FORCED, "
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 8,
+          "content_preview": "gth；开启惰性队列或升级集群容量。\n\n## Runbook\n\n### RabbitMQ 消息堆积排查流程\n1. 收集错误码: `404 NOT_FOUND`, `406 PRECONDITION_FAILED`, `connection.blocked`, `x-death`。\n2. 查看 queue 的 ready、unacked、consumer count。\n3. 对比 publish rate 与 ack rate。\n4. 检查消费者日志、线程池和下游依赖。\n5. "
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 8,
+          "content_preview": "opic；chunk_size 控制在 800-1200 字符。\n\n### BM25 混合检索关键词召回未生效\n- 表现: 用户输入错误码时没有优先返回包含该错误码的文档。\n- 错误码/日志关键词: `BM25 no hit`, `keyword recall empty`, `error code not matched`, `1006`, `1205`, `NoSuchUpload`, `PRECONDITION_FAILED`\n- 相关指标: BM25 hit coun"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "mysql-001",
+      "question": "MySQL 报 1205 Lock wait timeout exceeded，应该怎么定位？",
+      "category": "database",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/mysql_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "1205",
+        "ER_LOCK_WAIT_TIMEOUT",
+        "Lock wait timeout exceeded",
+        "innodb_trx",
+        "长事务"
+      ],
+      "reference_answer": "应查询 information_schema.innodb_trx 和锁等待关系，定位阻塞事务和被阻塞 SQL。常见原因是长事务未提交、热点行更新、事务范围过大或 update/delete 条件未命中索引。",
+      "retrieved_sources": [
+        "data/docs/mysql_ops_diagnosis.md",
+        "data/docs/mysql_ops_diagnosis.md",
+        "data/docs/mysql_ops_diagnosis.md",
+        "data/docs/mysql_ops_diagnosis.md",
+        "data/docs/redis_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/mysql_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 3,
+          "content_preview": "SQL。\n\n### 锁等待超时 Lock wait timeout exceeded\n- 表现: 写操作卡住后失败，业务事务回滚。\n- 错误码/日志关键词: `1205`, `ER_LOCK_WAIT_TIMEOUT`, `Lock wait timeout exceeded; try restarting transaction`, `innodb_lock_wait_timeout`\n- 相关指标: lock waits, trx running time, row lo"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/mysql_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: MySQL 运维诊断知识库\ncategory: database\nservice: MySQL\nseverity: critical\ntags:\n  - mysql\n  - sql\n  - slow-query\n  - deadlock\n  - lock-wait\n  - connection-pool\n  - replication\nerror_codes:\n  - ER_LOCK_WAIT_TIMEOUT\n  - ER_LOCK_DEADLOCK\n "
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/mysql_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 1,
+          "content_preview": ": MySQL\n- category: database\n- tags: mysql, sql, slow query, deadlock, lock wait, connection pool, replication\n- common_errors: ER_LOCK_WAIT_TIMEOUT, ER_LOCK_DEADLOCK, ER_CON_COUNT_ERROR, ER_ACCESS_DENIED_ERROR, ER_DUP_ENTRY, ER_NO_REFERENC"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/mysql_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 2,
+          "content_preview": "响应慢，数据库 CPU 或 IO 升高。\n- 错误码/日志关键词: `Query timeout`, `Communications link failure`, `2013 Lost connection to MySQL server during query`, `Slow query`, `Using filesort`, `Using temporary`\n- 相关指标: QPS, TPS, slow_queries, CPU, IO utilization, bu"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/redis_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 7,
+          "content_preview": "uster 拓扑未刷新，代理未更新路由。\n- 排查步骤: 执行 `INFO replication`；检查客户端是否支持拓扑刷新；检查 Sentinel failover 记录；确认写请求是否打到 replica。\n- 修复建议: 启用 Lettuce/Jedis 拓扑自动刷新；修复 Redis 代理路由；在故障切换后重建连接池。\n\n### 缓存雪崩、击穿或穿透\n- 表现: Redis 命中率下降，数据库压力飙升，接口大量超时。\n- 错误码/日志关键词: `cache mis"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "mysql-002",
+      "question": "数据库最近有点卡，接口偶尔超时，但没明显报错，先看哪里？",
+      "category": "database",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/mysql_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "慢 SQL",
+        "EXPLAIN",
+        "SHOW PROCESSLIST",
+        "Using filesort",
+        "Using temporary"
+      ],
+      "reference_answer": "应先查看慢查询日志和 SHOW PROCESSLIST，再对可疑 SQL 执行 EXPLAIN，重点看是否全表扫描、是否 Using filesort 或 Using temporary，以及索引是否命中。也要检查连接池 pending、CPU、IO 和锁等待。",
+      "retrieved_sources": [],
+      "retrieved": [],
+      "hit_count": 0,
+      "missed_sources": [
+        "data/docs/mysql_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_rate_at_k": 0.0,
+      "rr": 0.0,
+      "ndcg_at_k": 0.0
+    },
+    {
+      "id": "mysql-003",
+      "question": "日志中同时出现 1213 Deadlock found 和 1062 Duplicate entry，消费端写 MySQL 应如何处理？",
+      "category": "database",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/mysql_ops_diagnosis.md",
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "1213",
+        "ER_LOCK_DEADLOCK",
+        "1062",
+        "ER_DUP_ENTRY",
+        "幂等",
+        "重复消费"
+      ],
+      "reference_answer": "1213 表示死锁，应查看 SHOW ENGINE INNODB STATUS 并对幂等操作做安全重试；1062 表示唯一键冲突，常见于重复请求或 MQ 重复消费。消费端应基于业务唯一键或幂等表处理重复消息，并统一资源更新顺序以减少死锁。",
+      "retrieved_sources": [
+        "data/docs/mysql_ops_diagnosis.md",
+        "data/docs/mysql_ops_diagnosis.md",
+        "data/docs/mysql_ops_diagnosis.md",
+        "data/docs/mysql_ops_diagnosis.md",
+        "data/docs/mysql_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/mysql_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 7,
+          "content_preview": "062 Duplicate entry`, `ER_DUP_ENTRY`, `1452 Cannot add or update a child row`, `ER_NO_REFERENCED_ROW_2`, `DataIntegrityViolationException`\n- 相关指标: 写入失败率, 重试次数, 唯一键冲突数。\n- 可能原因: 重复请求未幂等，唯一索引设计不合理，外键引用数据不存在，消息重复消费。\n- 排查步骤: 查看失败 SQL 和唯一索引字段；确认请"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/mysql_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: MySQL 运维诊断知识库\ncategory: database\nservice: MySQL\nseverity: critical\ntags:\n  - mysql\n  - sql\n  - slow-query\n  - deadlock\n  - lock-wait\n  - connection-pool\n  - replication\nerror_codes:\n  - ER_LOCK_WAIT_TIMEOUT\n  - ER_LOCK_DEADLOCK\n "
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/mysql_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 4,
+          "content_preview": "MySQL 死锁 Deadlock found\n- 表现: 并发写入时部分请求失败，重试后可能成功。\n- 错误码/日志关键词: `1213`, `ER_LOCK_DEADLOCK`, `Deadlock found when trying to get lock`, `SHOW ENGINE INNODB STATUS`\n- 相关指标: deadlocks, transaction rollback count, 并发写 QPS。\n- 可能原因: 多事务更新顺序不一致，批量更"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/mysql_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 6,
+          "content_preview": "立刻读取查不到，读写分离场景数据不一致。\n- 错误码/日志关键词: `Seconds_Behind_Master`, `Replica_IO_Running: No`, `Replica_SQL_Running: No`, `Duplicate entry`, `Could not execute Write_rows event`\n- 相关指标: replication lag, relay log size, replica SQL thread 状态。\n- 可能原因: "
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/mysql_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 1,
+          "content_preview": ": MySQL\n- category: database\n- tags: mysql, sql, slow query, deadlock, lock wait, connection pool, replication\n- common_errors: ER_LOCK_WAIT_TIMEOUT, ER_LOCK_DEADLOCK, ER_CON_COUNT_ERROR, ER_ACCESS_DENIED_ERROR, ER_DUP_ENTRY, ER_NO_REFERENC"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "recall_at_k": 0.5,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 0.6131471927654584
+    },
+    {
+      "id": "websocket-001",
+      "question": "WebSocket 建连失败，网关返回 426 Upgrade Required，应该检查哪些配置？",
+      "category": "realtime",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "426 Upgrade Required",
+        "Upgrade",
+        "Connection",
+        "Sec-WebSocket-Key",
+        "握手失败"
+      ],
+      "reference_answer": "应检查网关是否正确转发 Upgrade 和 Connection header，客户端是否带 Sec-WebSocket-Key，URL 路径和协议是否正确，以及鉴权 token 是否有效。Nginx 需要配置 proxy_set_header Upgrade 和 Connection。",
+      "retrieved_sources": [
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 1,
+          "content_preview": "ltime, heartbeat, gateway, connection, session, broadcast\n- common_errors: 1000, 1001, 1002, 1006, 1008, 1011, 400, 401, 403, 404, 426, 502, 503, 504, ECONNRESET, Broken pipe\n\n## Overview\nWebSocket 常用于实时通知、在线状态、协作和消息推送。故障通常表现为连接失败、频繁断开、心跳超时"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 2,
+          "content_preview": "e Required`, `Handshake failed`, `Invalid token`, `Missing Sec-WebSocket-Key`, `Upgrade header missing`\n- 相关指标: 握手失败率, 网关 4xx, 鉴权失败日志。\n- 可能原因: token 过期，鉴权参数缺失，网关没有转发 `Upgrade` 和 `Connection` header，路径路由错误。\n- 排查步骤: 抓包检查握手请求头；确认 URL、token、子协议"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: WebSocket 运维诊断知识库\ncategory: realtime\nservice: WebSocket\nseverity: medium\ntags:\n  - websocket\n  - realtime\n  - heartbeat\n  - gateway\n  - connection\n  - session\n  - broadcast\nerror_codes:\n  - 1000\n  - 1001\n  - 1002\n  - 1006\n  - 100"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 7,
+          "content_preview": "tive connections, file descriptors, heap memory, thread pool queue。\n- 可能原因: 连接泄漏，客户端重连风暴，单用户多连接，文件描述符限制低。\n- 排查步骤: 统计连接数按用户/IP 分布；查看 fd 使用；检查重连频率；检查内存和线程池。\n- 修复建议: 限制单用户连接数；重连退避；提升 fd 限制；连接关闭时清理 session；连接维度监控。\n\n## Runbook\n\n### WebSocket 断连排"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 2,
+          "content_preview": "02 Bad Gateway`, `upstream prematurely closed connection`, `connection reset by peer`, `no live upstreams`, `ECONNRESET`\n- 相关指标: gateway 5xx, upstream unhealthy count, 后端实例重启次数。\n- 可能原因: 后端实例崩溃，连接被重置，服务发现地址错误，容器重启，网关到后端网络异常。\n- 排查步骤: 查看网关 acc"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "websocket-002",
+      "question": "前端说连接一会儿就断，刷新又好了，这种 WebSocket 问题怎么查？",
+      "category": "realtime",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "1006",
+        "ECONNRESET",
+        "idle timeout",
+        "heartbeat",
+        "断线重连"
+      ],
+      "reference_answer": "应先收集 close code，若是 1006 或 ECONNRESET，要检查网关 idle timeout 是否小于心跳间隔，服务端是否重启，客户端网络是否切换，以及是否有大消息阻塞。心跳间隔应小于网关 idle timeout，并支持断线重连。",
+      "retrieved_sources": [
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: WebSocket 运维诊断知识库\ncategory: realtime\nservice: WebSocket\nseverity: medium\ntags:\n  - websocket\n  - realtime\n  - heartbeat\n  - gateway\n  - connection\n  - session\n  - broadcast\nerror_codes:\n  - 1000\n  - 1001\n  - 1002\n  - 1006\n  - 100"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 1,
+          "content_preview": "ltime, heartbeat, gateway, connection, session, broadcast\n- common_errors: 1000, 1001, 1002, 1006, 1008, 1011, 400, 401, 403, 404, 426, 502, 503, 504, ECONNRESET, Broken pipe\n\n## Overview\nWebSocket 常用于实时通知、在线状态、协作和消息推送。故障通常表现为连接失败、频繁断开、心跳超时"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 2,
+          "content_preview": "e Required`, `Handshake failed`, `Invalid token`, `Missing Sec-WebSocket-Key`, `Upgrade header missing`\n- 相关指标: 握手失败率, 网关 4xx, 鉴权失败日志。\n- 可能原因: token 过期，鉴权参数缺失，网关没有转发 `Upgrade` 和 `Connection` header，路径路由错误。\n- 排查步骤: 抓包检查握手请求头；确认 URL、token、子协议"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 5,
+          "content_preview": "ubsub disconnected`, `RabbitMQ consumer cancelled`\n- 相关指标: 每实例连接数, pub/sub 延迟, 广播成功率。\n- 可能原因: 会话只存在本机内存，负载均衡无粘性会话，跨实例广播通道异常，用户连接映射未共享。\n- 排查步骤: 查询用户连接在哪个实例；检查负载均衡 sticky session；检查 Redis Pub/Sub 或 MQ 广播通道；查看实例间消息日志。\n- 修复建议: 使用 Redis/MQ 做跨实例广"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 7,
+          "content_preview": "tive connections, file descriptors, heap memory, thread pool queue。\n- 可能原因: 连接泄漏，客户端重连风暴，单用户多连接，文件描述符限制低。\n- 排查步骤: 统计连接数按用户/IP 分布；查看 fd 使用；检查重连频率；检查内存和线程池。\n- 修复建议: 限制单用户连接数；重连退避；提升 fd 限制；连接关闭时清理 session；连接维度监控。\n\n## Runbook\n\n### WebSocket 断连排"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "websocket-003",
+      "question": "多实例部署后 WebSocket 只给部分用户推送成功，如何解决和预防？",
+      "category": "realtime",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "session not found",
+        "broadcast miss",
+        "Redis pubsub",
+        "RabbitMQ consumer cancelled",
+        "粘性会话"
+      ],
+      "reference_answer": "多实例下消息丢失通常是会话只存在本机内存或跨实例广播通道异常。应检查用户连接在哪个实例、负载均衡是否需要粘性会话、Redis Pub/Sub 或 MQ 广播是否正常。预防上应使用共享会话映射和跨实例广播机制。",
+      "retrieved_sources": [
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: WebSocket 运维诊断知识库\ncategory: realtime\nservice: WebSocket\nseverity: medium\ntags:\n  - websocket\n  - realtime\n  - heartbeat\n  - gateway\n  - connection\n  - session\n  - broadcast\nerror_codes:\n  - 1000\n  - 1001\n  - 1002\n  - 1006\n  - 100"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 1,
+          "content_preview": "ltime, heartbeat, gateway, connection, session, broadcast\n- common_errors: 1000, 1001, 1002, 1006, 1008, 1011, 400, 401, 403, 404, 426, 502, 503, 504, ECONNRESET, Broken pipe\n\n## Overview\nWebSocket 常用于实时通知、在线状态、协作和消息推送。故障通常表现为连接失败、频繁断开、心跳超时"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 2,
+          "content_preview": "e Required`, `Handshake failed`, `Invalid token`, `Missing Sec-WebSocket-Key`, `Upgrade header missing`\n- 相关指标: 握手失败率, 网关 4xx, 鉴权失败日志。\n- 可能原因: token 过期，鉴权参数缺失，网关没有转发 `Upgrade` 和 `Connection` header，路径路由错误。\n- 排查步骤: 抓包检查握手请求头；确认 URL、token、子协议"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 5,
+          "content_preview": "ubsub disconnected`, `RabbitMQ consumer cancelled`\n- 相关指标: 每实例连接数, pub/sub 延迟, 广播成功率。\n- 可能原因: 会话只存在本机内存，负载均衡无粘性会话，跨实例广播通道异常，用户连接映射未共享。\n- 排查步骤: 查询用户连接在哪个实例；检查负载均衡 sticky session；检查 Redis Pub/Sub 或 MQ 广播通道；查看实例间消息日志。\n- 修复建议: 使用 Redis/MQ 做跨实例广"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 7,
+          "content_preview": "tive connections, file descriptors, heap memory, thread pool queue。\n- 可能原因: 连接泄漏，客户端重连风暴，单用户多连接，文件描述符限制低。\n- 排查步骤: 统计连接数按用户/IP 分布；查看 fd 使用；检查重连频率；检查内存和线程池。\n- 修复建议: 限制单用户连接数；重连退避；提升 fd 限制；连接关闭时清理 session；连接维度监控。\n\n## Runbook\n\n### WebSocket 断连排"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "rag-001",
+      "question": "RAG 查询返回 retrieved_docs=[]，应该先排查什么？",
+      "category": "retrieval",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "retrieved_docs=[]",
+        "CollectionNotFound",
+        "collection count",
+        "VECTOR_STORE_PATH",
+        "ingest"
+      ],
+      "reference_answer": "应先确认是否执行过入库脚本，Chroma collection 是否存在且 count 大于 0，VECTOR_STORE_PATH 和 collection name 是否一致。然后打印 query、top_k 和过滤条件，排除 query 过短或 metadata filter 过严。",
+      "retrieved_sources": [
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: RAG 系统运维诊断知识库\ncategory: retrieval\nservice: RAG\nseverity: medium\ntags:\n  - rag\n  - embedding\n  - chroma\n  - vector-store\n  - retrieval\n  - chunking\n  - metadata\n  - bm25\nerror_codes:\n  - CollectionNotFound\n  - InvalidDimension\n  -"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 2,
+          "content_preview": "rieval`, `CollectionNotFound`, `collection does not exist`, `No documents found`, `retrieved_docs=[]`, `404 collection`\n- 相关指标: collection count, ingest chunk count, query count, hit rate。\n- 可能原因: 未执行入库脚本，collection 名称不一致，persist directory "
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 1,
+          "content_preview": "chroma, vector store, retrieval, chunking, metadata, bm25\n- common_errors: CollectionNotFound, InvalidDimension, empty retrieval, no relevant documents, metadata missing, sqlite disk I/O error, 400, 404, 500\n\n## Overview\nRAG 系统通常包括文档加载、切分、e"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 8,
+          "content_preview": "opic；chunk_size 控制在 800-1200 字符。\n\n### BM25 混合检索关键词召回未生效\n- 表现: 用户输入错误码时没有优先返回包含该错误码的文档。\n- 错误码/日志关键词: `BM25 no hit`, `keyword recall empty`, `error code not matched`, `1006`, `1205`, `NoSuchUpload`, `PRECONDITION_FAILED`\n- 相关指标: BM25 hit coun"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 9,
+          "content_preview": "留英文、数字、下划线；融合排序时提高错误码精确匹配权重。\n\n## Runbook\n\n### RAG 检索异常排查流程\n1. 收集错误码: `CollectionNotFound`, `InvalidDimension`, `sqlite disk I/O error`, `metadata missing`。\n2. 确认文档是否入库以及 collection count。\n3. 打印 query、top_k、score、source、chunk content。\n4. 对比 "
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "rag-002",
+      "question": "问的问题明明在文档里，但搜出来的内容很奇怪，不太相关，这是 RAG 哪块不行？",
+      "category": "retrieval",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "irrelevant retrieval",
+        "low score",
+        "chunk too large",
+        "BM25",
+        "rerank"
+      ],
+      "reference_answer": "这通常与 embedding 质量、chunk 设计和排序策略有关。应打印 query、score、source 和 chunk 内容，检查 chunk 是否混入多个主题。可通过 Markdown-aware chunking、score threshold、BM25 + vector 混合检索和 rerank 改善。",
+      "retrieved_sources": [
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: RAG 系统运维诊断知识库\ncategory: retrieval\nservice: RAG\nseverity: medium\ntags:\n  - rag\n  - embedding\n  - chroma\n  - vector-store\n  - retrieval\n  - chunking\n  - metadata\n  - bm25\nerror_codes:\n  - CollectionNotFound\n  - InvalidDimension\n  -"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 1,
+          "content_preview": "chroma, vector store, retrieval, chunking, metadata, bm25\n- common_errors: CollectionNotFound, InvalidDimension, empty retrieval, no relevant documents, metadata missing, sqlite disk I/O error, 400, 404, 500\n\n## Overview\nRAG 系统通常包括文档加载、切分、e"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 8,
+          "content_preview": "opic；chunk_size 控制在 800-1200 字符。\n\n### BM25 混合检索关键词召回未生效\n- 表现: 用户输入错误码时没有优先返回包含该错误码的文档。\n- 错误码/日志关键词: `BM25 no hit`, `keyword recall empty`, `error code not matched`, `1006`, `1205`, `NoSuchUpload`, `PRECONDITION_FAILED`\n- 相关指标: BM25 hit coun"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 9,
+          "content_preview": "留英文、数字、下划线；融合排序时提高错误码精确匹配权重。\n\n## Runbook\n\n### RAG 检索异常排查流程\n1. 收集错误码: `CollectionNotFound`, `InvalidDimension`, `sqlite disk I/O error`, `metadata missing`。\n2. 确认文档是否入库以及 collection count。\n3. 打印 query、top_k、score、source、chunk content。\n4. 对比 "
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "rag-003",
+      "question": "Chroma 报 sqlite disk I/O error 或 InvalidDimension，分别应该如何处理？",
+      "category": "retrieval",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "expected_keywords": [
+        "sqlite disk I/O error",
+        "InvalidDimension",
+        "chroma.sqlite3",
+        "embedding dimension",
+        "重建索引"
+      ],
+      "reference_answer": "sqlite disk I/O error 应检查持久化目录权限、磁盘空间、文件锁和路径兼容性；InvalidDimension 通常是入库和查询使用了不同 embedding 维度，应确认模型和维度一致，模型变更后重建 collection。",
+      "retrieved_sources": [
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 5,
+          "content_preview": "建索引；collection metadata 写入 model_name 和 dimension；禁止混用向量维度。\n\n### Chroma 持久化失败 sqlite disk I/O error\n- 表现: 入库或查询初始化 Chroma 失败。\n- 错误码/日志关键词: `sqlite disk I/O error`, `InternalError`, `chroma.sqlite3`, `PermissionError`, `database is locked`, "
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: RAG 系统运维诊断知识库\ncategory: retrieval\nservice: RAG\nseverity: medium\ntags:\n  - rag\n  - embedding\n  - chroma\n  - vector-store\n  - retrieval\n  - chunking\n  - metadata\n  - bm25\nerror_codes:\n  - CollectionNotFound\n  - InvalidDimension\n  -"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 1,
+          "content_preview": "chroma, vector store, retrieval, chunking, metadata, bm25\n- common_errors: CollectionNotFound, InvalidDimension, empty retrieval, no relevant documents, metadata missing, sqlite disk I/O error, 400, 404, 500\n\n## Overview\nRAG 系统通常包括文档加载、切分、e"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 9,
+          "content_preview": "留英文、数字、下划线；融合排序时提高错误码精确匹配权重。\n\n## Runbook\n\n### RAG 检索异常排查流程\n1. 收集错误码: `CollectionNotFound`, `InvalidDimension`, `sqlite disk I/O error`, `metadata missing`。\n2. 确认文档是否入库以及 collection count。\n3. 打印 query、top_k、score、source、chunk content。\n4. 对比 "
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 6,
+          "content_preview": "目录；生产环境避免多进程同时写；入库任务串行化；必要时换独立向量数据库服务。\n\n### Metadata 丢失导致证据不可追踪\n- 表现: 答案有内容，但没有 source 或 topic，无法审计。\n- 错误码/日志关键词: `metadata missing`, `source unknown`, `chunk_index missing`, `KeyError: source`, `evidence without source`\n- 相关指标: metadata 完整"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "gateway-001",
+      "question": "网关返回 504 Gateway Timeout，如何判断是网关问题还是后端慢？",
+      "category": "traffic",
+      "difficulty": "easy",
+      "expected_sources": [
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "expected_keywords": [
+        "504 Gateway Timeout",
+        "upstream timed out",
+        "P95",
+        "P99",
+        "trace id",
+        "慢 SQL"
+      ],
+      "reference_answer": "应通过 trace id 串联网关和应用日志，查看 upstream response time、后端接口耗时、慢 SQL 和下游 RPC 超时。若后端处理时间超过网关 timeout，则本质是后端慢或超时层级配置不合理。",
+      "retrieved_sources": [
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/minio_multipart_resume.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 3,
+          "content_preview": "y upstream`, `circuit breaker open`, `service unavailable`, `connection pool exhausted`\n- 相关指标: upstream healthy count, 熔断打开次数, 连接池 active/pending, CPU。\n- 可能原因: 下游全部不健康，熔断器打开，连接池耗尽，服务实例数不足。\n- 排查步骤: 查看服务发现健康状态；检查熔断规则；检查连接池 pending；对比实例 CPU、内"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 1,
+          "content_preview": "fic\n- tags: gateway, high concurrency, nginx, timeout, rate limit, circuit breaker, thread pool, connection pool\n- common_errors: 400, 401, 403, 404, 408, 413, 429, 499, 500, 502, 503, 504, ECONNRESET, upstream timed out, circuit breaker op"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 7,
+          "content_preview": "istParts 为准重建分片状态。\n\n### 大文件上传经过网关返回 413 或 504\n- 表现: 小文件正常，大文件或慢网络上传失败。\n- 错误码/日志关键词: `413 Payload Too Large`, `504 Gateway Timeout`, `408 Request Timeout`, `499 Client Closed Request`, `client_max_body_size`, `upstream timed out`\n- 相关指标: 网关 "
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015625,
+          "chunk_index": 5,
+          "content_preview": "ubsub disconnected`, `RabbitMQ consumer cancelled`\n- 相关指标: 每实例连接数, pub/sub 延迟, 广播成功率。\n- 可能原因: 会话只存在本机内存，负载均衡无粘性会话，跨实例广播通道异常，用户连接映射未共享。\n- 排查步骤: 查询用户连接在哪个实例；检查负载均衡 sticky session；检查 Redis Pub/Sub 或 MQ 广播通道；查看实例间消息日志。\n- 修复建议: 使用 Redis/MQ 做跨实例广"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: 网关与高并发诊断知识库\ncategory: traffic\nservice: Gateway\nseverity: critical\ntags:\n  - gateway\n  - high-concurrency\n  - nginx\n  - timeout\n  - rate-limit\n  - circuit-breaker\n  - thread-pool\n  - connection-pool\nerror_codes:\n  - 400\n  - 401\n  "
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "gateway-002",
+      "question": "高峰期用户说系统卡死，有时候 502 有时候 503，还有些请求直接没响应，先怎么查？",
+      "category": "traffic",
+      "difficulty": "medium",
+      "expected_sources": [
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "expected_keywords": [
+        "502",
+        "503",
+        "499",
+        "线程池",
+        "连接池",
+        "no healthy upstream"
+      ],
+      "reference_answer": "应先按错误码分流排查：502 看后端实例崩溃或连接重置，503 看无健康 upstream、熔断或连接池耗尽，499 看客户端超时或取消。然后检查线程池、连接池、实例健康、服务发现和下游依赖。",
+      "retrieved_sources": [
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 1,
+          "content_preview": "fic\n- tags: gateway, high concurrency, nginx, timeout, rate limit, circuit breaker, thread pool, connection pool\n- common_errors: 400, 401, 403, 404, 408, 413, 429, 499, 500, 502, 503, 504, ECONNRESET, upstream timed out, circuit breaker op"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 5,
+          "content_preview": "ubsub disconnected`, `RabbitMQ consumer cancelled`\n- 相关指标: 每实例连接数, pub/sub 延迟, 广播成功率。\n- 可能原因: 会话只存在本机内存，负载均衡无粘性会话，跨实例广播通道异常，用户连接映射未共享。\n- 排查步骤: 查询用户连接在哪个实例；检查负载均衡 sticky session；检查 Redis Pub/Sub 或 MQ 广播通道；查看实例间消息日志。\n- 修复建议: 使用 Redis/MQ 做跨实例广"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: WebSocket 运维诊断知识库\ncategory: realtime\nservice: WebSocket\nseverity: medium\ntags:\n  - websocket\n  - realtime\n  - heartbeat\n  - gateway\n  - connection\n  - session\n  - broadcast\nerror_codes:\n  - 1000\n  - 1001\n  - 1002\n  - 1006\n  - 100"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.015625,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: 网关与高并发诊断知识库\ncategory: traffic\nservice: Gateway\nseverity: critical\ntags:\n  - gateway\n  - high-concurrency\n  - nginx\n  - timeout\n  - rate-limit\n  - circuit-breaker\n  - thread-pool\n  - connection-pool\nerror_codes:\n  - 400\n  - 401\n  "
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 8,
+          "content_preview": "程栈；检查慢依赖；确认超时和重试次数。\n- 修复建议: 设置有界队列和拒绝策略；缩短慢依赖超时；隔离核心/非核心线程池；连接池泄漏排查。\n\n## Runbook\n\n### 高并发网关异常排查流程\n1. 收集入口错误码: `429`, `499`, `502`, `503`, `504`, `413`。\n2. 判断是限流、网关超时、下游不可用、客户端断开还是请求体过大。\n3. 通过 trace id 串联网关、应用、数据库、Redis、RabbitMQ 日志。\n4. 检查线程池"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "gateway-003",
+      "question": "如何预防高并发下 429、503、线程池耗尽和连接池 pending？",
+      "category": "traffic",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "expected_keywords": [
+        "429",
+        "503",
+        "RejectedExecutionException",
+        "pending acquire timeout",
+        "限流",
+        "熔断",
+        "有界队列"
+      ],
+      "reference_answer": "预防上应配置按接口容量设计的限流和熔断，所有线程池和连接池设置监控、有界队列、超时和拒绝策略。高峰前要压测容量，慢依赖要降级隔离，客户端重试需要指数退避，避免放大流量。",
+      "retrieved_sources": [
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.01639344262295082,
+          "chunk_index": 1,
+          "content_preview": "fic\n- tags: gateway, high concurrency, nginx, timeout, rate limit, circuit breaker, thread pool, connection pool\n- common_errors: 400, 401, 403, 404, 408, 413, 429, 499, 500, 502, 503, 504, ECONNRESET, upstream timed out, circuit breaker op"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.016129032258064516,
+          "chunk_index": 0,
+          "content_preview": "---\ntitle: 网关与高并发诊断知识库\ncategory: traffic\nservice: Gateway\nseverity: critical\ntags:\n  - gateway\n  - high-concurrency\n  - nginx\n  - timeout\n  - rate-limit\n  - circuit-breaker\n  - thread-pool\n  - connection-pool\nerror_codes:\n  - 400\n  - 401\n  "
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.015873015873015872,
+          "chunk_index": 8,
+          "content_preview": "程栈；检查慢依赖；确认超时和重试次数。\n- 修复建议: 设置有界队列和拒绝策略；缩短慢依赖超时；隔离核心/非核心线程池；连接池泄漏排查。\n\n## Runbook\n\n### 高并发网关异常排查流程\n1. 收集入口错误码: `429`, `499`, `502`, `503`, `504`, `413`。\n2. 判断是限流、网关超时、下游不可用、客户端断开还是请求体过大。\n3. 通过 trace id 串联网关、应用、数据库、Redis、RabbitMQ 日志。\n4. 检查线程池"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.015625,
+          "chunk_index": 4,
+          "content_preview": "ketTimeoutException`\n- 相关指标: upstream response time, P95/P99 latency, slow request count。\n- 可能原因: 后端接口慢，数据库慢 SQL，下游 RPC 超时，网关 timeout 小于业务处理时间。\n- 排查步骤: 通过 trace id 串联网关和应用日志；查看慢接口和慢 SQL；确认网关、应用、RPC、DB 超时时间层级。\n- 修复建议: 优化慢接口；设置合理超时层级；异步化长任务；对"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.015384615384615385,
+          "chunk_index": 7,
+          "content_preview": "应用上传限制；确认接口是否应走分片上传。\n- 修复建议: 调整上传大小限制；大文件使用 MinIO 分片直传；限制单次请求体大小并返回明确提示。\n\n### 高并发下线程池或连接池耗尽\n- 表现: 接口大量超时，CPU 不一定很高，但请求排队严重。\n- 错误码/日志关键词: `RejectedExecutionException`, `ThreadPoolTaskExecutor`, `HikariPool connection is not available`, `pend"
+        }
+      ],
+      "hit_count": 1,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    }
+  ]
+}
