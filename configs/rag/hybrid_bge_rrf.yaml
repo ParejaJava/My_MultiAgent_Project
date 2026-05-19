@@ -1,21 +1,25 @@
-name: hybrid_hash_rrf
-description: Legacy lightweight hybrid experiment using HashEmbeddingFunction plus local BM25 with RRF fusion.
+name: hybrid_bge_rrf
+description: Hybrid retrieval using FlagEmbedding BAAI/bge-base-zh-v1.5 dense retrieval plus local BM25 with RRF fusion.
 retriever: hybrid_rrf
 vector_store: chroma
 persist_directory: D:/AgentData/VectorStore
-collection_name: ops_knowledge_base_hash
+collection_name: ops_knowledge_base_bge_base_zh_v15
 docs_dir: data/docs
 embedding:
-  provider: hash
-  name: HashEmbeddingFunction
-  dimensions: 64
+  provider: bge_local
+  implementation: flag_embedding
+  model: D:/AgentData/Models/bge-base-zh-v1.5
+  normalize_embeddings: true
+  max_length: 512
+  batch_size: 16
+  use_fp16: true
+  devices: null
 chunking:
   strategy: character
   chunk_size: 500
   overlap: 50
 ranking:
   top_k_default: 3
-  top_n: 10
   retrieve_top_n: 10
   rerank_top_k: 3
   rrf_k: 60
@@ -30,7 +34,6 @@ bm25:
 reranker:
   provider: none
 notes:
-  - This is a lightweight test baseline, not the production dense embedding implementation.
-  - Use hybrid_bge_rrf.yaml for BAAI/bge-base-zh-v1.5 dense + BM25 evaluation.
-  - Re-ingest with baseline_hash or this config before evaluating hash-based dense results.
+  - Compare this config against bge_local.yaml to measure dense versus dense+BM25 recall.
+  - Re-ingest documents with bge_local.yaml or this config before evaluating dense results.
   - BM25 is indexed at chunk level and persisted under D:/AgentData/BM25Store until docs or BM25 strategy changes.

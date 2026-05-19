@@ -2,27 +2,27 @@
 
 ## Run Metadata
 
-- Config: `baseline_hash`
+- Config: `bge_base_zh_v15`
 - Git commit: `edfb24c65297555c6a7f883cbd9068ea1858f5e8`
-- Eval file: `eval/questions.jsonl`
-- Top K: `5`
-- Retriever: `dense`
+- Eval file: `D:/Work/AgentProject2026/eval/questions.jsonl`
+- Top K: `3`
+- Retriever: `chroma_dense`
 - Retrieve top N: `10`
 - Rerank top K: `3`
 - Reranker: `none`
 - Reranker model: `none`
-- Timestamp: `2026-05-18T09:11:10.932712+00:00`
+- Timestamp: `2026-05-18T15:13:17.793033+00:00`
 
 ## Overall Metrics
 
 | Metric | Value |
 | --- | ---: |
 | Total Questions | 21 |
-| Recall@5 | 0.0000 |
-| Precision@5 | 0.0000 |
-| Hit Rate@5 | 0.0000 |
+| Recall@3 | 0.0000 |
+| Precision@3 | 0.0000 |
+| Hit Rate@3 | 0.0000 |
 | MRR | 0.0000 |
-| NDCG@5 | 0.0000 |
+| NDCG@3 | 0.0000 |
 | Failed Samples | 21 |
 
 ## Metrics By Category

@@ -3,9 +3,10 @@
 import argparse
 from pathlib import Path
 
-from app.config import settings
+from app.config import resolve_project_path, settings
 from app.rag.config import DEFAULT_RAG_CONFIG_PATH, get_collection_name, load_rag_config
 from app.rag.embeddings import create_embedding_function
+from app.rag.storage_check import ensure_chroma_persistence_ready
 from app.rag.vector_store import ingest_documents
 
 
@@ -16,7 +17,7 @@ def main() -> int:
     parser.add_argument("--docs-dir", default="data/docs", help="Directory containing markdown files.")
     parser.add_argument(
         "--persist-dir",
-        default=settings.vector_store_path,
+        default=None,
         help="Chroma persistence directory.",
     )
     parser.add_argument("--collection", help="Override Chroma collection name from config.")
@@ -29,8 +30,11 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    config = load_rag_config(args.config)
+    config_path = resolve_project_path(args.config)
+    config = load_rag_config(config_path)
     chunking = config.get("chunking", {}) if isinstance(config.get("chunking"), dict) else {}
+    persist_directory = args.persist_dir or config.get("persist_directory") or settings.vector_store_path
+    persist_directory = ensure_chroma_persistence_ready(persist_directory)
     collection_name = args.collection or get_collection_name(config)
     chunk_size = args.chunk_size or int(chunking.get("chunk_size", 500))
     overlap = args.overlap if args.overlap is not None else int(chunking.get("overlap", 50))
@@ -38,14 +42,15 @@ def main() -> int:
 
     count = ingest_documents(
         docs_dir=Path(args.docs_dir),
-        persist_directory=Path(args.persist_dir),
+        persist_directory=persist_directory,
         collection_name=collection_name,
         chunk_size=chunk_size,
         overlap=overlap,
         reset_collection=not args.no_reset,
         embedding_function=embedding_function,
+        allow_memory_fallback=False,
     )
-    print(f"Ingested {count} chunks into collection '{collection_name}' using config '{args.config}'.")
+    print(f"Ingested {count} chunks into collection '{collection_name}' using config '{config_path}'.")
     return 0
 
 

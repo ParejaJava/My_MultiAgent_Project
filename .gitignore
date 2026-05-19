@@ -51,7 +51,8 @@ coverage.xml
 .pytest_cache/
 tests/.tmp_rag/
 tests/.tmp_hybrid/
-data/vector_store/
+data/vector_store*/
+data/bm25_store*/
 cover/
 
 # Translations
@@ -154,6 +155,8 @@ activemq-data/
 .env
 .envrc
 .venv
+.venv*/
+.tmp_pip/
 env/
 venv/
 ENV/

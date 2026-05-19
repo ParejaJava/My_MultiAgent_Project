@@ -2,6 +2,7 @@ name: baseline_hash
 description: Current baseline using HashEmbeddingFunction with Chroma dense retrieval.
 retriever: dense
 vector_store: chroma
+persist_directory: D:/AgentData/VectorStore
 collection_name: ops_knowledge_base_hash
 embedding:
   provider: hash
@@ -14,8 +15,12 @@ chunking:
 ranking:
   top_k_default: 3
   top_n: 10
+  retrieve_top_n: 10
+  rerank_top_k: 3
   rrf_k: 60
   score_threshold: null
+reranker:
+  provider: none
 notes:
   - This configuration is recorded for offline evaluation tracking only.
   - The current evaluator reads this file but does not switch runtime RAG behavior yet.

@@ -1,0 +1,63 @@
+name: hybrid_rrf_rerank
+description: Hybrid retrieval using FlagEmbedding BAAI/bge-base-zh-v1.5 dense retrieval, local BM25, RRF fusion, and BGE reranking.
+retriever: hybrid_rrf
+vector_store: chroma
+persist_directory: D:/AgentData/VectorStore
+collection_name: ops_knowledge_base_bge_base_zh_v15
+docs_dir: data/docs
+embedding:
+  provider: bge_local
+  implementation: flag_embedding
+  model: D:/AgentData/Models/bge-base-zh-v1.5
+  normalize_embeddings: true
+  max_length: 512
+  batch_size: 16
+  use_fp16: true
+  devices: null
+chunking:
+  strategy: character
+  chunk_size: 500
+  overlap: 50
+ranking:
+  top_k_default: 3
+  retrieve_top_n: 20
+  rerank_top_k: 5
+  rrf_k: 60
+  score_threshold: null
+bm25:
+  tokenizer: jieba
+  user_dict: configs/jieba/userdict.txt
+  index_granularity: chunk
+  index_directory: D:/AgentData/BM25Store
+  k1: 1.5
+  b: 0.75
+reranker:
+  provider: bge
+  model: D:/AgentData/Models/bge-reranker-base
+  implementation: flag_embedding
+  use_fp16: false
+  devices: null
+  query_max_length: 256
+  passage_max_length: 512
+  batch_size: 16
+llm:
+  provider: kimi
+  model: kimi-k2.6
+  base_url_env: MOONSHOT_BASE_URL
+  api_key_env: MOONSHOT_API_KEY
+  temperature: null
+  max_tokens: 4096
+  timeout: 120
+  extra_body:
+    thinking:
+      type: disabled
+notes:
+  - Compare bge_local.yaml against hybrid_bge_rrf.yaml before enabling reranking.
+  - Requires FlagEmbedding to be installed before running BGE reranking.
+  - BGE reranking scores query-document pairs with FlagReranker.compute_score and sorts by rerank_score.
+  - Requires MOONSHOT_API_KEY in the environment or project .env before answer generation.
+  - Requires MOONSHOT_BASE_URL=https://api.moonshot.cn/v1 for the China Moonshot endpoint.
+  - Current MOONSHOT_API_KEY can access kimi-k2.6 but not kimi-k2-turbo-preview.
+  - Kimi K2.6 RAG disables thinking to avoid spending max_tokens on reasoning_content.
+  - BM25 is indexed at chunk level and persisted under D:/AgentData/BM25Store until docs or BM25 strategy changes.
+  - This config reranks fused dense + BM25 candidates and returns rerank_top_k results.

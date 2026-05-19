@@ -1,20 +1,23 @@
 {
-  "config_name": "baseline_hash",
+  "config_name": "bge_base_zh_v15",
   "git_commit": "edfb24c65297555c6a7f883cbd9068ea1858f5e8",
-  "top_k": 5,
-  "eval_file": "eval/questions.jsonl",
-  "timestamp": "2026-05-18T09:11:10.932712+00:00",
-  "config_path": "configs/rag/baseline_hash.yaml",
+  "top_k": 3,
+  "eval_file": "D:/Work/AgentProject2026/eval/questions.jsonl",
+  "timestamp": "2026-05-18T15:13:17.793033+00:00",
+  "config_path": "D:/Work/AgentProject2026/configs/rag/bge_local.yaml",
   "config": {
-    "name": "baseline_hash",
-    "description": "Current baseline using HashEmbeddingFunction with Chroma dense retrieval.",
-    "retriever": "dense",
+    "name": "bge_base_zh_v15",
+    "description": "Local BAAI bge-base-zh-v1.5 embedding provider with Chroma dense retrieval.",
+    "retriever": "chroma_dense",
     "vector_store": "chroma",
-    "collection_name": "ops_knowledge_base_hash",
+    "collection_name": "ops_knowledge_base_bge_base_zh_v15",
     "embedding": {
-      "provider": "hash",
-      "name": "HashEmbeddingFunction",
-      "dimensions": 64
+      "provider": "bge_local",
+      "model": "BAAI/bge-base-zh-v1.5",
+      "normalize_embeddings": true,
+      "max_length": 512,
+      "batch_size": 16,
+      "device": null
     },
     "chunking": {
       "strategy": "character",
@@ -23,22 +26,20 @@
     },
     "ranking": {
       "top_k_default": 3,
-      "top_n": 10,
       "retrieve_top_n": 10,
       "rerank_top_k": 3,
-      "rrf_k": 60,
       "score_threshold": null
     },
     "reranker": {
       "provider": "none"
     },
     "notes": [
-      "This configuration is recorded for offline evaluation tracking only.",
-      "The current evaluator reads this file but does not switch runtime RAG behavior yet."
+      "Requires torch and transformers to be installed.",
+      "Re-ingest documents with this config before querying."
     ]
   },
   "retriever": {
-    "provider": "dense",
+    "provider": "chroma_dense",
     "retrieve_top_n": 10,
     "rerank_top_k": 3
   },
@@ -51,7 +52,7 @@
   },
   "metrics": {
     "total_questions": 21,
-    "top_k": 5,
+    "top_k": 3,
     "recall_at_k": 0.0,
     "precision_at_k": 0.0,
     "hit_rate_at_k": 0.0,

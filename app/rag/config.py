@@ -3,13 +3,14 @@
 from pathlib import Path
 from typing import Any
 
+from app.config import resolve_project_path, settings
 
-DEFAULT_RAG_CONFIG_PATH = Path("configs/rag/baseline_hash.yaml")
+DEFAULT_RAG_CONFIG_PATH = resolve_project_path(settings.rag_config_path)
 
 
 def load_rag_config(path: Path | str = DEFAULT_RAG_CONFIG_PATH) -> dict[str, Any]:
     """Load a RAG config file from YAML."""
-    config_path = Path(path)
+    config_path = resolve_project_path(path)
     if not config_path.exists():
         raise FileNotFoundError(f"RAG config file not found: {config_path}")
 

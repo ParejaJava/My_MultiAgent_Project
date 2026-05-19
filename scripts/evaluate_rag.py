@@ -16,9 +16,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from app.config import resolve_project_path  # noqa: E402
 from app.rag.retriever import retrieve_documents  # noqa: E402
 from app.rag.config import load_rag_config  # noqa: E402
 from app.rag.hybrid_retriever import retrieve_hybrid_documents  # noqa: E402
+from app.rag.reranker import get_reranker_metadata  # noqa: E402
+from app.rag.storage_check import ensure_chroma_persistence_ready, ensure_directory_ready  # noqa: E402
+from app.config import settings  # noqa: E402
 
 
 REQUIRED_FIELDS = {
@@ -44,16 +48,18 @@ def main() -> int:
     if args.top_k <= 0:
         raise ValueError("--top-k must be greater than 0")
 
-    config_path = Path(args.config)
-    eval_file = Path(args.eval_file)
-    output_dir = Path(args.output_dir)
+    config_path = resolve_project_path(args.config)
+    eval_file = resolve_project_path(args.eval_file)
+    output_dir = resolve_project_path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     config = load_config(config_path)
+    validate_retrieval_storage(config)
     config_name = str(config.get("name") or config_path.stem)
     questions = load_questions(eval_file)
     samples = [evaluate_question(row, args.top_k, config_path=config_path) for row in questions]
     metrics = summarize(samples, args.top_k)
+    retrieval_metadata = get_retrieval_metadata(config, args.top_k)
     report = {
         "config_name": config_name,
         "git_commit": get_git_commit(),
@@ -62,6 +68,12 @@ def main() -> int:
         "timestamp": datetime.now(UTC).isoformat(),
         "config_path": normalize_source(str(config_path)),
         "config": config,
+        "retriever": retrieval_metadata,
+        "reranker": get_reranker_metadata(
+            config,
+            retrieve_top_n=int(retrieval_metadata["retrieve_top_n"]),
+            rerank_top_k=int(retrieval_metadata["rerank_top_k"]),
+        ),
         "metrics": metrics,
         "samples": samples,
     }
@@ -207,6 +219,7 @@ def evaluate_question(row: dict[str, Any], top_k: int, config_path: Path | str |
                 "source": retrieved_sources[index],
                 "score": retrieved_docs[index].score,
                 "chunk_index": retrieved_docs[index].metadata.get("chunk_index"),
+                "metadata": retrieved_docs[index].metadata,
                 "content_preview": retrieved_docs[index].content[:240],
             }
             for index in range(len(retrieved_sources))
@@ -234,6 +247,30 @@ def run_retriever(
     if retriever == "hybrid_rrf":
         return retrieve_hybrid_documents(question, top_k=top_k, config_path=config_path)
     raise ValueError(f"Unsupported retriever '{retriever}'. Expected dense or hybrid_rrf.")
+
+
+def validate_retrieval_storage(config: dict[str, Any]) -> None:
+    """Fail fast when configured local retrieval storage cannot support persistence."""
+    retriever = str(config.get("retriever", "dense")).lower()
+    persist_directory = config.get("persist_directory") or settings.vector_store_path
+    if retriever in {"dense", "chroma_dense", "hybrid_rrf"}:
+        ensure_chroma_persistence_ready(persist_directory)
+    if retriever == "hybrid_rrf":
+        bm25_config = config.get("bm25", {}) if isinstance(config.get("bm25"), dict) else {}
+        ensure_directory_ready(bm25_config.get("index_directory", settings.bm25_index_path), label="BM25 index directory")
+
+
+def get_retrieval_metadata(config: dict[str, Any], top_k: int) -> dict[str, Any]:
+    """Return retriever metadata for evaluation reports."""
+    ranking = config.get("ranking", {}) if isinstance(config.get("ranking"), dict) else {}
+    retriever = str(config.get("retriever", "dense")).lower()
+    retrieve_top_n = int(ranking.get("retrieve_top_n", ranking.get("top_n", max(top_k * 2, top_k))))
+    rerank_top_k = int(ranking.get("rerank_top_k", top_k))
+    return {
+        "provider": retriever,
+        "retrieve_top_n": retrieve_top_n,
+        "rerank_top_k": rerank_top_k,
+    }
 
 
 def recall_at_k(retrieved_sources: list[str], relevant_sources: set[str]) -> float:
@@ -339,6 +376,11 @@ def render_markdown_report(report: dict[str, Any]) -> str:
         f"- Git commit: `{report['git_commit'] or 'unknown'}`",
         f"- Eval file: `{report['eval_file']}`",
         f"- Top K: `{report['top_k']}`",
+        f"- Retriever: `{report['retriever']['provider']}`",
+        f"- Retrieve top N: `{report['retriever']['retrieve_top_n']}`",
+        f"- Rerank top K: `{report['retriever']['rerank_top_k']}`",
+        f"- Reranker: `{report['reranker']['provider']}`",
+        f"- Reranker model: `{report['reranker']['model'] or 'none'}`",
         f"- Timestamp: `{report['timestamp']}`",
         "",
         "## Overall Metrics",

@@ -3,10 +3,15 @@
 ## Run Metadata
 
 - Config: `hybrid_hash_rrf`
-- Git commit: `6c3a65736879457ce9d03bd2391b1caf1294bc79`
+- Git commit: `edfb24c65297555c6a7f883cbd9068ea1858f5e8`
 - Eval file: `eval/questions.jsonl`
 - Top K: `5`
-- Timestamp: `2026-05-16T15:31:42.673649+00:00`
+- Retriever: `hybrid_rrf`
+- Retrieve top N: `10`
+- Rerank top K: `3`
+- Reranker: `none`
+- Reranker model: `none`
+- Timestamp: `2026-05-17T10:02:49.467486+00:00`
 
 ## Overall Metrics
 

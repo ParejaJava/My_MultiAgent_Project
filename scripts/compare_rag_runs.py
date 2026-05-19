@@ -5,7 +5,15 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import sys
 from typing import Any
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from app.config import resolve_project_path  # noqa: E402
 
 
 def main() -> int:
@@ -15,10 +23,10 @@ def main() -> int:
     parser.add_argument("--output-file", help="Optional Markdown output file.")
     args = parser.parse_args()
 
-    rows = [load_run(Path(path)) for path in args.runs]
+    rows = [load_run(resolve_project_path(path)) for path in args.runs]
     markdown = render_comparison(rows)
     if args.output_file:
-        Path(args.output_file).write_text(markdown, encoding="utf-8")
+        resolve_project_path(args.output_file).write_text(markdown, encoding="utf-8")
     else:
         print(markdown, end="")
     return 0
