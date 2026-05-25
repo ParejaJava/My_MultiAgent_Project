@@ -38,6 +38,7 @@ class Settings:
     openai_api_key: str | None = os.getenv("OPENAI_API_KEY")
     llm_model: str = os.getenv("LLM_MODEL", "gpt-4.1-mini")
     rag_config_path: str = os.getenv("RAG_CONFIG_PATH", "configs/rag/bge_local.yaml")
+    operations_rag_config_path: str = os.getenv("OPERATIONS_RAG_CONFIG_PATH", "configs/rag/hybrid_rrf_rerank.yaml")
     vector_store_path: str = os.getenv("VECTOR_STORE_PATH", "D:/AgentData/VectorStore")
     bm25_index_path: str = os.getenv("BM25_INDEX_PATH", "D:/AgentData/BM25Store")
     model_cache_path: str = os.getenv("MODEL_CACHE_PATH", "D:/AgentData/ModelCache")

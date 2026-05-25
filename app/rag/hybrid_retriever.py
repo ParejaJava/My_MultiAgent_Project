@@ -28,8 +28,11 @@ def retrieve_hybrid_documents(
     rerank_top_k = int(ranking.get("rerank_top_k", top_k))
     rrf_k = int(ranking.get("rrf_k", 60))
     docs_dir = config.get("docs_dir", "data/docs")
+    raw_docs_dirs = config.get("docs_dirs")
+    docs_dirs = [str(path) for path in raw_docs_dirs] if isinstance(raw_docs_dirs, list) else None
     chunk_size = int(chunking.get("chunk_size", 500))
     overlap = int(chunking.get("overlap", 50))
+    chunking_strategy = str(chunking.get("strategy", "character"))
     bm25_index_directory = bm25_config.get("index_directory", settings.bm25_index_path)
     bm25_k1 = float(bm25_config.get("k1", 1.5))
     bm25_b = float(bm25_config.get("b", 0.75))
@@ -51,8 +54,10 @@ def retrieve_hybrid_documents(
         query=query,
         top_n=retrieve_top_n,
         docs_dir=docs_dir,
+        docs_dirs=docs_dirs,
         chunk_size=chunk_size,
         overlap=overlap,
+        chunking_strategy=chunking_strategy,
         index_directory=bm25_index_directory,
         k1=bm25_k1,
         b=bm25_b,

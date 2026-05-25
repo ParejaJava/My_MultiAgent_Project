@@ -49,8 +49,11 @@ coverage.xml
 *.py.cover
 .hypothesis/
 .pytest_cache/
+pytest-cache-files-*/
+.tmp_pytest/
 tests/.tmp_rag/
 tests/.tmp_hybrid/
+tests/.tmp_pytest/
 data/vector_store*/
 data/bm25_store*/
 cover/

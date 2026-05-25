@@ -11,8 +11,8 @@ from chromadb.api.types import Documents, EmbeddingFunction
 
 from app.config import project_relative_source, resolve_project_path, settings
 from app.rag.embeddings import HashEmbeddingFunction
-from app.rag.loader import load_markdown_documents
-from app.rag.splitter import split_text
+from app.rag.loader import load_markdown_documents_from_dirs
+from app.rag.splitter import split_text_with_metadata
 from app.rag.storage_check import ensure_chroma_persistence_ready
 
 
@@ -32,16 +32,18 @@ class RetrievedDocument:
 
 def ingest_documents(
     docs_dir: Path | str = Path("data/docs"),
+    docs_dirs: list[Path | str] | None = None,
     persist_directory: Path | str = settings.vector_store_path,
     collection_name: str = DEFAULT_COLLECTION_NAME,
     chunk_size: int = 500,
     overlap: int = 50,
+    chunking_strategy: str = "character",
     reset_collection: bool = True,
     embedding_function: EmbeddingFunction[Documents] | None = None,
     allow_memory_fallback: bool = False,
 ) -> int:
     """Load markdown documents, split them, and store chunks in Chroma."""
-    docs_path = resolve_project_path(docs_dir)
+    docs_paths = [resolve_project_path(path) for path in (docs_dirs or [docs_dir])]
     client = _get_chroma_client(persist_directory, allow_memory_fallback=allow_memory_fallback)
     if reset_collection:
         _delete_collection_if_exists(client, collection_name)
@@ -53,12 +55,19 @@ def ingest_documents(
     ids: list[str] = []
     documents: list[str] = []
     metadatas: list[dict[str, Any]] = []
-    for path, text in load_markdown_documents(docs_path):
+    for path, text in load_markdown_documents_from_dirs(docs_paths):
         source = project_relative_source(path)
-        for chunk_index, chunk in enumerate(split_text(text, chunk_size, overlap)):
+        for chunk_index, chunk in enumerate(
+            split_text_with_metadata(
+                text,
+                chunk_size=chunk_size,
+                overlap=overlap,
+                strategy=chunking_strategy,
+            )
+        ):
             ids.append(f"{source}:{chunk_index}")
-            documents.append(chunk)
-            metadatas.append({"source": source, "chunk_index": chunk_index})
+            documents.append(chunk.content)
+            metadatas.append({"source": source, "chunk_index": chunk_index, **chunk.metadata})
 
     if not documents:
         return 0

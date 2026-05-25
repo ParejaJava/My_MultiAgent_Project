@@ -3,7 +3,7 @@ from types import SimpleNamespace
 import sys
 
 from app.config import project_relative_source, resolve_project_path
-from app.rag.bm25_store import BM25Store, search_bm25_documents, tokenize
+from app.rag.bm25_store import BM25Store, build_index_fingerprint, load_markdown_document_records, search_bm25_documents, tokenize
 import app.rag.bm25_store as bm25_store
 from app.rag.fusion import reciprocal_rank_fusion
 import app.rag.hybrid_retriever as hybrid_retriever
@@ -150,6 +150,38 @@ def test_bm25_indexes_chunks_not_whole_documents(monkeypatch, tmp_path: Path) ->
     assert results
     assert results[0].metadata["source"] == project_relative_source(source)
     assert results[0].metadata["chunk_index"] == 1
+
+
+def test_bm25_fingerprint_changes_with_chunking_strategy(tmp_path: Path) -> None:
+    docs_dir = tmp_path / "docs"
+    docs_dir.mkdir(parents=True)
+    (docs_dir / "ops.md").write_text("# Redis\n\n## READONLY\n\nReplica write issue.", encoding="utf-8")
+    documents = load_markdown_document_records(docs_dir)
+
+    character_fingerprint = build_index_fingerprint(
+        documents=documents,
+        docs_dir=docs_dir,
+        docs_dirs=None,
+        chunk_size=100,
+        overlap=10,
+        chunking_strategy="character",
+        k1=1.5,
+        b=0.75,
+        user_dict=None,
+    )
+    markdown_fingerprint = build_index_fingerprint(
+        documents=documents,
+        docs_dir=docs_dir,
+        docs_dirs=None,
+        chunk_size=100,
+        overlap=10,
+        chunking_strategy="markdown",
+        k1=1.5,
+        b=0.75,
+        user_dict=None,
+    )
+
+    assert character_fingerprint != markdown_fingerprint
 
 
 def test_hybrid_retriever_returns_required_metadata(monkeypatch, tmp_path: Path) -> None:

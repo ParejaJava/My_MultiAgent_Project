@@ -1,0 +1,45 @@
+name: hybrid_rrf_rerank_stress_markdown
+description: Stress benchmark using BGE dense retrieval, BM25, BGE reranker, and markdown-aware chunking.
+retriever: hybrid_rrf
+vector_store: chroma
+persist_directory: D:/AgentData/VectorStore
+collection_name: ops_knowledge_base_bge_stress_markdown
+docs_dirs:
+  - data/docs
+  - data/docs_stress_noise
+  - data/docs_stress_cases
+embedding:
+  provider: bge_local
+  implementation: flag_embedding
+  model: D:/AgentData/Models/bge-base-zh-v1.5
+  normalize_embeddings: true
+  max_length: 512
+  batch_size: 16
+  use_fp16: true
+  devices: null
+chunking:
+  strategy: markdown
+  chunk_size: 500
+  overlap: 50
+ranking:
+  top_k_default: 5
+  retrieve_top_n: 40
+  rerank_top_k: 5
+  rrf_k: 60
+  score_threshold: null
+bm25:
+  tokenizer: jieba
+  user_dict: configs/jieba/userdict.txt
+  index_granularity: chunk
+  index_directory: D:/AgentData/BM25Store
+  k1: 1.5
+  b: 0.75
+reranker:
+  provider: bge
+  model: D:/AgentData/Models/bge-reranker-base
+  implementation: flag_embedding
+  use_fp16: false
+  devices: null
+  query_max_length: 256
+  passage_max_length: 512
+  batch_size: 16

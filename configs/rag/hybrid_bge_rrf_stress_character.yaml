@@ -1,0 +1,38 @@
+name: hybrid_bge_rrf_stress_character
+description: Stress benchmark using BGE dense retrieval plus BM25 with character chunking.
+retriever: hybrid_rrf
+vector_store: chroma
+persist_directory: D:/AgentData/VectorStore
+collection_name: ops_knowledge_base_bge_stress_character
+docs_dirs:
+  - data/docs
+  - data/docs_stress_noise
+  - data/docs_stress_cases
+embedding:
+  provider: bge_local
+  implementation: flag_embedding
+  model: D:/AgentData/Models/bge-base-zh-v1.5
+  normalize_embeddings: true
+  max_length: 512
+  batch_size: 16
+  use_fp16: true
+  devices: null
+chunking:
+  strategy: character
+  chunk_size: 500
+  overlap: 50
+ranking:
+  top_k_default: 5
+  retrieve_top_n: 30
+  rerank_top_k: 5
+  rrf_k: 60
+  score_threshold: null
+bm25:
+  tokenizer: jieba
+  user_dict: configs/jieba/userdict.txt
+  index_granularity: chunk
+  index_directory: D:/AgentData/BM25Store
+  k1: 1.5
+  b: 0.75
+reranker:
+  provider: none

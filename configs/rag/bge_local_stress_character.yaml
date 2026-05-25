@@ -1,0 +1,30 @@
+name: bge_local_stress_character
+description: Stress benchmark baseline using BGE dense retrieval with character chunking.
+retriever: chroma_dense
+vector_store: chroma
+persist_directory: D:/AgentData/VectorStore
+collection_name: ops_knowledge_base_bge_stress_character
+docs_dirs:
+  - data/docs
+  - data/docs_stress_noise
+  - data/docs_stress_cases
+embedding:
+  provider: bge_local
+  implementation: flag_embedding
+  model: D:/AgentData/Models/bge-base-zh-v1.5
+  normalize_embeddings: true
+  max_length: 512
+  batch_size: 16
+  use_fp16: true
+  devices: null
+chunking:
+  strategy: character
+  chunk_size: 500
+  overlap: 50
+ranking:
+  top_k_default: 5
+  retrieve_top_n: 20
+  rerank_top_k: 5
+  score_threshold: null
+reranker:
+  provider: none

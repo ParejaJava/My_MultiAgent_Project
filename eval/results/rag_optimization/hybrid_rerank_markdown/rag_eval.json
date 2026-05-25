@@ -1,0 +1,3987 @@
+{
+  "suite_id": "hybrid_rerank_markdown",
+  "suite_label": "Hybrid BGE + BM25 + BGE reranker + markdown-aware chunking",
+  "config_name": "hybrid_rrf_rerank_stress_markdown",
+  "git_commit": "56f238d23e5436405ce1d6b93eaa5815ea4d02c5",
+  "top_k": 5,
+  "eval_file": "D:/Work/AgentProject2026/eval/questions_stress.jsonl",
+  "timestamp": "2026-05-25T15:17:27.526932+00:00",
+  "config_path": "D:/Work/AgentProject2026/configs/rag/hybrid_rrf_rerank_stress_markdown.yaml",
+  "config": {
+    "name": "hybrid_rrf_rerank_stress_markdown",
+    "description": "Stress benchmark using BGE dense retrieval, BM25, BGE reranker, and markdown-aware chunking.",
+    "retriever": "hybrid_rrf",
+    "vector_store": "chroma",
+    "persist_directory": "D:/AgentData/VectorStore",
+    "collection_name": "ops_knowledge_base_bge_stress_markdown",
+    "docs_dirs": [
+      "data/docs",
+      "data/docs_stress_noise",
+      "data/docs_stress_cases"
+    ],
+    "embedding": {
+      "provider": "bge_local",
+      "implementation": "flag_embedding",
+      "model": "D:/AgentData/Models/bge-base-zh-v1.5",
+      "normalize_embeddings": true,
+      "max_length": 512,
+      "batch_size": 16,
+      "use_fp16": true,
+      "devices": null
+    },
+    "chunking": {
+      "strategy": "markdown",
+      "chunk_size": 500,
+      "overlap": 50
+    },
+    "ranking": {
+      "top_k_default": 5,
+      "retrieve_top_n": 40,
+      "rerank_top_k": 5,
+      "rrf_k": 60,
+      "score_threshold": null
+    },
+    "bm25": {
+      "tokenizer": "jieba",
+      "user_dict": "configs/jieba/userdict.txt",
+      "index_granularity": "chunk",
+      "index_directory": "D:/AgentData/BM25Store",
+      "k1": 1.5,
+      "b": 0.75
+    },
+    "reranker": {
+      "provider": "bge",
+      "model": "D:/AgentData/Models/bge-reranker-base",
+      "implementation": "flag_embedding",
+      "use_fp16": false,
+      "devices": null,
+      "query_max_length": 256,
+      "passage_max_length": 512,
+      "batch_size": 16
+    }
+  },
+  "retriever": {
+    "provider": "hybrid_rrf",
+    "retrieve_top_n": 40,
+    "rerank_top_k": 5
+  },
+  "reranker": {
+    "enabled": true,
+    "provider": "bge",
+    "model": "D:/AgentData/Models/bge-reranker-base",
+    "retrieve_top_n": 40,
+    "rerank_top_k": 5
+  },
+  "metrics": {
+    "total_questions": 30,
+    "top_k": 5,
+    "recall_at_k": 1.0,
+    "precision_at_k": 0.4,
+    "hit_rate_at_k": 1.0,
+    "mrr": 1.0,
+    "ndcg_at_k": 0.9828907529439123,
+    "failed_count": 0,
+    "by_category": {
+      "signature-auth": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4000000000000001,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      },
+      "signature-cache": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4000000000000001,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      },
+      "signature-cdn": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4000000000000001,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      },
+      "signature-database": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4000000000000001,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      },
+      "signature-gateway": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4000000000000001,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.9732402630493958
+      },
+      "signature-object": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4000000000000001,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      },
+      "signature-queue": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4000000000000001,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.9323120348287457
+      },
+      "signature-rag": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4000000000000001,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.9501149685115848
+      },
+      "signature-scheduler": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4000000000000001,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.9732402630493958
+      },
+      "signature-websocket": {
+        "count": 3,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4000000000000001,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0
+      }
+    },
+    "by_difficulty": {
+      "hard": {
+        "count": 30,
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4,
+        "hit_rate_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.9828907529439123
+      }
+    }
+  },
+  "samples": [
+    {
+      "id": "stress-rxa-1001",
+      "question": "RXA-1001 appears during cache write operations. Which runbook should be used?",
+      "category": "signature-cache",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/cache_sig_rxa_1001.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "RXA-1001",
+        "read-only cache replica",
+        "INFO replication"
+      ],
+      "reference_answer": "Use the RXA-1001 cache replica write runbook: rebuild topology cache, reconnect the pool, and verify primary endpoint selection.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_cases/cache_sig_rxa_1001.md",
+        "data/docs/minio_multipart_resume.md",
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 2.2037909030914307,
+          "chunk_index": 1,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "heading_path": "Signature Action Matrix",
+            "chunk_index": 1,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 4,
+            "bm25_rank": 2,
+            "rrf_score": 0.031754032258064516,
+            "original_rank": 3,
+            "final_rank": 1,
+            "rerank_score": 2.2037909030914307
+          },
+          "content_preview": "| Signature | Action Key |\n| --- | --- |\n| RXA-1001 RXA-1001 RXA-1001 | topology-cache-reconnect-primary cache write runbook |\n| RXA-1002 RXA-1002 RXA-1002 | memory-eviction-ttl-large-key cache eviction guidance |\n| RXA-1003 RXA-1003 RXA-10"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/cache_sig_rxa_1001.md",
+          "score": 1.8748022317886353,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_cases/cache_sig_rxa_1001.md",
+            "heading_path": "RXA-1001 Cache Replica Write Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 3,
+            "rrf_score": 0.032266458495966696,
+            "original_rank": 2,
+            "final_rank": 2,
+            "rerank_score": 1.8748022317886353
+          },
+          "content_preview": "# RXA-1001 Cache Replica Write Signature\n\nSignature: `RXA-1001`.\n\nWhen a write request reaches a read-only cache replica, rebuild the client topology cache,\nforce the connection pool to reconnect, and verify that the primary endpoint is sel"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": 0.19137072563171387,
+          "chunk_index": 15,
+          "metadata": {
+            "heading_path": "MinIO 分片上传与断点续传诊断知识库 > Runbook",
+            "source": "data/docs/minio_multipart_resume.md",
+            "chunk_index": 15,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 33,
+            "bm25_rank": 29,
+            "rrf_score": 0.021988643228222787,
+            "original_rank": 22,
+            "final_rank": 3,
+            "rerank_score": 0.19137072563171387
+          },
+          "content_preview": "## Runbook"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 0.19137072563171387,
+          "chunk_index": 11,
+          "metadata": {
+            "heading_path": "RabbitMQ 运维诊断知识库 > Runbook",
+            "chunk_index": 11,
+            "source": "data/docs/rabbitmq_ops_diagnosis.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 34,
+            "bm25_rank": 31,
+            "rrf_score": 0.021627308861351415,
+            "original_rank": 26,
+            "final_rank": 4,
+            "rerank_score": 0.19137072563171387
+          },
+          "content_preview": "## Runbook"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": 0.19137072563171387,
+          "chunk_index": 12,
+          "metadata": {
+            "source": "data/docs/gateway_high_concurrency.md",
+            "heading_path": "网关与高并发诊断知识库 > Runbook",
+            "chunk_index": 12,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 38,
+            "bm25_rank": 28,
+            "rrf_score": 0.021567717996289426,
+            "original_rank": 27,
+            "final_rank": 5,
+            "rerank_score": 0.19137072563171387
+          },
+          "content_preview": "## Runbook"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-rxa-1002",
+      "question": "RXA-1002 is shown with memory pressure and cache evictions. What is the matching guidance?",
+      "category": "signature-cache",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/cache_sig_rxa_1002.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "RXA-1002",
+        "evicted_keys",
+        "TTL"
+      ],
+      "reference_answer": "Use the RXA-1002 eviction storm runbook and inspect used_memory, maxmemory, evicted_keys, TTL coverage, and large keys.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/cache_sig_rxa_1002.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_03.md",
+        "data/docs_stress_noise/signature_lure_index_04.md",
+        "data/docs_stress_noise/signature_lure_index_05.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/cache_sig_rxa_1002.md",
+          "score": 1.5149054527282715,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_cases/cache_sig_rxa_1002.md",
+            "heading_path": "RXA-1002 Cache Eviction Storm Signature",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 6,
+            "rrf_score": 0.031544957774465976,
+            "original_rank": 2,
+            "final_rank": 1,
+            "rerank_score": 1.5149054527282715
+          },
+          "content_preview": "# RXA-1002 Cache Eviction Storm Signature\n\nSignature: `RXA-1002`.\n\nWhen eviction storms appear after a traffic spike, inspect `used_memory`, `maxmemory`,\n`evicted_keys`, TTL coverage, and large key distribution. Split oversized keys before\n"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": -0.27480652928352356,
+          "chunk_index": 1,
+          "metadata": {
+            "chunk_index": 1,
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 5,
+            "bm25_rank": 5,
+            "rrf_score": 0.03076923076923077,
+            "original_rank": 4,
+            "final_rank": 2,
+            "rerank_score": -0.27480652928352356
+          },
+          "content_preview": "| Signature | Action Key |\n| --- | --- |\n| RXA-1001 RXA-1001 RXA-1001 | topology-cache-reconnect-primary cache write runbook |\n| RXA-1002 RXA-1002 RXA-1002 | memory-eviction-ttl-large-key cache eviction guidance |\n| RXA-1003 RXA-1003 RXA-10"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_03.md",
+          "score": -2.343918800354004,
+          "chunk_index": 1,
+          "metadata": {
+            "heading_path": "Signature Lure Index 03",
+            "chunk_index": 1,
+            "source": "data/docs_stress_noise/signature_lure_index_03.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 25,
+            "bm25_rank": 4,
+            "rrf_score": 0.02738970588235294,
+            "original_rank": 10,
+            "final_rank": 3,
+            "rerank_score": -2.343918800354004
+          },
+          "content_preview": "The operator should identify the matching guidance, expected document, exact note, relevant source,\nand diagnostic path. This paragraph is only a routing checklist and contains no precise remediation."
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -2.6929993629455566,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "heading_path": "Signature Lure Index 04",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 13,
+            "bm25_rank": 16,
+            "rrf_score": 0.026856524873828405,
+            "original_rank": 11,
+            "final_rank": 4,
+            "rerank_score": -2.6929993629455566
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_05.md",
+          "score": -2.827113151550293,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 05",
+            "source": "data/docs_stress_noise/signature_lure_index_05.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 9,
+            "bm25_rank": 23,
+            "rrf_score": 0.026540946394272742,
+            "original_rank": 12,
+            "final_rank": 5,
+            "rerank_score": -2.827113151550293
+          },
+          "content_preview": "# Signature Lure Index 05\n\nThis document intentionally contains high lexical overlap with benchmark questions.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GW"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-rxa-1003",
+      "question": "RXA-1003 is logged when cache calls intermittently time out. Which diagnostic note applies?",
+      "category": "signature-cache",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/cache_sig_rxa_1003.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "RXA-1003",
+        "SLOWLOG",
+        "latency doctor"
+      ],
+      "reference_answer": "Use the RXA-1003 slow command runbook and inspect SLOWLOG, latency doctor, blocked clients, and scan-like commands.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/cache_sig_rxa_1003.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_01.md",
+        "data/docs_stress_noise/signature_lure_index_01.md",
+        "data/docs_stress_noise/signature_lure_index_06.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/cache_sig_rxa_1003.md",
+          "score": 6.1986284255981445,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_cases/cache_sig_rxa_1003.md",
+            "heading_path": "RXA-1003 Cache Slow Command Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 3,
+            "rrf_score": 0.032266458495966696,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 6.1986284255981445
+          },
+          "content_preview": "# RXA-1003 Cache Slow Command Signature\n\nSignature: `RXA-1003`.\n\nWhen intermittent cache timeout happens without process crash, inspect `SLOWLOG`,\n`latency doctor`, blocked clients, and commands that scan large collections.\nReplace broad ke"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 0.018887460231781006,
+          "chunk_index": 1,
+          "metadata": {
+            "chunk_index": 1,
+            "heading_path": "Signature Action Matrix",
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 4,
+            "bm25_rank": 2,
+            "rrf_score": 0.031754032258064516,
+            "original_rank": 3,
+            "final_rank": 2,
+            "rerank_score": 0.018887460231781006
+          },
+          "content_preview": "| Signature | Action Key |\n| --- | --- |\n| RXA-1001 RXA-1001 RXA-1001 | topology-cache-reconnect-primary cache write runbook |\n| RXA-1002 RXA-1002 RXA-1002 | memory-eviction-ttl-large-key cache eviction guidance |\n| RXA-1003 RXA-1003 RXA-10"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": -1.074650764465332,
+          "chunk_index": 1,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "chunk_index": 1,
+            "heading_path": "Signature Lure Index 01",
+            "retrieval_method": "bm25",
+            "bm25_rank": 1,
+            "dense_rank": null,
+            "rrf_score": 0.01639344262295082,
+            "original_rank": 24,
+            "final_rank": 3,
+            "rerank_score": -1.074650764465332
+          },
+          "content_preview": "Operators may ask which runbook should be used, what guidance applies, which source is expected,\nwhat should be checked first, or which diagnostic note is relevant. The answer should come from a\nspecific runbook, not from this index."
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": -1.5663174390792847,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 01",
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 5,
+            "bm25_rank": 8,
+            "rrf_score": 0.030090497737556562,
+            "original_rank": 5,
+            "final_rank": 4,
+            "rerank_score": -1.5663174390792847
+          },
+          "content_preview": "# Signature Lure Index 01\n\nThis transparent noise document intentionally repeats incident signatures with generic language.\nIt is not a diagnostic runbook.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OS"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_06.md",
+          "score": -2.1351375579833984,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_06.md",
+            "heading_path": "Signature Lure Index 06",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 10,
+            "bm25_rank": 12,
+            "rrf_score": 0.02817460317460317,
+            "original_rank": 6,
+            "final_rank": 5,
+            "rerank_score": -2.1351375579833984
+          },
+          "content_preview": "# Signature Lure Index 06\n\nThis noise page is designed to be information-poor.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-6302 WSS-630"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-lmx-2101",
+      "question": "LMX-2101 appears during database order updates. What should be checked first?",
+      "category": "signature-database",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/db_sig_lmx_2101.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "LMX-2101",
+        "innodb_trx",
+        "blocking transaction"
+      ],
+      "reference_answer": "Use the LMX-2101 lock timeout runbook and inspect innodb_trx, blocking transaction age, and indexes.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/db_sig_lmx_2101.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_cases/db_sig_lmx_2102.md",
+        "data/docs_stress_noise/signature_lure_index_06.md",
+        "data/docs_stress_noise/signature_lure_index_03.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/db_sig_lmx_2101.md",
+          "score": 2.973679542541504,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_cases/db_sig_lmx_2101.md",
+            "heading_path": "LMX-2101 Database Lock Timeout Signature",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 2,
+            "rrf_score": 0.03252247488101534,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 2.973679542541504
+          },
+          "content_preview": "# LMX-2101 Database Lock Timeout Signature\n\nSignature: `LMX-2101`.\n\nFor lock wait timeout during order update, inspect `information_schema.innodb_trx`,\nblocking transaction age, and missing indexes in the update predicate. Kill or commit\nth"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": -0.2054477035999298,
+          "chunk_index": 1,
+          "metadata": {
+            "chunk_index": 1,
+            "heading_path": "Signature Action Matrix",
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 9,
+            "bm25_rank": 3,
+            "rrf_score": 0.03036576949620428,
+            "original_rank": 4,
+            "final_rank": 2,
+            "rerank_score": -0.2054477035999298
+          },
+          "content_preview": "| Signature | Action Key |\n| --- | --- |\n| RXA-1001 RXA-1001 RXA-1001 | topology-cache-reconnect-primary cache write runbook |\n| RXA-1002 RXA-1002 RXA-1002 | memory-eviction-ttl-large-key cache eviction guidance |\n| RXA-1003 RXA-1003 RXA-10"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_cases/db_sig_lmx_2102.md",
+          "score": -1.4985283613204956,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "LMX-2102 Database Deadlock Retry Signature",
+            "chunk_index": 0,
+            "source": "data/docs_stress_cases/db_sig_lmx_2102.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 2,
+            "bm25_rank": 4,
+            "rrf_score": 0.031754032258064516,
+            "original_rank": 2,
+            "final_rank": 3,
+            "rerank_score": -1.4985283613204956
+          },
+          "content_preview": "# LMX-2102 Database Deadlock Retry Signature\n\nSignature: `LMX-2102`.\n\nFor deadlock during concurrent consumer writes, collect `SHOW ENGINE INNODB STATUS`,\nmake the business operation idempotent, and add bounded retry with jitter. Keep resou"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_06.md",
+          "score": -2.180756092071533,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_06.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 06",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 4,
+            "bm25_rank": 7,
+            "rrf_score": 0.03055037313432836,
+            "original_rank": 3,
+            "final_rank": 4,
+            "rerank_score": -2.180756092071533
+          },
+          "content_preview": "# Signature Lure Index 06\n\nThis noise page is designed to be information-poor.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-6302 WSS-630"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_03.md",
+          "score": -2.418822765350342,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 03",
+            "source": "data/docs_stress_noise/signature_lure_index_03.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 10,
+            "bm25_rank": 15,
+            "rrf_score": 0.02761904761904762,
+            "original_rank": 11,
+            "final_rank": 5,
+            "rerank_score": -2.418822765350342
+          },
+          "content_preview": "# Signature Lure Index 03\n\nThis generic support page intentionally looks similar to many questions.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-lmx-2102",
+      "question": "LMX-2102 is emitted for concurrent consumer writes. Which database runbook is relevant?",
+      "category": "signature-database",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/db_sig_lmx_2102.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "LMX-2102",
+        "deadlock",
+        "SHOW ENGINE INNODB STATUS"
+      ],
+      "reference_answer": "Use the LMX-2102 deadlock retry runbook and add idempotent bounded retry with jitter.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/db_sig_lmx_2102.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_01.md",
+        "data/docs_stress_noise/signature_lure_index_01.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/db_sig_lmx_2102.md",
+          "score": 4.190212726593018,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_cases/db_sig_lmx_2102.md",
+            "heading_path": "LMX-2102 Database Deadlock Retry Signature",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 4.190212726593018
+          },
+          "content_preview": "# LMX-2102 Database Deadlock Retry Signature\n\nSignature: `LMX-2102`.\n\nFor deadlock during concurrent consumer writes, collect `SHOW ENGINE INNODB STATUS`,\nmake the business operation idempotent, and add bounded retry with jitter. Keep resou"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 0.8777601718902588,
+          "chunk_index": 1,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 1,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 15,
+            "bm25_rank": 3,
+            "rrf_score": 0.029206349206349208,
+            "original_rank": 7,
+            "final_rank": 2,
+            "rerank_score": 0.8777601718902588
+          },
+          "content_preview": "| Signature | Action Key |\n| --- | --- |\n| RXA-1001 RXA-1001 RXA-1001 | topology-cache-reconnect-primary cache write runbook |\n| RXA-1002 RXA-1002 RXA-1002 | memory-eviction-ttl-large-key cache eviction guidance |\n| RXA-1003 RXA-1003 RXA-10"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": 0.18976938724517822,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "heading_path": "Signature Lure Index 01",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 3,
+            "bm25_rank": 8,
+            "rrf_score": 0.03057889822595705,
+            "original_rank": 3,
+            "final_rank": 3,
+            "rerank_score": 0.18976938724517822
+          },
+          "content_preview": "# Signature Lure Index 01\n\nThis transparent noise document intentionally repeats incident signatures with generic language.\nIt is not a diagnostic runbook.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OS"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": -0.8848382234573364,
+          "chunk_index": 1,
+          "metadata": {
+            "heading_path": "Signature Lure Index 01",
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "chunk_index": 1,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 7,
+            "bm25_rank": 2,
+            "rrf_score": 0.031054405392392875,
+            "original_rank": 2,
+            "final_rank": 4,
+            "rerank_score": -0.8848382234573364
+          },
+          "content_preview": "Operators may ask which runbook should be used, what guidance applies, which source is expected,\nwhat should be checked first, or which diagnostic note is relevant. The answer should come from a\nspecific runbook, not from this index."
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": -1.16774320602417,
+          "chunk_index": 2,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "heading_path": "Signature Action Matrix",
+            "chunk_index": 2,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 10,
+            "bm25_rank": 13,
+            "rrf_score": 0.027984344422700584,
+            "original_rank": 10,
+            "final_rank": 5,
+            "rerank_score": -1.16774320602417
+          },
+          "content_preview": "abase runbook |\n| LMX-2103 LMX-2103 LMX-2103 | duplicate-message-idempotency queue replay document |\n| QDR-3301 QDR-3301 QDR-3301 | ready-backlog-publish-ack-prefetch queue guidance |\n| QDR-3302 QDR-3302 QDR-3302 | unacked-consumer-timeout-"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-lmx-2103",
+      "question": "LMX-2103 occurs after queue replay creates a duplicate key. Which document should answer this?",
+      "category": "signature-database",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/db_sig_lmx_2103.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "LMX-2103",
+        "duplicate entry",
+        "idempotency"
+      ],
+      "reference_answer": "Use the LMX-2103 duplicate message runbook and treat the unique key conflict as an idempotency signal.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/db_sig_lmx_2103.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_04.md",
+        "data/docs_stress_noise/signature_lure_index_05.md",
+        "data/docs_stress_noise/signature_lure_index_01.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/db_sig_lmx_2103.md",
+          "score": 5.278110980987549,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "LMX-2103 Database Duplicate Message Signature",
+            "source": "data/docs_stress_cases/db_sig_lmx_2103.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 5.278110980987549
+          },
+          "content_preview": "# LMX-2103 Database Duplicate Message Signature\n\nSignature: `LMX-2103`.\n\nFor duplicate entry after queue replay, treat the unique key conflict as an idempotency\nsignal. Acknowledge the duplicate message only after confirming that the existi"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 1.3771114349365234,
+          "chunk_index": 2,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 2,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 39,
+            "bm25_rank": 3,
+            "rrf_score": 0.025974025974025976,
+            "original_rank": 15,
+            "final_rank": 2,
+            "rerank_score": 1.3771114349365234
+          },
+          "content_preview": "abase runbook |\n| LMX-2103 LMX-2103 LMX-2103 | duplicate-message-idempotency queue replay document |\n| QDR-3301 QDR-3301 QDR-3301 | ready-backlog-publish-ack-prefetch queue guidance |\n| QDR-3302 QDR-3302 QDR-3302 | unacked-consumer-timeout-"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -2.123361349105835,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 04",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 10,
+            "bm25_rank": 7,
+            "rrf_score": 0.029211087420042643,
+            "original_rank": 4,
+            "final_rank": 3,
+            "rerank_score": -2.123361349105835
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_05.md",
+          "score": -2.227754592895508,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 05",
+            "source": "data/docs_stress_noise/signature_lure_index_05.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 13,
+            "bm25_rank": 11,
+            "rrf_score": 0.027783137179239824,
+            "original_rank": 7,
+            "final_rank": 4,
+            "rerank_score": -2.227754592895508
+          },
+          "content_preview": "# Signature Lure Index 05\n\nThis document intentionally contains high lexical overlap with benchmark questions.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GW"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": -2.5242228507995605,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 01",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 2,
+            "bm25_rank": 9,
+            "rrf_score": 0.030621785881252923,
+            "original_rank": 3,
+            "final_rank": 5,
+            "rerank_score": -2.5242228507995605
+          },
+          "content_preview": "# Signature Lure Index 01\n\nThis transparent noise document intentionally repeats incident signatures with generic language.\nIt is not a diagnostic runbook.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OS"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-qdr-3301",
+      "question": "QDR-3301 is reported while messages_ready keeps growing. Which queue guidance is exact?",
+      "category": "signature-queue",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/mq_sig_qdr_3301.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "QDR-3301",
+        "messages_ready",
+        "ack rate"
+      ],
+      "reference_answer": "Use the QDR-3301 ready backlog runbook and compare publish rate, ack rate, consumer latency, and prefetch.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/mq_sig_qdr_3301.md",
+        "data/docs/rabbitmq_ops_diagnosis.md",
+        "data/docs_stress_cases/mq_sig_qdr_3302.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs/rabbitmq_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/mq_sig_qdr_3301.md",
+          "score": 5.311900615692139,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "QDR-3301 Queue Ready Backlog Signature",
+            "source": "data/docs_stress_cases/mq_sig_qdr_3301.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 5.311900615692139
+          },
+          "content_preview": "# QDR-3301 Queue Ready Backlog Signature\n\nSignature: `QDR-3301`.\n\nWhen `messages_ready` grows while consumers are alive, compare publish rate and ack rate,\ninspect consumer latency, and tune prefetch. Add consumers only after downstream cap"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": 1.7501429319381714,
+          "chunk_index": 5,
+          "metadata": {
+            "heading_path": "RabbitMQ 运维诊断知识库 > Symptoms > 消息堆积 messages_ready 持续升高",
+            "chunk_index": 5,
+            "source": "data/docs/rabbitmq_ops_diagnosis.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 4,
+            "bm25_rank": 15,
+            "rrf_score": 0.028958333333333336,
+            "original_rank": 7,
+            "final_rank": 2,
+            "rerank_score": 1.7501429319381714
+          },
+          "content_preview": "### 消息堆积 messages_ready 持续升高\n- 表现: 队列积压越来越多，业务处理延迟增加。\n- 错误码/日志关键词: `messages_ready`, `messages_unacknowledged`, `consumer_timeout`, `basic.deliver`, `consumer count 0`, `queue depth high`\n- 相关指标: publish rate, deliver rate, ack rate, consum"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_cases/mq_sig_qdr_3302.md",
+          "score": -0.06819847226142883,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "QDR-3302 Queue Unacked Backlog Signature",
+            "chunk_index": 0,
+            "source": "data/docs_stress_cases/mq_sig_qdr_3302.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 2,
+            "bm25_rank": 16,
+            "rrf_score": 0.02928692699490662,
+            "original_rank": 5,
+            "final_rank": 3,
+            "rerank_score": -0.06819847226142883
+          },
+          "content_preview": "# QDR-3302 Queue Unacked Backlog Signature\n\nSignature: `QDR-3302`.\n\nWhen `messages_unacknowledged` grows, inspect stuck consumers, missing ack paths,\nlong handler execution, and `consumer_timeout`. Restarting consumers without checking\nidem"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": -1.7099511623382568,
+          "chunk_index": 2,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "heading_path": "Signature Action Matrix",
+            "chunk_index": 2,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 14,
+            "bm25_rank": 4,
+            "rrf_score": 0.029138513513513514,
+            "original_rank": 6,
+            "final_rank": 4,
+            "rerank_score": -1.7099511623382568
+          },
+          "content_preview": "abase runbook |\n| LMX-2103 LMX-2103 LMX-2103 | duplicate-message-idempotency queue replay document |\n| QDR-3301 QDR-3301 QDR-3301 | ready-backlog-publish-ack-prefetch queue guidance |\n| QDR-3302 QDR-3302 QDR-3302 | unacked-consumer-timeout-"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/rabbitmq_ops_diagnosis.md",
+          "score": -2.374323844909668,
+          "chunk_index": 9,
+          "metadata": {
+            "chunk_index": 9,
+            "heading_path": "RabbitMQ 运维诊断知识库 > Symptoms > 死信队列持续增长",
+            "source": "data/docs/rabbitmq_ops_diagnosis.md",
+            "retrieval_method": "dense",
+            "dense_rank": 25,
+            "bm25_rank": null,
+            "rrf_score": 0.011764705882352941,
+            "original_rank": 38,
+            "final_rank": 5,
+            "rerank_score": -2.374323844909668
+          },
+          "content_preview": "### 死信队列持续增长\n- 表现: DLQ 消息越来越多，业务数据处理失败。\n- 错误码/日志关键词: `x-death`, `dead-letter-exchange`, `basic.reject`, `basic.nack`, `requeue=false`, `TTL expired`, `maxlen exceeded`\n- 相关指标: dead letter queue depth, redelivered count, 消费失败率。\n- 可能原因: 消费代码抛"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 0.8772153153380493
+    },
+    {
+      "id": "stress-qdr-3302",
+      "question": "QDR-3302 is attached to a messages_unacknowledged backlog. What should the operator inspect?",
+      "category": "signature-queue",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/mq_sig_qdr_3302.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "QDR-3302",
+        "messages_unacknowledged",
+        "consumer_timeout"
+      ],
+      "reference_answer": "Use the QDR-3302 unacked backlog runbook and inspect stuck consumers, missing ack paths, and consumer_timeout.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/mq_sig_qdr_3302.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_cases/mq_sig_qdr_3301.md",
+        "data/docs_stress_noise/signature_lure_index_08.md",
+        "data/docs_stress_noise/signature_lure_index_07.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/mq_sig_qdr_3302.md",
+          "score": 6.326040744781494,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_cases/mq_sig_qdr_3302.md",
+            "heading_path": "QDR-3302 Queue Unacked Backlog Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 6.326040744781494
+          },
+          "content_preview": "# QDR-3302 Queue Unacked Backlog Signature\n\nSignature: `QDR-3302`.\n\nWhen `messages_unacknowledged` grows, inspect stuck consumers, missing ack paths,\nlong handler execution, and `consumer_timeout`. Restarting consumers without checking\nidem"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 0.7763010263442993,
+          "chunk_index": 2,
+          "metadata": {
+            "chunk_index": 2,
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 25,
+            "bm25_rank": 3,
+            "rrf_score": 0.027637721755368813,
+            "original_rank": 5,
+            "final_rank": 2,
+            "rerank_score": 0.7763010263442993
+          },
+          "content_preview": "abase runbook |\n| LMX-2103 LMX-2103 LMX-2103 | duplicate-message-idempotency queue replay document |\n| QDR-3301 QDR-3301 QDR-3301 | ready-backlog-publish-ack-prefetch queue guidance |\n| QDR-3302 QDR-3302 QDR-3302 | unacked-consumer-timeout-"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_cases/mq_sig_qdr_3301.md",
+          "score": -1.576961874961853,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_cases/mq_sig_qdr_3301.md",
+            "heading_path": "QDR-3301 Queue Ready Backlog Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 2,
+            "bm25_rank": 5,
+            "rrf_score": 0.0315136476426799,
+            "original_rank": 2,
+            "final_rank": 3,
+            "rerank_score": -1.576961874961853
+          },
+          "content_preview": "# QDR-3301 Queue Ready Backlog Signature\n\nSignature: `QDR-3301`.\n\nWhen `messages_ready` grows while consumers are alive, compare publish rate and ack rate,\ninspect consumer latency, and tune prefetch. Add consumers only after downstream cap"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_08.md",
+          "score": -1.7653663158416748,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "Signature Lure Index 08",
+            "source": "data/docs_stress_noise/signature_lure_index_08.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 33,
+            "bm25_rank": 18,
+            "rrf_score": 0.02357320099255583,
+            "original_rank": 12,
+            "final_rank": 4,
+            "rerank_score": -1.7653663158416748
+          },
+          "content_preview": "# Signature Lure Index 08\n\nThis final distractor repeats the same signature space with broad language.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 W"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_07.md",
+          "score": -1.9621738195419312,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "Signature Lure Index 07",
+            "chunk_index": 0,
+            "source": "data/docs_stress_noise/signature_lure_index_07.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 34,
+            "bm25_rank": 9,
+            "rrf_score": 0.02513105149552883,
+            "original_rank": 9,
+            "final_rank": 5,
+            "rerank_score": -1.9621738195419312
+          },
+          "content_preview": "# Signature Lure Index 07\n\nThis page is part of the transparent stress corpus and should lower baseline retrieval precision.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-52"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-qdr-3303",
+      "question": "QDR-3303 appears with PRECONDITION_FAILED inequivalent arg. Which runbook is expected?",
+      "category": "signature-queue",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/mq_sig_qdr_3303.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "QDR-3303",
+        "PRECONDITION_FAILED",
+        "inequivalent arg"
+      ],
+      "reference_answer": "Use the QDR-3303 declaration mismatch runbook and compare queue arguments before migration.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/mq_sig_qdr_3303.md",
+        "data/docs_stress_noise/signature_lure_index_01.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_01.md",
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/mq_sig_qdr_3303.md",
+          "score": 3.9586198329925537,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_cases/mq_sig_qdr_3303.md",
+            "chunk_index": 0,
+            "heading_path": "QDR-3303 Queue Declaration Mismatch Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 3.9586198329925537
+          },
+          "content_preview": "# QDR-3303 Queue Declaration Mismatch Signature\n\nSignature: `QDR-3303`.\n\nFor `PRECONDITION_FAILED inequivalent arg`, compare queue durability, auto-delete,\ndead-letter exchange, TTL, and max length arguments. Create a migration queue instea"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": 1.0695217847824097,
+          "chunk_index": 1,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "chunk_index": 1,
+            "heading_path": "Signature Lure Index 01",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 7,
+            "bm25_rank": 3,
+            "rrf_score": 0.030798389007344232,
+            "original_rank": 4,
+            "final_rank": 2,
+            "rerank_score": 1.0695217847824097
+          },
+          "content_preview": "Operators may ask which runbook should be used, what guidance applies, which source is expected,\nwhat should be checked first, or which diagnostic note is relevant. The answer should come from a\nspecific runbook, not from this index."
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 0.6561527252197266,
+          "chunk_index": 2,
+          "metadata": {
+            "chunk_index": 2,
+            "heading_path": "Signature Action Matrix",
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 2,
+            "bm25_rank": 2,
+            "rrf_score": 0.03225806451612903,
+            "original_rank": 2,
+            "final_rank": 3,
+            "rerank_score": 0.6561527252197266
+          },
+          "content_preview": "abase runbook |\n| LMX-2103 LMX-2103 LMX-2103 | duplicate-message-idempotency queue replay document |\n| QDR-3301 QDR-3301 QDR-3301 | ready-backlog-publish-ack-prefetch queue guidance |\n| QDR-3302 QDR-3302 QDR-3302 | unacked-consumer-timeout-"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": -0.4923824965953827,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "Signature Lure Index 01",
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 10,
+            "bm25_rank": 5,
+            "rrf_score": 0.02967032967032967,
+            "original_rank": 6,
+            "final_rank": 4,
+            "rerank_score": -0.4923824965953827
+          },
+          "content_preview": "# Signature Lure Index 01\n\nThis transparent noise document intentionally repeats incident signatures with generic language.\nIt is not a diagnostic runbook.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OS"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": -1.3522088527679443,
+          "chunk_index": 12,
+          "metadata": {
+            "source": "data/docs/gateway_high_concurrency.md",
+            "chunk_index": 12,
+            "heading_path": "网关与高并发诊断知识库 > Runbook",
+            "retrieval_method": "bm25",
+            "bm25_rank": 23,
+            "dense_rank": null,
+            "rrf_score": 0.012048192771084338,
+            "original_rank": 35,
+            "final_rank": 5,
+            "rerank_score": -1.3522088527679443
+          },
+          "content_preview": "## Runbook"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "id": "stress-oss-4401",
+      "question": "OSS-4401 appears while completing multipart upload. What is the exact remediation note?",
+      "category": "signature-object",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/object_sig_oss_4401.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "OSS-4401",
+        "partNumber",
+        "ETag"
+      ],
+      "reference_answer": "Use the OSS-4401 multipart order runbook and sort parts by partNumber while verifying matching ETags.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/object_sig_oss_4401.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_cases/object_sig_oss_4402.md",
+        "data/docs_stress_noise/signature_lure_index_07.md",
+        "data/docs_stress_noise/signature_lure_index_02.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/object_sig_oss_4401.md",
+          "score": 3.838003635406494,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "OSS-4401 Multipart Order Signature",
+            "source": "data/docs_stress_cases/object_sig_oss_4401.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 3,
+            "rrf_score": 0.032266458495966696,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 3.838003635406494
+          },
+          "content_preview": "# OSS-4401 Multipart Order Signature\n\nSignature: `OSS-4401`.\n\nFor multipart complete failure, sort submitted parts by ascending `partNumber`, verify\nthat every ETag comes from the matching uploaded part, and check that all non-final\nparts m"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": -0.9022343158721924,
+          "chunk_index": 2,
+          "metadata": {
+            "chunk_index": 2,
+            "heading_path": "Signature Action Matrix",
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 24,
+            "bm25_rank": 2,
+            "rrf_score": 0.02803379416282642,
+            "original_rank": 8,
+            "final_rank": 2,
+            "rerank_score": -0.9022343158721924
+          },
+          "content_preview": "abase runbook |\n| LMX-2103 LMX-2103 LMX-2103 | duplicate-message-idempotency queue replay document |\n| QDR-3301 QDR-3301 QDR-3301 | ready-backlog-publish-ack-prefetch queue guidance |\n| QDR-3302 QDR-3302 QDR-3302 | unacked-consumer-timeout-"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_cases/object_sig_oss_4402.md",
+          "score": -1.5257594585418701,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_cases/object_sig_oss_4402.md",
+            "heading_path": "OSS-4402 Multipart Resume Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 2,
+            "bm25_rank": 5,
+            "rrf_score": 0.0315136476426799,
+            "original_rank": 2,
+            "final_rank": 3,
+            "rerank_score": -1.5257594585418701
+          },
+          "content_preview": "# OSS-4402 Multipart Resume Signature\n\nSignature: `OSS-4402`.\n\nWhen upload resume restarts from the beginning, persist the tuple of file hash, bucket,\nobject name, and upload id. Use `ListParts` to rebuild completed part state after refresh"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_07.md",
+          "score": -2.580620288848877,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_noise/signature_lure_index_07.md",
+            "heading_path": "Signature Lure Index 07",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 5,
+            "bm25_rank": 9,
+            "rrf_score": 0.029877369007803793,
+            "original_rank": 5,
+            "final_rank": 4,
+            "rerank_score": -2.580620288848877
+          },
+          "content_preview": "# Signature Lure Index 07\n\nThis page is part of the transparent stress corpus and should lower baseline retrieval precision.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-52"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_02.md",
+          "score": -2.6442227363586426,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_02.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 02",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 25,
+            "bm25_rank": 11,
+            "rrf_score": 0.025849212924606464,
+            "original_rank": 14,
+            "final_rank": 5,
+            "rerank_score": -2.6442227363586426
+          },
+          "content_preview": "# Signature Lure Index 02\n\nThis low-value note lists many signatures near common retrieval words. It has no concrete repair steps.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 "
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-oss-4402",
+      "question": "OSS-4402 is logged when resume upload starts over after refresh. Which guidance applies?",
+      "category": "signature-object",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/object_sig_oss_4402.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "OSS-4402",
+        "upload id",
+        "ListParts"
+      ],
+      "reference_answer": "Use the OSS-4402 multipart resume runbook and persist file hash, bucket, object name, and upload id.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/object_sig_oss_4402.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_01.md",
+        "data/docs/minio_multipart_resume.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/object_sig_oss_4402.md",
+          "score": 5.63511848449707,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_cases/object_sig_oss_4402.md",
+            "heading_path": "OSS-4402 Multipart Resume Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 5.63511848449707
+          },
+          "content_preview": "# OSS-4402 Multipart Resume Signature\n\nSignature: `OSS-4402`.\n\nWhen upload resume restarts from the beginning, persist the tuple of file hash, bucket,\nobject name, and upload id. Use `ListParts` to rebuild completed part state after refresh"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 1.6777211427688599,
+          "chunk_index": 3,
+          "metadata": {
+            "heading_path": "Signature Action Matrix",
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 3,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 3,
+            "bm25_rank": 3,
+            "rrf_score": 0.031746031746031744,
+            "original_rank": 2,
+            "final_rank": 2,
+            "rerank_score": 1.6777211427688599
+          },
+          "content_preview": "OSS-4402 OSS-4402 | uploadid-listparts-resume matching guidance |\n| OSS-4403 OSS-4403 OSS-4403 | body-limit-presigned-upload relevant document |\n| GWY-5201 GWY-5201 GWY-5201 | upstream-timeout-trace-latency diagnostic path |\n| GWY-5202 GWY-"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 0.40779343247413635,
+          "chunk_index": 2,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 2,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 23,
+            "bm25_rank": 4,
+            "rrf_score": 0.027673192771084338,
+            "original_rank": 7,
+            "final_rank": 3,
+            "rerank_score": 0.40779343247413635
+          },
+          "content_preview": "abase runbook |\n| LMX-2103 LMX-2103 LMX-2103 | duplicate-message-idempotency queue replay document |\n| QDR-3301 QDR-3301 QDR-3301 | ready-backlog-publish-ack-prefetch queue guidance |\n| QDR-3302 QDR-3302 QDR-3302 | unacked-consumer-timeout-"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": -1.5546618700027466,
+          "chunk_index": 1,
+          "metadata": {
+            "heading_path": "Signature Lure Index 01",
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "chunk_index": 1,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 8,
+            "bm25_rank": 2,
+            "rrf_score": 0.030834914611005692,
+            "original_rank": 3,
+            "final_rank": 4,
+            "rerank_score": -1.5546618700027466
+          },
+          "content_preview": "Operators may ask which runbook should be used, what guidance applies, which source is expected,\nwhat should be checked first, or which diagnostic note is relevant. The answer should come from a\nspecific runbook, not from this index."
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": -2.676844358444214,
+          "chunk_index": 11,
+          "metadata": {
+            "chunk_index": 11,
+            "source": "data/docs/minio_multipart_resume.md",
+            "heading_path": "MinIO 分片上传与断点续传诊断知识库 > Symptoms > 断点续传命中失败导致重复上传",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 11,
+            "bm25_rank": 26,
+            "rrf_score": 0.02571241401899771,
+            "original_rank": 12,
+            "final_rank": 5,
+            "rerank_score": -2.676844358444214
+          },
+          "content_preview": "### 断点续传命中失败导致重复上传\n- 表现: 用户刷新页面或网络中断后，系统没有复用已上传分片。\n- 错误码/日志关键词: `NoSuchUpload`, `uploadId missing`, `resume upload failed`, `part cache miss`, `ListParts`, `404`\n- 相关指标: 重复上传流量, uploadId 缓存命中率, 分片状态表记录数。\n- 可能原因: 文件唯一标识不稳定，前端 hash 计算方式变化，后端未"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-oss-4403",
+      "question": "OSS-4403 is tied to large object upload body size errors. Which document is relevant?",
+      "category": "signature-object",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/object_sig_oss_4403.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "OSS-4403",
+        "body limit",
+        "presigned"
+      ],
+      "reference_answer": "Use the OSS-4403 gateway body limit runbook and check body limits, timeouts, chunk size, and presigned upload.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/object_sig_oss_4403.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs/minio_multipart_resume.md",
+        "data/docs_stress_noise/signature_lure_index_04.md",
+        "data/docs/gateway_high_concurrency.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/object_sig_oss_4403.md",
+          "score": 5.993524074554443,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "OSS-4403 Gateway Body Limit Signature",
+            "source": "data/docs_stress_cases/object_sig_oss_4403.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 5.993524074554443
+          },
+          "content_preview": "# OSS-4403 Gateway Body Limit Signature\n\nSignature: `OSS-4403`.\n\nFor large object upload returning body size errors, verify gateway body limit,\nread timeout, send timeout, chunk size, and presigned direct-upload flow. Avoid one\nlarge reques"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": -1.162716269493103,
+          "chunk_index": 3,
+          "metadata": {
+            "chunk_index": 3,
+            "heading_path": "Signature Action Matrix",
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 4,
+            "bm25_rank": 2,
+            "rrf_score": 0.031754032258064516,
+            "original_rank": 3,
+            "final_rank": 2,
+            "rerank_score": -1.162716269493103
+          },
+          "content_preview": "OSS-4402 OSS-4402 | uploadid-listparts-resume matching guidance |\n| OSS-4403 OSS-4403 OSS-4403 | body-limit-presigned-upload relevant document |\n| GWY-5201 GWY-5201 GWY-5201 | upstream-timeout-trace-latency diagnostic path |\n| GWY-5202 GWY-"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": -1.34123694896698,
+          "chunk_index": 17,
+          "metadata": {
+            "chunk_index": 17,
+            "source": "data/docs/minio_multipart_resume.md",
+            "heading_path": "MinIO 分片上传与断点续传诊断知识库 > Prevention",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 14,
+            "bm25_rank": 27,
+            "rrf_score": 0.025007766387076732,
+            "original_rank": 10,
+            "final_rank": 3,
+            "rerank_score": -1.34123694896698
+          },
+          "content_preview": "## Prevention\n- 分片大小建议大于 5MB，并保留最后一片例外。\n- uploadId 与文件 hash、bucket、objectName 强绑定。\n- CompleteMultipartUpload 前做 ETag 和 partNumber 完整性校验。\n- 网关明确配置大文件上传 body size 和 timeout。\n- 对 `503 SlowDown`, `408`, `499`, `504` 使用指数退避重试。"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -1.975232720375061,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 04",
+            "retrieval_method": "bm25",
+            "bm25_rank": 11,
+            "dense_rank": null,
+            "rrf_score": 0.014084507042253521,
+            "original_rank": 28,
+            "final_rank": 4,
+            "rerank_score": -1.975232720375061
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": -2.1771159172058105,
+          "chunk_index": 10,
+          "metadata": {
+            "source": "data/docs/gateway_high_concurrency.md",
+            "chunk_index": 10,
+            "heading_path": "网关与高并发诊断知识库 > Symptoms > 请求体过大返回 413",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 3,
+            "bm25_rank": 5,
+            "rrf_score": 0.03125763125763126,
+            "original_rank": 4,
+            "final_rank": 5,
+            "rerank_score": -2.1771159172058105
+          },
+          "content_preview": "### 请求体过大返回 413\n- 表现: 上传文件或大请求失败。\n- 错误码/日志关键词: `413 Payload Too Large`, `Request Entity Too Large`, `client_max_body_size`, `DataBufferLimitException`\n- 相关指标: request body size, upload failure rate, gateway 413 count。\n- 可能原因: Nginx body siz"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-gwy-5201",
+      "question": "GWY-5201 appears in gateway logs for upstream timeout. Which diagnostic path should be used?",
+      "category": "signature-gateway",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/gateway_sig_gwy_5201.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "GWY-5201",
+        "upstream timeout",
+        "trace id"
+      ],
+      "reference_answer": "Use the GWY-5201 upstream timeout runbook and correlate gateway logs with trace id and backend latency.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/gateway_sig_gwy_5201.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_01.md",
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/websocket_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/gateway_sig_gwy_5201.md",
+          "score": 6.245375633239746,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_cases/gateway_sig_gwy_5201.md",
+            "heading_path": "GWY-5201 Upstream Timeout Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 6.245375633239746
+          },
+          "content_preview": "# GWY-5201 Upstream Timeout Signature\n\nSignature: `GWY-5201`.\n\nFor upstream timeout, correlate gateway access logs with application trace id, compare\ngateway timeout with backend P95 and P99 latency, then inspect slow SQL and downstream\nRPC"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 2.3609097003936768,
+          "chunk_index": 3,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 3,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 13,
+            "bm25_rank": 3,
+            "rrf_score": 0.029571646010002173,
+            "original_rank": 7,
+            "final_rank": 2,
+            "rerank_score": 2.3609097003936768
+          },
+          "content_preview": "OSS-4402 OSS-4402 | uploadid-listparts-resume matching guidance |\n| OSS-4403 OSS-4403 OSS-4403 | body-limit-presigned-upload relevant document |\n| GWY-5201 GWY-5201 GWY-5201 | upstream-timeout-trace-latency diagnostic path |\n| GWY-5202 GWY-"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": -1.1562527418136597,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 01",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 29,
+            "bm25_rank": 16,
+            "rrf_score": 0.02439384979302188,
+            "original_rank": 16,
+            "final_rank": 3,
+            "rerank_score": -1.1562527418136597
+          },
+          "content_preview": "# Signature Lure Index 01\n\nThis transparent noise document intentionally repeats incident signatures with generic language.\nIt is not a diagnostic runbook.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OS"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": -1.8450099229812622,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs/gateway_high_concurrency.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 30,
+            "bm25_rank": 23,
+            "rrf_score": 0.023159303882195448,
+            "original_rank": 20,
+            "final_rank": 4,
+            "rerank_score": -1.8450099229812622
+          },
+          "content_preview": "---\ntitle: 网关与高并发诊断知识库\ncategory: traffic\nservice: Gateway\nseverity: critical\ntags:\n  - gateway\n  - high-concurrency\n  - nginx\n  - timeout\n  - rate-limit\n  - circuit-breaker\n  - thread-pool\n  - connection-pool\nerror_codes:\n  - 400\n  - 401\n  "
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": -1.975563645362854,
+          "chunk_index": 10,
+          "metadata": {
+            "source": "data/docs/websocket_ops_diagnosis.md",
+            "chunk_index": 10,
+            "heading_path": "WebSocket 运维诊断知识库 > Symptoms > WebSocket 经过网关返回 502/503/504",
+            "retrieval_method": "bm25",
+            "bm25_rank": 10,
+            "dense_rank": null,
+            "rrf_score": 0.014285714285714285,
+            "original_rank": 31,
+            "final_rank": 5,
+            "rerank_score": -1.975563645362854
+          },
+          "content_preview": "### WebSocket 经过网关返回 502/503/504\n- 表现: 部分连接建立失败或长连接被网关中断。\n- 错误码/日志关键词: `502 Bad Gateway`, `503 Service Unavailable`, `504 Gateway Timeout`, `upstream prematurely closed connection`, `upstream timed out`\n- 相关指标: gateway 5xx, upstream active "
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-gwy-5202",
+      "question": "GWY-5202 is emitted for no healthy upstream. What exact checks are listed?",
+      "category": "signature-gateway",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/gateway_sig_gwy_5202.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "GWY-5202",
+        "no healthy upstream",
+        "service discovery"
+      ],
+      "reference_answer": "Use the GWY-5202 no healthy upstream runbook and inspect discovery, health checks, breaker state, and pools.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/gateway_sig_gwy_5202.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs_stress_noise/signature_lure_index_04.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/gateway_sig_gwy_5202.md",
+          "score": 6.531311511993408,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_cases/gateway_sig_gwy_5202.md",
+            "heading_path": "GWY-5202 No Healthy Upstream Signature",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 6.531311511993408
+          },
+          "content_preview": "# GWY-5202 No Healthy Upstream Signature\n\nSignature: `GWY-5202`.\n\nFor no healthy upstream, inspect service discovery, instance health checks, circuit\nbreaker state, connection pool exhaustion, and recent deployment health. Restore at\nleast "
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 1.5414533615112305,
+          "chunk_index": 3,
+          "metadata": {
+            "chunk_index": 3,
+            "heading_path": "Signature Action Matrix",
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 2,
+            "bm25_rank": 2,
+            "rrf_score": 0.03225806451612903,
+            "original_rank": 2,
+            "final_rank": 2,
+            "rerank_score": 1.5414533615112305
+          },
+          "content_preview": "OSS-4402 OSS-4402 | uploadid-listparts-resume matching guidance |\n| OSS-4403 OSS-4403 OSS-4403 | body-limit-presigned-upload relevant document |\n| GWY-5201 GWY-5201 GWY-5201 | upstream-timeout-trace-latency diagnostic path |\n| GWY-5202 GWY-"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": -1.2844187021255493,
+          "chunk_index": 6,
+          "metadata": {
+            "heading_path": "网关与高并发诊断知识库 > Symptoms > 网关返回 503 Service Unavailable",
+            "chunk_index": 6,
+            "source": "data/docs/gateway_high_concurrency.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 21,
+            "bm25_rank": 6,
+            "rrf_score": 0.02749719416386083,
+            "original_rank": 9,
+            "final_rank": 3,
+            "rerank_score": -1.2844187021255493
+          },
+          "content_preview": "### 网关返回 503 Service Unavailable\n- 表现: 服务不可用，流量高峰更明显。\n- 错误码/日志关键词: `503 Service Unavailable`, `no healthy upstream`, `circuit breaker open`, `service unavailable`, `connection pool exhausted`\n- 相关指标: upstream healthy count, 熔断打开次数, 连接池 acti"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": -1.2943497896194458,
+          "chunk_index": 5,
+          "metadata": {
+            "chunk_index": 5,
+            "heading_path": "网关与高并发诊断知识库 > Symptoms > 网关返回 502 Bad Gateway",
+            "source": "data/docs/gateway_high_concurrency.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 25,
+            "bm25_rank": 21,
+            "rrf_score": 0.02411038489469862,
+            "original_rank": 16,
+            "final_rank": 4,
+            "rerank_score": -1.2943497896194458
+          },
+          "content_preview": "### 网关返回 502 Bad Gateway\n- 表现: 客户端收到 502，后端可能无业务日志。\n- 错误码/日志关键词: `502 Bad Gateway`, `upstream prematurely closed connection`, `connection reset by peer`, `no live upstreams`, `ECONNRESET`\n- 相关指标: gateway 5xx, upstream unhealthy count, 后端实例重"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -2.090907573699951,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 04",
+            "retrieval_method": "bm25",
+            "bm25_rank": 8,
+            "dense_rank": null,
+            "rrf_score": 0.014705882352941176,
+            "original_rank": 22,
+            "final_rank": 5,
+            "rerank_score": -2.090907573699951
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-gwy-5203",
+      "question": "GWY-5203 appears during a client abort storm. Which runbook should be retrieved?",
+      "category": "signature-gateway",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/gateway_sig_gwy_5203.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "GWY-5203",
+        "client abort",
+        "retry amplification"
+      ],
+      "reference_answer": "Use the GWY-5203 client abort storm runbook and inspect frontend timeout, queueing, and retry amplification.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/gateway_sig_gwy_5203.md",
+        "data/docs_stress_noise/signature_lure_index_01.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_07.md",
+        "data/docs_stress_noise/signature_lure_index_04.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/gateway_sig_gwy_5203.md",
+          "score": 4.88343620300293,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "GWY-5203 Client Abort Storm Signature",
+            "source": "data/docs_stress_cases/gateway_sig_gwy_5203.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 4.88343620300293
+          },
+          "content_preview": "# GWY-5203 Client Abort Storm Signature\n\nSignature: `GWY-5203`.\n\nWhen many requests end as client aborts, inspect frontend timeout, mobile network\nswitching, gateway queueing time, and retry amplification. Reduce server latency before\nraisi"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": 0.30955493450164795,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "heading_path": "Signature Lure Index 01",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 12,
+            "bm25_rank": 9,
+            "rrf_score": 0.028381642512077296,
+            "original_rank": 7,
+            "final_rank": 2,
+            "rerank_score": 0.30955493450164795
+          },
+          "content_preview": "# Signature Lure Index 01\n\nThis transparent noise document intentionally repeats incident signatures with generic language.\nIt is not a diagnostic runbook.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OS"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 0.20265507698059082,
+          "chunk_index": 3,
+          "metadata": {
+            "heading_path": "Signature Action Matrix",
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 3,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 13,
+            "bm25_rank": 3,
+            "rrf_score": 0.029571646010002173,
+            "original_rank": 5,
+            "final_rank": 3,
+            "rerank_score": 0.20265507698059082
+          },
+          "content_preview": "OSS-4402 OSS-4402 | uploadid-listparts-resume matching guidance |\n| OSS-4403 OSS-4403 OSS-4403 | body-limit-presigned-upload relevant document |\n| GWY-5201 GWY-5201 GWY-5201 | upstream-timeout-trace-latency diagnostic path |\n| GWY-5202 GWY-"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_07.md",
+          "score": -0.7798411846160889,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_07.md",
+            "heading_path": "Signature Lure Index 07",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 35,
+            "bm25_rank": 11,
+            "rrf_score": 0.024610822831727205,
+            "original_rank": 16,
+            "final_rank": 4,
+            "rerank_score": -0.7798411846160889
+          },
+          "content_preview": "# Signature Lure Index 07\n\nThis page is part of the transparent stress corpus and should lower baseline retrieval precision.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-52"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -1.5735622644424438,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 04",
+            "retrieval_method": "bm25",
+            "bm25_rank": 12,
+            "dense_rank": null,
+            "rrf_score": 0.013888888888888888,
+            "original_rank": 23,
+            "final_rank": 5,
+            "rerank_score": -1.5735622644424438
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "id": "stress-wss-6301",
+      "question": "WSS-6301 is shown when WebSocket upgrade fails. Which exact note should be used?",
+      "category": "signature-websocket",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_cases/ws_sig_wss_6301.md"
+      ],
+      "expected_keywords": [
+        "WSS-6301",
+        "Upgrade",
+        "Sec-WebSocket-Key"
+      ],
+      "reference_answer": "Use the WSS-6301 upgrade runbook and verify Upgrade, Connection, Sec-WebSocket-Key, path routing, and auth.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/ws_sig_wss_6301.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_02.md",
+        "data/docs_stress_noise/signature_lure_index_06.md",
+        "data/docs_stress_noise/signature_lure_index_04.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/ws_sig_wss_6301.md",
+          "score": 7.525437831878662,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_cases/ws_sig_wss_6301.md",
+            "heading_path": "WSS-6301 WebSocket Upgrade Signature",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 2,
+            "rrf_score": 0.03252247488101534,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 7.525437831878662
+          },
+          "content_preview": "# WSS-6301 WebSocket Upgrade Signature\n\nSignature: `WSS-6301`.\n\nFor failed WebSocket upgrade, verify `Upgrade`, `Connection`, `Sec-WebSocket-Key`,\npath routing, authentication token, and reverse proxy header forwarding."
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 2.1322741508483887,
+          "chunk_index": 3,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 3,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25",
+            "bm25_rank": 3,
+            "dense_rank": null,
+            "rrf_score": 0.015873015873015872,
+            "original_rank": 23,
+            "final_rank": 2,
+            "rerank_score": 2.1322741508483887
+          },
+          "content_preview": "OSS-4402 OSS-4402 | uploadid-listparts-resume matching guidance |\n| OSS-4403 OSS-4403 OSS-4403 | body-limit-presigned-upload relevant document |\n| GWY-5201 GWY-5201 GWY-5201 | upstream-timeout-trace-latency diagnostic path |\n| GWY-5202 GWY-"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_02.md",
+          "score": -0.3150466978549957,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "Signature Lure Index 02",
+            "source": "data/docs_stress_noise/signature_lure_index_02.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 30,
+            "bm25_rank": 13,
+            "rrf_score": 0.024809741248097414,
+            "original_rank": 14,
+            "final_rank": 3,
+            "rerank_score": -0.3150466978549957
+          },
+          "content_preview": "# Signature Lure Index 02\n\nThis low-value note lists many signatures near common retrieval words. It has no concrete repair steps.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 "
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_06.md",
+          "score": -0.7387644052505493,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_06.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 06",
+            "retrieval_method": "bm25",
+            "bm25_rank": 7,
+            "dense_rank": null,
+            "rrf_score": 0.014925373134328358,
+            "original_rank": 25,
+            "final_rank": 4,
+            "rerank_score": -0.7387644052505493
+          },
+          "content_preview": "# Signature Lure Index 06\n\nThis noise page is designed to be information-poor.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-6302 WSS-630"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -1.0102721452713013,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 04",
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 37,
+            "bm25_rank": 16,
+            "rrf_score": 0.023467173087357567,
+            "original_rank": 16,
+            "final_rank": 5,
+            "rerank_score": -1.0102721452713013
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-wss-6302",
+      "question": "WSS-6302 is logged for intermittent WebSocket disconnects. What should be checked?",
+      "category": "signature-websocket",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_cases/ws_sig_wss_6302.md"
+      ],
+      "expected_keywords": [
+        "WSS-6302",
+        "heartbeat",
+        "idle timeout"
+      ],
+      "reference_answer": "Use the WSS-6302 idle disconnect runbook and compare heartbeat interval with gateway idle timeout.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/ws_sig_wss_6302.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs/websocket_ops_diagnosis.md",
+        "data/docs_stress_noise/signature_lure_index_05.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/ws_sig_wss_6302.md",
+          "score": 6.419261455535889,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "WSS-6302 WebSocket Idle Disconnect Signature",
+            "source": "data/docs_stress_cases/ws_sig_wss_6302.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 2,
+            "rrf_score": 0.03252247488101534,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 6.419261455535889
+          },
+          "content_preview": "# WSS-6302 WebSocket Idle Disconnect Signature\n\nSignature: `WSS-6302`.\n\nFor intermittent WebSocket disconnect, compare heartbeat interval with gateway idle\ntimeout, inspect close code 1006, network switches, server restart, and oversized\nme"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": -0.0929526686668396,
+          "chunk_index": 4,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 4,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 19,
+            "bm25_rank": 3,
+            "rrf_score": 0.028531243721117136,
+            "original_rank": 6,
+            "final_rank": 2,
+            "rerank_score": -0.0929526686668396
+          },
+          "content_preview": "e |\n| WSS-6302 WSS-6302 WSS-6302 | heartbeat-idle-timeout-1006 checked guidance |\n| WSS-6303 WSS-6303 WSS-6303 | broadcast-session-pubsub-ownership expected source |\n| VDB-7101 VDB-7101 VDB-7101 | ingestion-collection-persist-model rag runb"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": -0.33472582697868347,
+          "chunk_index": 13,
+          "metadata": {
+            "heading_path": "WebSocket 运维诊断知识库 > Runbook > WebSocket 断连排查流程",
+            "chunk_index": 13,
+            "source": "data/docs/websocket_ops_diagnosis.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 14,
+            "bm25_rank": 40,
+            "rrf_score": 0.023513513513513516,
+            "original_rank": 17,
+            "final_rank": 3,
+            "rerank_score": -0.33472582697868347
+          },
+          "content_preview": "### WebSocket 断连排查流程\n1. 收集 close code: `1006`, `1001`, `1008`, `1011`。\n2. 判断失败阶段: 握手失败、连接后断开、心跳超时、消息发送失败。\n3. 检查网关 Upgrade header、idle timeout 和 5xx。\n4. 检查 token 过期、服务端连接数和实例重启。\n5. 多实例场景检查会话路由和广播通道。"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/websocket_ops_diagnosis.md",
+          "score": -0.8667886257171631,
+          "chunk_index": 3,
+          "metadata": {
+            "heading_path": "WebSocket 运维诊断知识库 > Overview",
+            "source": "data/docs/websocket_ops_diagnosis.md",
+            "chunk_index": 3,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 6,
+            "bm25_rank": 38,
+            "rrf_score": 0.02535559678416821,
+            "original_rank": 12,
+            "final_rank": 4,
+            "rerank_score": -0.8667886257171631
+          },
+          "content_preview": "## Overview\nWebSocket 常用于实时通知、在线状态、协作和消息推送。故障通常表现为连接失败、频繁断开、心跳超时、消息丢失、广播不一致或网关超时。诊断时要同时检查客户端 close code、网关配置、服务端连接数、心跳机制、鉴权 token 和多实例会话路由。"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_05.md",
+          "score": -2.0416100025177,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_05.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 05",
+            "retrieval_method": "bm25",
+            "bm25_rank": 18,
+            "dense_rank": null,
+            "rrf_score": 0.01282051282051282,
+            "original_rank": 33,
+            "final_rank": 5,
+            "rerank_score": -2.0416100025177
+          },
+          "content_preview": "# Signature Lure Index 05\n\nThis document intentionally contains high lexical overlap with benchmark questions.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GW"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-wss-6303",
+      "question": "WSS-6303 appears after scaling out WebSocket nodes and broadcasts are partial. Which source is expected?",
+      "category": "signature-websocket",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_cases/ws_sig_wss_6303.md"
+      ],
+      "expected_keywords": [
+        "WSS-6303",
+        "broadcast",
+        "session mapping"
+      ],
+      "reference_answer": "Use the WSS-6303 broadcast miss runbook and inspect shared session mapping and cross-instance broadcast.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/ws_sig_wss_6303.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_03.md",
+        "data/docs_stress_noise/signature_lure_index_04.md",
+        "data/docs_stress_noise/signature_lure_index_06.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/ws_sig_wss_6303.md",
+          "score": 6.483935356140137,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_cases/ws_sig_wss_6303.md",
+            "chunk_index": 0,
+            "heading_path": "WSS-6303 WebSocket Broadcast Miss Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 6.483935356140137
+          },
+          "content_preview": "# WSS-6303 WebSocket Broadcast Miss Signature\n\nSignature: `WSS-6303`.\n\nFor partial broadcast delivery after scaling out, verify shared session mapping,\nsticky session requirements, Redis pubsub or queue broadcast channel, and per-instance\nc"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 0.8658245801925659,
+          "chunk_index": 4,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "heading_path": "Signature Action Matrix",
+            "chunk_index": 4,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 13,
+            "bm25_rank": 4,
+            "rrf_score": 0.0293236301369863,
+            "original_rank": 5,
+            "final_rank": 2,
+            "rerank_score": 0.8658245801925659
+          },
+          "content_preview": "e |\n| WSS-6302 WSS-6302 WSS-6302 | heartbeat-idle-timeout-1006 checked guidance |\n| WSS-6303 WSS-6303 WSS-6303 | broadcast-session-pubsub-ownership expected source |\n| VDB-7101 VDB-7101 VDB-7101 | ingestion-collection-persist-model rag runb"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_03.md",
+          "score": -2.692014694213867,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_03.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 03",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 12,
+            "bm25_rank": 18,
+            "rrf_score": 0.026709401709401708,
+            "original_rank": 12,
+            "final_rank": 3,
+            "rerank_score": -2.692014694213867
+          },
+          "content_preview": "# Signature Lure Index 03\n\nThis generic support page intentionally looks similar to many questions.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -2.724964141845703,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 04",
+            "retrieval_method": "bm25",
+            "bm25_rank": 13,
+            "dense_rank": null,
+            "rrf_score": 0.0136986301369863,
+            "original_rank": 27,
+            "final_rank": 4,
+            "rerank_score": -2.724964141845703
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_06.md",
+          "score": -2.7350339889526367,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_noise/signature_lure_index_06.md",
+            "heading_path": "Signature Lure Index 06",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 16,
+            "bm25_rank": 14,
+            "rrf_score": 0.02667140825035562,
+            "original_rank": 13,
+            "final_rank": 5,
+            "rerank_score": -2.7350339889526367
+          },
+          "content_preview": "# Signature Lure Index 06\n\nThis noise page is designed to be information-poor.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-6302 WSS-630"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-vdb-7101",
+      "question": "VDB-7101 is reported because retrieval returns no documents. Which RAG runbook applies?",
+      "category": "signature-rag",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/rag_sig_vdb_7101.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "VDB-7101",
+        "retrieval",
+        "collection name"
+      ],
+      "reference_answer": "Use the VDB-7101 empty retrieval runbook and verify ingestion count, collection name, persist directory, and model.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/rag_sig_vdb_7101.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/rag_sig_vdb_7101.md",
+          "score": 4.748237609863281,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_cases/rag_sig_vdb_7101.md",
+            "heading_path": "VDB-7101 Empty Retrieval Signature",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 4.748237609863281
+          },
+          "content_preview": "# VDB-7101 Empty Retrieval Signature\n\nSignature: `VDB-7101`.\n\nWhen retrieval returns empty documents, verify ingestion count, collection name,\npersist directory, metadata filter, query text, and whether the configured embedding\nmodel matche"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 1.111587643623352,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs/rag_ops_diagnosis.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25",
+            "bm25_rank": 4,
+            "dense_rank": null,
+            "rrf_score": 0.015625,
+            "original_rank": 21,
+            "final_rank": 2,
+            "rerank_score": 1.111587643623352
+          },
+          "content_preview": "---\ntitle: RAG 系统运维诊断知识库\ncategory: retrieval\nservice: RAG\nseverity: medium\ntags:\n  - rag\n  - embedding\n  - chroma\n  - vector-store\n  - retrieval\n  - chunking\n  - metadata\n  - bm25\nerror_codes:\n  - CollectionNotFound\n  - InvalidDimension\n  -"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.34257063269615173,
+          "chunk_index": 2,
+          "metadata": {
+            "source": "data/docs/rag_ops_diagnosis.md",
+            "heading_path": "RAG 系统运维诊断知识库 > Metadata",
+            "chunk_index": 2,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 4,
+            "bm25_rank": 3,
+            "rrf_score": 0.03149801587301587,
+            "original_rank": 2,
+            "final_rank": 3,
+            "rerank_score": 0.34257063269615173
+          },
+          "content_preview": "## Metadata\n- component: RAG\n- category: retrieval\n- tags: rag, embedding, chroma, vector store, retrieval, chunking, metadata, bm25\n- common_errors: CollectionNotFound, InvalidDimension, empty retrieval, no relevant documents, metadata mis"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.2211511731147766,
+          "chunk_index": 5,
+          "metadata": {
+            "source": "data/docs/rag_ops_diagnosis.md",
+            "heading_path": "RAG 系统运维诊断知识库 > Symptoms > 检索结果为空 empty retrieval",
+            "chunk_index": 5,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 15,
+            "bm25_rank": 11,
+            "rrf_score": 0.027417840375586856,
+            "original_rank": 10,
+            "final_rank": 4,
+            "rerank_score": 0.2211511731147766
+          },
+          "content_preview": "### 检索结果为空 empty retrieval\n- 表现: 用户问题明确，但 Retrieval Agent 返回空 evidence。\n- 错误码/日志关键词: `empty retrieval`, `CollectionNotFound`, `collection does not exist`, `No documents found`, `retrieved_docs=[]`, `404 collection`\n- 相关指标: collection count,"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": -0.12378935515880585,
+          "chunk_index": 4,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "heading_path": "Signature Action Matrix",
+            "chunk_index": 4,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 11,
+            "bm25_rank": 5,
+            "rrf_score": 0.02946912242686891,
+            "original_rank": 6,
+            "final_rank": 5,
+            "rerank_score": -0.12378935515880585
+          },
+          "content_preview": "e |\n| WSS-6302 WSS-6302 WSS-6302 | heartbeat-idle-timeout-1006 checked guidance |\n| WSS-6303 WSS-6303 WSS-6303 | broadcast-session-pubsub-ownership expected source |\n| VDB-7101 VDB-7101 VDB-7101 | ingestion-collection-persist-model rag runb"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 0.8503449055347546
+    },
+    {
+      "id": "stress-vdb-7102",
+      "question": "VDB-7102 appears with Chroma sqlite disk I/O errors. What document should be retrieved?",
+      "category": "signature-rag",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/rag_sig_vdb_7102.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "VDB-7102",
+        "sqlite disk I/O",
+        "permissions"
+      ],
+      "reference_answer": "Use the VDB-7102 disk IO runbook and move persistence outside synced folders while checking permissions and locks.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/rag_sig_vdb_7102.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs_stress_noise/signature_lure_index_04.md",
+        "data/docs/rag_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/rag_sig_vdb_7102.md",
+          "score": 6.22243070602417,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_cases/rag_sig_vdb_7102.md",
+            "chunk_index": 0,
+            "heading_path": "VDB-7102 Chroma Disk IO Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 6.22243070602417
+          },
+          "content_preview": "# VDB-7102 Chroma Disk IO Signature\n\nSignature: `VDB-7102`.\n\nFor Chroma sqlite disk I/O errors, move persistence outside synced project folders,\ncheck directory permissions, free disk space, file locks, antivirus interference,\nand path comp"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 1.4007055759429932,
+          "chunk_index": 4,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 4,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 25,
+            "bm25_rank": 3,
+            "rrf_score": 0.027637721755368813,
+            "original_rank": 6,
+            "final_rank": 2,
+            "rerank_score": 1.4007055759429932
+          },
+          "content_preview": "e |\n| WSS-6302 WSS-6302 WSS-6302 | heartbeat-idle-timeout-1006 checked guidance |\n| WSS-6303 WSS-6303 WSS-6303 | broadcast-session-pubsub-ownership expected source |\n| VDB-7101 VDB-7101 VDB-7101 | ingestion-collection-persist-model rag runb"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 1.0884655714035034,
+          "chunk_index": 9,
+          "metadata": {
+            "chunk_index": 9,
+            "heading_path": "RAG 系统运维诊断知识库 > Symptoms > Chroma 持久化失败 sqlite disk I/O error",
+            "source": "data/docs/rag_ops_diagnosis.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 6,
+            "bm25_rank": 2,
+            "rrf_score": 0.03128054740957967,
+            "original_rank": 2,
+            "final_rank": 3,
+            "rerank_score": 1.0884655714035034
+          },
+          "content_preview": "### Chroma 持久化失败 sqlite disk I/O error\n- 表现: 入库或查询初始化 Chroma 失败。\n- 错误码/日志关键词: `sqlite disk I/O error`, `InternalError`, `chroma.sqlite3`, `PermissionError`, `database is locked`, `disk I/O error`\n- 相关指标: persist directory 权限, 磁盘空间, 文件锁, 进程数"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": 1.0055551528930664,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 04",
+            "retrieval_method": "bm25",
+            "bm25_rank": 15,
+            "dense_rank": null,
+            "rrf_score": 0.013333333333333334,
+            "original_rank": 32,
+            "final_rank": 4,
+            "rerank_score": 1.0055551528930664
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": 0.7661188840866089,
+          "chunk_index": 2,
+          "metadata": {
+            "source": "data/docs/rag_ops_diagnosis.md",
+            "chunk_index": 2,
+            "heading_path": "RAG 系统运维诊断知识库 > Metadata",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 12,
+            "bm25_rank": 4,
+            "rrf_score": 0.029513888888888888,
+            "original_rank": 5,
+            "final_rank": 5,
+            "rerank_score": 0.7661188840866089
+          },
+          "content_preview": "## Metadata\n- component: RAG\n- category: retrieval\n- tags: rag, embedding, chroma, vector store, retrieval, chunking, metadata, bm25\n- common_errors: CollectionNotFound, InvalidDimension, empty retrieval, no relevant documents, metadata mis"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-vdb-7103",
+      "question": "VDB-7103 occurs after changing embedding provider and vector dimension. Which guidance is exact?",
+      "category": "signature-rag",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/rag_sig_vdb_7103.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "VDB-7103",
+        "vector dimension",
+        "embedding model"
+      ],
+      "reference_answer": "Use the VDB-7103 vector dimension runbook and rebuild the collection after embedding dimension changes.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/rag_sig_vdb_7103.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs/rag_ops_diagnosis.md",
+        "data/docs_stress_noise/signature_lure_index_07.md",
+        "data/docs_stress_noise/signature_lure_index_03.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/rag_sig_vdb_7103.md",
+          "score": 4.245717525482178,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "VDB-7103 Vector Dimension Signature",
+            "source": "data/docs_stress_cases/rag_sig_vdb_7103.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 4.245717525482178
+          },
+          "content_preview": "# VDB-7103 Vector Dimension Signature\n\nSignature: `VDB-7103`.\n\nFor invalid vector dimension, compare the embedding model used during ingestion with\nthe model used during query. Rebuild the Chroma collection after changing embedding\ndimensio"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 0.7471498250961304,
+          "chunk_index": 4,
+          "metadata": {
+            "heading_path": "Signature Action Matrix",
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 4,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 7,
+            "bm25_rank": 2,
+            "rrf_score": 0.031054405392392875,
+            "original_rank": 3,
+            "final_rank": 2,
+            "rerank_score": 0.7471498250961304
+          },
+          "content_preview": "e |\n| WSS-6302 WSS-6302 WSS-6302 | heartbeat-idle-timeout-1006 checked guidance |\n| WSS-6303 WSS-6303 WSS-6303 | broadcast-session-pubsub-ownership expected source |\n| VDB-7101 VDB-7101 VDB-7101 | ingestion-collection-persist-model rag runb"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/rag_ops_diagnosis.md",
+          "score": -1.5719202756881714,
+          "chunk_index": 8,
+          "metadata": {
+            "source": "data/docs/rag_ops_diagnosis.md",
+            "chunk_index": 8,
+            "heading_path": "RAG 系统运维诊断知识库 > Symptoms > Embedding 维度不一致 InvalidDimension",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 19,
+            "bm25_rank": 3,
+            "rrf_score": 0.028531243721117136,
+            "original_rank": 7,
+            "final_rank": 3,
+            "rerank_score": -1.5719202756881714
+          },
+          "content_preview": "### Embedding 维度不一致 InvalidDimension\n- 表现: 入库或查询时报维度错误。\n- 错误码/日志关键词: `InvalidDimension`, `Embedding dimension`, `dimension mismatch`, `expected dimension`, `got dimension`\n- 相关指标: embedding model name, vector dimension, collection metadata。"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_07.md",
+          "score": -2.227745532989502,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_07.md",
+            "heading_path": "Signature Lure Index 07",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 5,
+            "bm25_rank": 9,
+            "rrf_score": 0.029877369007803793,
+            "original_rank": 5,
+            "final_rank": 4,
+            "rerank_score": -2.227745532989502
+          },
+          "content_preview": "# Signature Lure Index 07\n\nThis page is part of the transparent stress corpus and should lower baseline retrieval precision.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-52"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_03.md",
+          "score": -2.558328628540039,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_03.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 03",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 18,
+            "bm25_rank": 20,
+            "rrf_score": 0.02532051282051282,
+            "original_rank": 15,
+            "final_rank": 5,
+            "rerank_score": -2.558328628540039
+          },
+          "content_preview": "# Signature Lure Index 03\n\nThis generic support page intentionally looks similar to many questions.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-crn-8201",
+      "question": "CRN-8201 is attached to skipped scheduled job windows. Which scheduler note applies?",
+      "category": "signature-scheduler",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/scheduler_sig_crn_8201.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "CRN-8201",
+        "misfire",
+        "distributed lock"
+      ],
+      "reference_answer": "Use the CRN-8201 scheduler misfire runbook and inspect clock drift, lock owner heartbeat, and misfire policy.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/scheduler_sig_crn_8201.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_08.md",
+        "data/docs_stress_noise/signature_lure_index_05.md",
+        "data/docs_stress_noise/signature_lure_index_04.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/scheduler_sig_crn_8201.md",
+          "score": 6.4495673179626465,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "CRN-8201 Scheduler Misfire Signature",
+            "source": "data/docs_stress_cases/scheduler_sig_crn_8201.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 6.4495673179626465
+          },
+          "content_preview": "# CRN-8201 Scheduler Misfire Signature\n\nSignature: `CRN-8201`.\n\nFor scheduled jobs that skip windows, inspect clock drift, lock owner heartbeat,\nmisfire policy, job duration, and whether a previous run still holds the distributed\nlock."
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 3.1560373306274414,
+          "chunk_index": 4,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 4,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25",
+            "bm25_rank": 5,
+            "dense_rank": null,
+            "rrf_score": 0.015384615384615385,
+            "original_rank": 23,
+            "final_rank": 2,
+            "rerank_score": 3.1560373306274414
+          },
+          "content_preview": "e |\n| WSS-6302 WSS-6302 WSS-6302 | heartbeat-idle-timeout-1006 checked guidance |\n| WSS-6303 WSS-6303 WSS-6303 | broadcast-session-pubsub-ownership expected source |\n| VDB-7101 VDB-7101 VDB-7101 | ingestion-collection-persist-model rag runb"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_08.md",
+          "score": -0.9618189334869385,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "Signature Lure Index 08",
+            "chunk_index": 0,
+            "source": "data/docs_stress_noise/signature_lure_index_08.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 17,
+            "bm25_rank": 16,
+            "rrf_score": 0.026144907723855092,
+            "original_rank": 13,
+            "final_rank": 3,
+            "rerank_score": -0.9618189334869385
+          },
+          "content_preview": "# Signature Lure Index 08\n\nThis final distractor repeats the same signature space with broad language.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 W"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_05.md",
+          "score": -1.1494070291519165,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "Signature Lure Index 05",
+            "chunk_index": 0,
+            "source": "data/docs_stress_noise/signature_lure_index_05.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 24,
+            "bm25_rank": 15,
+            "rrf_score": 0.02523809523809524,
+            "original_rank": 17,
+            "final_rank": 4,
+            "rerank_score": -1.1494070291519165
+          },
+          "content_preview": "# Signature Lure Index 05\n\nThis document intentionally contains high lexical overlap with benchmark questions.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GW"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -1.186866283416748,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 04",
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 36,
+            "bm25_rank": 11,
+            "rrf_score": 0.024501173708920188,
+            "original_rank": 18,
+            "final_rank": 5,
+            "rerank_score": -1.186866283416748
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-crn-8202",
+      "question": "CRN-8202 appears when scheduled jobs execute twice. Which exact runbook is relevant?",
+      "category": "signature-scheduler",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/scheduler_sig_crn_8202.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "CRN-8202",
+        "duplicate scheduled execution",
+        "lock TTL"
+      ],
+      "reference_answer": "Use the CRN-8202 duplicate job runbook and inspect leader election, lock TTL, deployment overlap, and idempotency.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_cases/scheduler_sig_crn_8202.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_01.md",
+        "data/docs_stress_noise/signature_lure_index_01.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 2.980043888092041,
+          "chunk_index": 5,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 5,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 7,
+            "bm25_rank": 3,
+            "rrf_score": 0.030798389007344232,
+            "original_rank": 4,
+            "final_rank": 1,
+            "rerank_score": 2.980043888092041
+          },
+          "content_preview": "artbeat-clock scheduler note |\n| CRN-8202 CRN-8202 CRN-8202 | duplicate-job-lock-ttl-idempotency exact runbook |\n| CRN-8203 CRN-8203 CRN-8203 | backfill-throttle-worker-isolation document |\n| CDN-9301 CDN-9301 CDN-9301 | stale-cache-key-pur"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/scheduler_sig_crn_8202.md",
+          "score": 2.757023334503174,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "CRN-8202 Duplicate Job Signature",
+            "source": "data/docs_stress_cases/scheduler_sig_crn_8202.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 2,
+            "rrf_score": 0.03252247488101534,
+            "original_rank": 1,
+            "final_rank": 2,
+            "rerank_score": 2.757023334503174
+          },
+          "content_preview": "# CRN-8202 Duplicate Job Signature\n\nSignature: `CRN-8202`.\n\nFor duplicate scheduled execution, inspect leader election, distributed lock TTL,\ndeployment overlap, retry policy, and whether the job is idempotent by business key."
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 2.5273361206054688,
+          "chunk_index": 4,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 4,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25",
+            "bm25_rank": 5,
+            "dense_rank": null,
+            "rrf_score": 0.015384615384615385,
+            "original_rank": 24,
+            "final_rank": 3,
+            "rerank_score": 2.5273361206054688
+          },
+          "content_preview": "e |\n| WSS-6302 WSS-6302 WSS-6302 | heartbeat-idle-timeout-1006 checked guidance |\n| WSS-6303 WSS-6303 WSS-6303 | broadcast-session-pubsub-ownership expected source |\n| VDB-7101 VDB-7101 VDB-7101 | ingestion-collection-persist-model rag runb"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": 1.665804147720337,
+          "chunk_index": 1,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "chunk_index": 1,
+            "heading_path": "Signature Lure Index 01",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 3,
+            "bm25_rank": 1,
+            "rrf_score": 0.032266458495966696,
+            "original_rank": 2,
+            "final_rank": 4,
+            "rerank_score": 1.665804147720337
+          },
+          "content_preview": "Operators may ask which runbook should be used, what guidance applies, which source is expected,\nwhat should be checked first, or which diagnostic note is relevant. The answer should come from a\nspecific runbook, not from this index."
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": 1.4176322221755981,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 01",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 37,
+            "bm25_rank": 9,
+            "rrf_score": 0.02480203197370387,
+            "original_rank": 14,
+            "final_rank": 5,
+            "rerank_score": 1.4176322221755981
+          },
+          "content_preview": "# Signature Lure Index 01\n\nThis transparent noise document intentionally repeats incident signatures with generic language.\nIt is not a diagnostic runbook.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OS"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-crn-8203",
+      "question": "CRN-8203 appears when backfill hurts live traffic. What document should answer this?",
+      "category": "signature-scheduler",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/scheduler_sig_crn_8203.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "CRN-8203",
+        "backfill",
+        "worker pool"
+      ],
+      "reference_answer": "Use the CRN-8203 backfill pressure runbook and throttle batch size, isolate workers, and cap downstream calls.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/scheduler_sig_crn_8203.md",
+        "data/docs_stress_noise/signature_lure_index_04.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_05.md",
+        "data/docs_stress_noise/signature_lure_index_01.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/scheduler_sig_crn_8203.md",
+          "score": 3.8006222248077393,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_cases/scheduler_sig_crn_8203.md",
+            "heading_path": "CRN-8203 Backfill Pressure Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 3.8006222248077393
+          },
+          "content_preview": "# CRN-8203 Backfill Pressure Signature\n\nSignature: `CRN-8203`.\n\nFor backfill causing live traffic pressure, throttle batch size, isolate worker pool,\nreduce concurrency, and cap downstream calls. Backfill should not share unlimited\nresource"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -0.641265869140625,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "Signature Lure Index 04",
+            "chunk_index": 0,
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 22,
+            "bm25_rank": 6,
+            "rrf_score": 0.027346637102734665,
+            "original_rank": 10,
+            "final_rank": 2,
+            "rerank_score": -0.641265869140625
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": -0.7422703504562378,
+          "chunk_index": 5,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 5,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25",
+            "bm25_rank": 3,
+            "dense_rank": null,
+            "rrf_score": 0.015873015873015872,
+            "original_rank": 25,
+            "final_rank": 3,
+            "rerank_score": -0.7422703504562378
+          },
+          "content_preview": "artbeat-clock scheduler note |\n| CRN-8202 CRN-8202 CRN-8202 | duplicate-job-lock-ttl-idempotency exact runbook |\n| CRN-8203 CRN-8203 CRN-8203 | backfill-throttle-worker-isolation document |\n| CDN-9301 CDN-9301 CDN-9301 | stale-cache-key-pur"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_05.md",
+          "score": -1.2293732166290283,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_05.md",
+            "heading_path": "Signature Lure Index 05",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 30,
+            "bm25_rank": 7,
+            "rrf_score": 0.02603648424543947,
+            "original_rank": 15,
+            "final_rank": 4,
+            "rerank_score": -1.2293732166290283
+          },
+          "content_preview": "# Signature Lure Index 05\n\nThis document intentionally contains high lexical overlap with benchmark questions.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GW"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": -1.7898004055023193,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "heading_path": "Signature Lure Index 01",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 2,
+            "bm25_rank": 9,
+            "rrf_score": 0.030621785881252923,
+            "original_rank": 4,
+            "final_rank": 5,
+            "rerank_score": -1.7898004055023193
+          },
+          "content_preview": "# Signature Lure Index 01\n\nThis transparent noise document intentionally repeats incident signatures with generic language.\nIt is not a diagnostic runbook.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OS"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 0.9197207891481876
+    },
+    {
+      "id": "stress-cdn-9301",
+      "question": "CDN-9301 is logged when users see stale content after release. Which note is exact?",
+      "category": "signature-cdn",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/cdn_sig_cdn_9301.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "CDN-9301",
+        "stale CDN",
+        "cache key"
+      ],
+      "reference_answer": "Use the CDN-9301 stale cache runbook and inspect cache key, purge scope, origin headers, and cache-control policy.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/cdn_sig_cdn_9301.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_02.md",
+        "data/docs_stress_noise/signature_lure_index_04.md",
+        "data/docs_stress_noise/signature_lure_index_06.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/cdn_sig_cdn_9301.md",
+          "score": 4.774531841278076,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "CDN-9301 Stale Cache Signature",
+            "source": "data/docs_stress_cases/cdn_sig_cdn_9301.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 4.774531841278076
+          },
+          "content_preview": "# CDN-9301 Stale Cache Signature\n\nSignature: `CDN-9301`.\n\nFor stale CDN response after release, inspect cache key, purge scope, origin header,\nsurrogate key, and whether HTML and API responses use different cache-control policies."
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 2.4595212936401367,
+          "chunk_index": 5,
+          "metadata": {
+            "heading_path": "Signature Action Matrix",
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 5,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 7,
+            "bm25_rank": 2,
+            "rrf_score": 0.031054405392392875,
+            "original_rank": 2,
+            "final_rank": 2,
+            "rerank_score": 2.4595212936401367
+          },
+          "content_preview": "artbeat-clock scheduler note |\n| CRN-8202 CRN-8202 CRN-8202 | duplicate-job-lock-ttl-idempotency exact runbook |\n| CRN-8203 CRN-8203 CRN-8203 | backfill-throttle-worker-isolation document |\n| CDN-9301 CDN-9301 CDN-9301 | stale-cache-key-pur"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_02.md",
+          "score": -1.6017450094223022,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "Signature Lure Index 02",
+            "source": "data/docs_stress_noise/signature_lure_index_02.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 21,
+            "bm25_rank": 14,
+            "rrf_score": 0.025859192525859193,
+            "original_rank": 13,
+            "final_rank": 3,
+            "rerank_score": -1.6017450094223022
+          },
+          "content_preview": "# Signature Lure Index 02\n\nThis low-value note lists many signatures near common retrieval words. It has no concrete repair steps.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 "
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -1.835558295249939,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "Signature Lure Index 04",
+            "chunk_index": 0,
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 25,
+            "bm25_rank": 8,
+            "rrf_score": 0.026470588235294117,
+            "original_rank": 9,
+            "final_rank": 4,
+            "rerank_score": -1.835558295249939
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_06.md",
+          "score": -1.956337332725525,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_06.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 06",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 11,
+            "bm25_rank": 9,
+            "rrf_score": 0.028577260665441927,
+            "original_rank": 7,
+            "final_rank": 5,
+            "rerank_score": -1.956337332725525
+          },
+          "content_preview": "# Signature Lure Index 06\n\nThis noise page is designed to be information-poor.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-6302 WSS-630"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-cdn-9302",
+      "question": "CDN-9302 appears as origin shield timeout. Which checks should be retrieved?",
+      "category": "signature-cdn",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/cdn_sig_cdn_9302.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "CDN-9302",
+        "origin shield",
+        "keepalive"
+      ],
+      "reference_answer": "Use the CDN-9302 origin shield timeout runbook and inspect shield region, origin latency, keepalive, and limits.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/cdn_sig_cdn_9302.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_07.md",
+        "data/docs_stress_noise/signature_lure_index_04.md",
+        "data/docs_stress_noise/signature_lure_index_07.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/cdn_sig_cdn_9302.md",
+          "score": 6.006534576416016,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "CDN-9302 Origin Shield Timeout Signature",
+            "source": "data/docs_stress_cases/cdn_sig_cdn_9302.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 6.006534576416016
+          },
+          "content_preview": "# CDN-9302 Origin Shield Timeout Signature\n\nSignature: `CDN-9302`.\n\nFor origin shield timeout, inspect shield region, origin latency, keepalive reuse,\nconnection limit, DNS resolution, and whether retries concentrate traffic on one\norigin c"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 1.47356379032135,
+          "chunk_index": 5,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 5,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 10,
+            "bm25_rank": 2,
+            "rrf_score": 0.0304147465437788,
+            "original_rank": 5,
+            "final_rank": 2,
+            "rerank_score": 1.47356379032135
+          },
+          "content_preview": "artbeat-clock scheduler note |\n| CRN-8202 CRN-8202 CRN-8202 | duplicate-job-lock-ttl-idempotency exact runbook |\n| CRN-8203 CRN-8203 CRN-8203 | backfill-throttle-worker-isolation document |\n| CDN-9301 CDN-9301 CDN-9301 | stale-cache-key-pur"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_07.md",
+          "score": -1.753846526145935,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_07.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 07",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 14,
+            "bm25_rank": 9,
+            "rrf_score": 0.028006267136701922,
+            "original_rank": 8,
+            "final_rank": 3,
+            "rerank_score": -1.753846526145935
+          },
+          "content_preview": "# Signature Lure Index 07\n\nThis page is part of the transparent stress corpus and should lower baseline retrieval precision.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-52"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -1.9267882108688354,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "heading_path": "Signature Lure Index 04",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 31,
+            "bm25_rank": 13,
+            "rrf_score": 0.024687641125997292,
+            "original_rank": 16,
+            "final_rank": 4,
+            "rerank_score": -1.9267882108688354
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_07.md",
+          "score": -2.9807231426239014,
+          "chunk_index": 1,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_07.md",
+            "chunk_index": 1,
+            "heading_path": "Signature Lure Index 07",
+            "retrieval_method": "bm25",
+            "bm25_rank": 5,
+            "dense_rank": null,
+            "rrf_score": 0.015384615384615385,
+            "original_rank": 21,
+            "final_rank": 5,
+            "rerank_score": -2.9807231426239014
+          },
+          "content_preview": "It says that a matching source should be retrieved but deliberately avoids the concrete instructions\nthat are present in the real case documents."
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-cdn-9303",
+      "question": "CDN-9303 is tied to signed URL expiry complaints. Which source is expected?",
+      "category": "signature-cdn",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/cdn_sig_cdn_9303.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "CDN-9303",
+        "signed URL",
+        "signature query string"
+      ],
+      "reference_answer": "Use the CDN-9303 signed URL expiry runbook and compare client clock, token TTL, redirects, and signature preservation.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/cdn_sig_cdn_9303.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_08.md",
+        "data/docs_stress_noise/signature_lure_index_04.md",
+        "data/docs_stress_noise/signature_lure_index_01.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/cdn_sig_cdn_9303.md",
+          "score": 5.998488903045654,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "CDN-9303 Signed URL Expiry Signature",
+            "source": "data/docs_stress_cases/cdn_sig_cdn_9303.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 5.998488903045654
+          },
+          "content_preview": "# CDN-9303 Signed URL Expiry Signature\n\nSignature: `CDN-9303`.\n\nFor signed URL expiry complaints, compare client clock, token TTL, URL generation time,\nedge cache behavior, and whether redirects preserve the signature query string."
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 1.8915152549743652,
+          "chunk_index": 5,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "heading_path": "Signature Action Matrix",
+            "chunk_index": 5,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 12,
+            "bm25_rank": 2,
+            "rrf_score": 0.030017921146953404,
+            "original_rank": 3,
+            "final_rank": 2,
+            "rerank_score": 1.8915152549743652
+          },
+          "content_preview": "artbeat-clock scheduler note |\n| CRN-8202 CRN-8202 CRN-8202 | duplicate-job-lock-ttl-idempotency exact runbook |\n| CRN-8203 CRN-8203 CRN-8203 | backfill-throttle-worker-isolation document |\n| CDN-9301 CDN-9301 CDN-9301 | stale-cache-key-pur"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_08.md",
+          "score": -3.1408846378326416,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "Signature Lure Index 08",
+            "source": "data/docs_stress_noise/signature_lure_index_08.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 9,
+            "bm25_rank": 18,
+            "rrf_score": 0.027313266443701224,
+            "original_rank": 9,
+            "final_rank": 3,
+            "rerank_score": -3.1408846378326416
+          },
+          "content_preview": "# Signature Lure Index 08\n\nThis final distractor repeats the same signature space with broad language.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 W"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -3.779421329498291,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 04",
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 14,
+            "bm25_rank": 7,
+            "rrf_score": 0.028438886647841874,
+            "original_rank": 7,
+            "final_rank": 4,
+            "rerank_score": -3.779421329498291
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": -3.8346688747406006,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 01",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 4,
+            "bm25_rank": 10,
+            "rrf_score": 0.029910714285714284,
+            "original_rank": 4,
+            "final_rank": 5,
+            "rerank_score": -3.8346688747406006
+          },
+          "content_preview": "# Signature Lure Index 01\n\nThis transparent noise document intentionally repeats incident signatures with generic language.\nIt is not a diagnostic runbook.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OS"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-iam-9901",
+      "question": "IAM-9901 appears for token audience mismatch. Which auth runbook should be used?",
+      "category": "signature-auth",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/auth_sig_iam_9901.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "IAM-9901",
+        "audience",
+        "resource server"
+      ],
+      "reference_answer": "Use the IAM-9901 token audience runbook and inspect issuer, audience, resource server id, and gateway auth config.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/auth_sig_iam_9901.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs/gateway_high_concurrency.md",
+        "data/docs/minio_multipart_resume.md",
+        "data/docs/mysql_ops_diagnosis.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/auth_sig_iam_9901.md",
+          "score": 6.480998992919922,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_cases/auth_sig_iam_9901.md",
+            "chunk_index": 0,
+            "heading_path": "IAM-9901 Token Audience Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 1,
+            "rrf_score": 0.03278688524590164,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 6.480998992919922
+          },
+          "content_preview": "# IAM-9901 Token Audience Signature\n\nSignature: `IAM-9901`.\n\nFor token audience mismatch, inspect issuer, audience, resource server id, gateway\nauth plugin configuration, and whether the client used a token minted for another\nenvironment."
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 1.781944751739502,
+          "chunk_index": 5,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 5,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25",
+            "bm25_rank": 4,
+            "dense_rank": null,
+            "rrf_score": 0.015625,
+            "original_rank": 25,
+            "final_rank": 2,
+            "rerank_score": 1.781944751739502
+          },
+          "content_preview": "artbeat-clock scheduler note |\n| CRN-8202 CRN-8202 CRN-8202 | duplicate-job-lock-ttl-idempotency exact runbook |\n| CRN-8203 CRN-8203 CRN-8203 | backfill-throttle-worker-isolation document |\n| CDN-9301 CDN-9301 CDN-9301 | stale-cache-key-pur"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs/gateway_high_concurrency.md",
+          "score": -0.20425328612327576,
+          "chunk_index": 12,
+          "metadata": {
+            "heading_path": "网关与高并发诊断知识库 > Runbook",
+            "chunk_index": 12,
+            "source": "data/docs/gateway_high_concurrency.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 31,
+            "bm25_rank": 30,
+            "rrf_score": 0.0221001221001221,
+            "original_rank": 17,
+            "final_rank": 3,
+            "rerank_score": -0.20425328612327576
+          },
+          "content_preview": "## Runbook"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs/minio_multipart_resume.md",
+          "score": -0.20425328612327576,
+          "chunk_index": 15,
+          "metadata": {
+            "source": "data/docs/minio_multipart_resume.md",
+            "chunk_index": 15,
+            "heading_path": "MinIO 分片上传与断点续传诊断知识库 > Runbook",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 32,
+            "bm25_rank": 31,
+            "rrf_score": 0.021858576206402296,
+            "original_rank": 18,
+            "final_rank": 4,
+            "rerank_score": -0.20425328612327576
+          },
+          "content_preview": "## Runbook"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs/mysql_ops_diagnosis.md",
+          "score": -0.20425328612327576,
+          "chunk_index": 11,
+          "metadata": {
+            "source": "data/docs/mysql_ops_diagnosis.md",
+            "heading_path": "MySQL 运维诊断知识库 > Runbook",
+            "chunk_index": 11,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 33,
+            "bm25_rank": 32,
+            "rrf_score": 0.021622253389434316,
+            "original_rank": 19,
+            "final_rank": 5,
+            "rerank_score": -0.20425328612327576
+          },
+          "content_preview": "## Runbook"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-iam-9902",
+      "question": "IAM-9902 occurs after signing key rotation. Which exact document applies?",
+      "category": "signature-auth",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/auth_sig_iam_9902.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "IAM-9902",
+        "JWKS",
+        "key id"
+      ],
+      "reference_answer": "Use the IAM-9902 JWKS rotation runbook and inspect JWKS cache TTL, key id, issuer metadata, and clock skew.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/auth_sig_iam_9902.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_01.md",
+        "data/docs_stress_noise/signature_lure_index_04.md",
+        "data/docs_stress_noise/signature_lure_index_08.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/auth_sig_iam_9902.md",
+          "score": 2.733459949493408,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "IAM-9902 JWKS Rotation Signature",
+            "source": "data/docs_stress_cases/auth_sig_iam_9902.md",
+            "chunk_index": 0,
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 2,
+            "rrf_score": 0.03252247488101534,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": 2.733459949493408
+          },
+          "content_preview": "# IAM-9902 JWKS Rotation Signature\n\nSignature: `IAM-9902`.\n\nFor sudden signature verification failure, inspect JWKS cache TTL, key id, issuer\nmetadata, clock skew, and whether gateway instances refreshed the signing key set."
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": 0.3622390925884247,
+          "chunk_index": 6,
+          "metadata": {
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "chunk_index": 6,
+            "heading_path": "Signature Action Matrix",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 3,
+            "bm25_rank": 1,
+            "rrf_score": 0.032266458495966696,
+            "original_rank": 2,
+            "final_rank": 2,
+            "rerank_score": 0.3622390925884247
+          },
+          "content_preview": "token-audience-issuer-resource auth runbook |\n| IAM-9902 IAM-9902 IAM-9902 | jwks-rotation-keyid-cache exact document |\n| IAM-9903 IAM-9903 IAM-9903 | permission-policy-cache-replica matching guidance |"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_01.md",
+          "score": -1.3421461582183838,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 01",
+            "source": "data/docs_stress_noise/signature_lure_index_01.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 5,
+            "bm25_rank": 8,
+            "rrf_score": 0.030090497737556562,
+            "original_rank": 3,
+            "final_rank": 3,
+            "rerank_score": -1.3421461582183838
+          },
+          "content_preview": "# Signature Lure Index 01\n\nThis transparent noise document intentionally repeats incident signatures with generic language.\nIt is not a diagnostic runbook.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OS"
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_04.md",
+          "score": -1.7270780801773071,
+          "chunk_index": 0,
+          "metadata": {
+            "heading_path": "Signature Lure Index 04",
+            "chunk_index": 0,
+            "source": "data/docs_stress_noise/signature_lure_index_04.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 27,
+            "bm25_rank": 6,
+            "rrf_score": 0.02664576802507837,
+            "original_rank": 12,
+            "final_rank": 4,
+            "rerank_score": -1.7270780801773071
+          },
+          "content_preview": "# Signature Lure Index 04\n\nThis document is a benchmark distractor for dense retrieval.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 WSS-6301 WSS-630"
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_08.md",
+          "score": -1.9349514245986938,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_noise/signature_lure_index_08.md",
+            "heading_path": "Signature Lure Index 08",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 11,
+            "bm25_rank": 14,
+            "rrf_score": 0.027598020555767037,
+            "original_rank": 9,
+            "final_rank": 5,
+            "rerank_score": -1.9349514245986938
+          },
+          "content_preview": "# Signature Lure Index 08\n\nThis final distractor repeats the same signature space with broad language.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-5201 GWY-5202 GWY-5203 W"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    {
+      "id": "stress-iam-9903",
+      "question": "IAM-9903 appears when permission changes take too long to apply. What is the matching guidance?",
+      "category": "signature-auth",
+      "difficulty": "hard",
+      "expected_sources": [
+        "data/docs_stress_cases/auth_sig_iam_9903.md",
+        "data/docs_stress_cases/signature_action_matrix.md"
+      ],
+      "expected_keywords": [
+        "IAM-9903",
+        "permission propagation",
+        "policy cache"
+      ],
+      "reference_answer": "Use the IAM-9903 permission propagation runbook and inspect policy cache TTL, group sync, and stale replicas.",
+      "retrieved_sources": [
+        "data/docs_stress_cases/auth_sig_iam_9903.md",
+        "data/docs_stress_cases/signature_action_matrix.md",
+        "data/docs_stress_noise/signature_lure_index_03.md",
+        "data/docs_stress_noise/signature_lure_index_05.md",
+        "data/docs_stress_noise/signature_lure_index_07.md"
+      ],
+      "retrieved": [
+        {
+          "rank": 1,
+          "source": "data/docs_stress_cases/auth_sig_iam_9903.md",
+          "score": -0.21648076176643372,
+          "chunk_index": 0,
+          "metadata": {
+            "chunk_index": 0,
+            "source": "data/docs_stress_cases/auth_sig_iam_9903.md",
+            "heading_path": "IAM-9903 Permission Propagation Signature",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 1,
+            "bm25_rank": 2,
+            "rrf_score": 0.03252247488101534,
+            "original_rank": 1,
+            "final_rank": 1,
+            "rerank_score": -0.21648076176643372
+          },
+          "content_preview": "# IAM-9903 Permission Propagation Signature\n\nSignature: `IAM-9903`.\n\nFor delayed permission changes, inspect policy cache TTL, group membership sync,\nauthorization decision cache, and whether the service reads permissions from a stale\nrepli"
+        },
+        {
+          "rank": 2,
+          "source": "data/docs_stress_cases/signature_action_matrix.md",
+          "score": -0.5742233991622925,
+          "chunk_index": 6,
+          "metadata": {
+            "heading_path": "Signature Action Matrix",
+            "chunk_index": 6,
+            "source": "data/docs_stress_cases/signature_action_matrix.md",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 2,
+            "bm25_rank": 1,
+            "rrf_score": 0.03252247488101534,
+            "original_rank": 2,
+            "final_rank": 2,
+            "rerank_score": -0.5742233991622925
+          },
+          "content_preview": "token-audience-issuer-resource auth runbook |\n| IAM-9902 IAM-9902 IAM-9902 | jwks-rotation-keyid-cache exact document |\n| IAM-9903 IAM-9903 IAM-9903 | permission-policy-cache-replica matching guidance |"
+        },
+        {
+          "rank": 3,
+          "source": "data/docs_stress_noise/signature_lure_index_03.md",
+          "score": -1.3458722829818726,
+          "chunk_index": 1,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_03.md",
+            "chunk_index": 1,
+            "heading_path": "Signature Lure Index 03",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 10,
+            "bm25_rank": 5,
+            "rrf_score": 0.02967032967032967,
+            "original_rank": 4,
+            "final_rank": 3,
+            "rerank_score": -1.3458722829818726
+          },
+          "content_preview": "The operator should identify the matching guidance, expected document, exact note, relevant source,\nand diagnostic path. This paragraph is only a routing checklist and contains no precise remediation."
+        },
+        {
+          "rank": 4,
+          "source": "data/docs_stress_noise/signature_lure_index_05.md",
+          "score": -2.4868080615997314,
+          "chunk_index": 1,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_05.md",
+            "chunk_index": 1,
+            "heading_path": "Signature Lure Index 05",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 8,
+            "bm25_rank": 3,
+            "rrf_score": 0.03057889822595705,
+            "original_rank": 3,
+            "final_rank": 4,
+            "rerank_score": -2.4868080615997314
+          },
+          "content_preview": "Questions may mention appears, occurs, reported, emitted, logged, attached, shown, matching guidance,\nrunbook, source, document, checks, and remediation. This page is only noise."
+        },
+        {
+          "rank": 5,
+          "source": "data/docs_stress_noise/signature_lure_index_07.md",
+          "score": -4.30703067779541,
+          "chunk_index": 0,
+          "metadata": {
+            "source": "data/docs_stress_noise/signature_lure_index_07.md",
+            "chunk_index": 0,
+            "heading_path": "Signature Lure Index 07",
+            "retrieval_method": "bm25+dense",
+            "dense_rank": 23,
+            "bm25_rank": 11,
+            "rrf_score": 0.026132699813337858,
+            "original_rank": 12,
+            "final_rank": 5,
+            "rerank_score": -4.30703067779541
+          },
+          "content_preview": "# Signature Lure Index 07\n\nThis page is part of the transparent stress corpus and should lower baseline retrieval precision.\n\nRXA-1001 RXA-1002 RXA-1003 LMX-2101 LMX-2102 LMX-2103 QDR-3301 QDR-3302 QDR-3303 OSS-4401 OSS-4402 OSS-4403 GWY-52"
+        }
+      ],
+      "hit_count": 2,
+      "missed_sources": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.4,
+      "hit_rate_at_k": 1.0,
+      "rr": 1.0,
+      "ndcg_at_k": 1.0
+    }
+  ]
+}

@@ -11,8 +11,8 @@ from typing import Any
 from uuid import uuid4
 
 from app.config import project_relative_source, resolve_project_path, settings
-from app.rag.loader import load_markdown_documents
-from app.rag.splitter import split_text
+from app.rag.loader import load_markdown_documents_from_dirs
+from app.rag.splitter import split_text_with_metadata
 from app.rag.storage_check import ensure_directory_ready
 from app.rag.vector_store import RetrievedDocument
 
@@ -67,14 +67,24 @@ class BM25Store:
     def from_docs_dir(
         cls,
         docs_dir: Path | str = Path("data/docs"),
+        docs_dirs: list[Path | str] | None = None,
         chunk_size: int = 500,
         overlap: int = 50,
+        chunking_strategy: str = "character",
         k1: float = 1.5,
         b: float = 0.75,
         user_dict: Path | str | None = DEFAULT_USER_DICT,
     ) -> "BM25Store":
         """Build a BM25 store from markdown documents."""
-        return cls.from_documents(load_markdown_document_records(docs_dir), chunk_size, overlap, k1, b, user_dict)
+        return cls.from_documents(
+            load_markdown_document_records(docs_dir, docs_dirs=docs_dirs),
+            chunk_size=chunk_size,
+            overlap=overlap,
+            chunking_strategy=chunking_strategy,
+            k1=k1,
+            b=b,
+            user_dict=user_dict,
+        )
 
     @classmethod
     def from_documents(
@@ -82,6 +92,7 @@ class BM25Store:
         documents: list[MarkdownDocument],
         chunk_size: int = 500,
         overlap: int = 50,
+        chunking_strategy: str = "character",
         k1: float = 1.5,
         b: float = 0.75,
         user_dict: Path | str | None = DEFAULT_USER_DICT,
@@ -89,12 +100,19 @@ class BM25Store:
         """Build a BM25 store from loaded markdown documents."""
         chunks: list[BM25Chunk] = []
         for document in documents:
-            for chunk_index, chunk in enumerate(split_text(document.text, chunk_size, overlap)):
+            for chunk_index, chunk in enumerate(
+                split_text_with_metadata(
+                    document.text,
+                    chunk_size=chunk_size,
+                    overlap=overlap,
+                    strategy=chunking_strategy,
+                )
+            ):
                 chunks.append(
                     BM25Chunk(
-                        content=chunk,
-                        metadata={"source": document.source, "chunk_index": chunk_index},
-                        tokens=tokenize(chunk, user_dict=user_dict),
+                        content=chunk.content,
+                        metadata={"source": document.source, "chunk_index": chunk_index, **chunk.metadata},
+                        tokens=tokenize(chunk.content, user_dict=user_dict),
                     )
                 )
         return cls(chunks, k1=k1, b=b, user_dict=user_dict)
@@ -229,10 +247,14 @@ def load_jieba(user_dict: Path | str | None = DEFAULT_USER_DICT) -> Any:
     return jieba
 
 
-def load_markdown_document_records(docs_dir: Path | str) -> list[MarkdownDocument]:
+def load_markdown_document_records(
+    docs_dir: Path | str,
+    docs_dirs: list[Path | str] | None = None,
+) -> list[MarkdownDocument]:
     """Load markdown documents with stable source names and content hashes."""
     documents: list[MarkdownDocument] = []
-    for path, text in load_markdown_documents(resolve_project_path(docs_dir)):
+    resolved_dirs = [resolve_project_path(path) for path in (docs_dirs or [docs_dir])]
+    for path, text in load_markdown_documents_from_dirs(resolved_dirs):
         documents.append(
             MarkdownDocument(
                 source=project_relative_source(path),
@@ -245,20 +267,24 @@ def load_markdown_document_records(docs_dir: Path | str) -> list[MarkdownDocumen
 
 def get_or_build_bm25_store(
     docs_dir: Path | str = Path("data/docs"),
+    docs_dirs: list[Path | str] | None = None,
     chunk_size: int = 500,
     overlap: int = 50,
+    chunking_strategy: str = "character",
     index_directory: Path | str = DEFAULT_INDEX_DIR,
     k1: float = 1.5,
     b: float = 0.75,
     user_dict: Path | str | None = DEFAULT_USER_DICT,
 ) -> BM25Store:
     """Load a persisted chunk-level BM25 index or build and save it."""
-    documents = load_markdown_document_records(docs_dir)
+    documents = load_markdown_document_records(docs_dir, docs_dirs=docs_dirs)
     fingerprint = build_index_fingerprint(
         documents=documents,
         docs_dir=docs_dir,
+        docs_dirs=docs_dirs,
         chunk_size=chunk_size,
         overlap=overlap,
+        chunking_strategy=chunking_strategy,
         k1=k1,
         b=b,
         user_dict=user_dict,
@@ -273,13 +299,23 @@ def get_or_build_bm25_store(
         documents=documents,
         chunk_size=chunk_size,
         overlap=overlap,
+        chunking_strategy=chunking_strategy,
         k1=k1,
         b=b,
         user_dict=user_dict,
     )
     payload = {
         "fingerprint": fingerprint,
-        "strategy": build_strategy_metadata(docs_dir, chunk_size, overlap, k1, b, user_dict),
+        "strategy": build_strategy_metadata(
+            docs_dir,
+            docs_dirs,
+            chunk_size,
+            overlap,
+            chunking_strategy,
+            k1,
+            b,
+            user_dict,
+        ),
         **store.to_dict(),
     }
     write_json_atomic(index_path, payload)
@@ -289,14 +325,16 @@ def get_or_build_bm25_store(
 def build_index_fingerprint(
     documents: list[MarkdownDocument],
     docs_dir: Path | str,
+    docs_dirs: list[Path | str] | None,
     chunk_size: int,
     overlap: int,
+    chunking_strategy: str,
     k1: float,
     b: float,
     user_dict: Path | str | None,
 ) -> str:
     """Build a fingerprint that changes when docs or BM25 strategy changes."""
-    payload = build_strategy_metadata(docs_dir, chunk_size, overlap, k1, b, user_dict)
+    payload = build_strategy_metadata(docs_dir, docs_dirs, chunk_size, overlap, chunking_strategy, k1, b, user_dict)
     payload["documents"] = [
         {
             "source": document.source,
@@ -309,8 +347,10 @@ def build_index_fingerprint(
 
 def build_strategy_metadata(
     docs_dir: Path | str,
+    docs_dirs: list[Path | str] | None,
     chunk_size: int,
     overlap: int,
+    chunking_strategy: str,
     k1: float,
     b: float,
     user_dict: Path | str | None = DEFAULT_USER_DICT,
@@ -324,6 +364,11 @@ def build_strategy_metadata(
         "user_dict_hash": hash_file(user_dict_path) if user_dict_path and user_dict_path.exists() else None,
         "index_granularity": "chunk",
         "docs_dir": project_relative_source(resolve_project_path(docs_dir)),
+        "docs_dirs": [
+            project_relative_source(resolve_project_path(path))
+            for path in (docs_dirs or [docs_dir])
+        ],
+        "chunking_strategy": chunking_strategy,
         "chunk_size": chunk_size,
         "overlap": overlap,
         "k1": k1,
@@ -335,8 +380,10 @@ def search_bm25_documents(
     query: str,
     top_n: int = 10,
     docs_dir: Path | str = Path("data/docs"),
+    docs_dirs: list[Path | str] | None = None,
     chunk_size: int = 500,
     overlap: int = 50,
+    chunking_strategy: str = "character",
     index_directory: Path | str = DEFAULT_INDEX_DIR,
     k1: float = 1.5,
     b: float = 0.75,
@@ -345,8 +392,10 @@ def search_bm25_documents(
     """Search a persisted chunk-level BM25 index."""
     return get_or_build_bm25_store(
         docs_dir=docs_dir,
+        docs_dirs=docs_dirs,
         chunk_size=chunk_size,
         overlap=overlap,
+        chunking_strategy=chunking_strategy,
         index_directory=index_directory,
         k1=k1,
         b=b,
